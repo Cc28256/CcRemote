@@ -68,4 +68,6 @@ private:
 	void AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing);
 	void ShowMessage(bool bIsOK, CString strMsg);
 	void Test();
+public:
+	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
 };

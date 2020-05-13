@@ -1,6 +1,7 @@
-﻿  CcRemote.cpp
+﻿  pch.cpp
+  CcRemote.cpp
   CcRemoteDlg.cpp
-g:\ccremote\ccremote\ccremote\ccremotedlg.cpp(194): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-g:\ccremote\ccremote\ccremote\ccremotedlg.cpp(211): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(195): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(212): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
   正在生成代码...
-  CcRemote.vcxproj -> G:\CcRemote\CcRemote\Debug\CcRemote.exe
+  CcRemote.vcxproj -> G:\CcRemote\CcRemote\CcRemote\Debug\CcRemote.exe

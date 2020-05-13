@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_SIZE()
+	ON_NOTIFY(NM_RCLICK, IDC_ONLINE, &CCcRemoteDlg::OnNMRClickOnline)
 END_MESSAGE_MAP()
 
 
@@ -268,4 +269,26 @@ void CCcRemoteDlg::Test()
 {
 	AddList("192.168.0.1", "本机局域网", "Lang", "Windows7", "2.2GHZ", "有", "123232");
 	ShowMessage(true, "软件初始化成功...");
+}
+
+void CCcRemoteDlg::OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	CMenu	popup;//声明一个菜单变量
+	popup.LoadMenu(IDR_MENU_ONLINE);//载入菜单资源
+	CMenu*	pM = popup.GetSubMenu(0);//得到菜单项
+	CPoint	p;
+	GetCursorPos(&p);//得到鼠标指针的位置
+	int	count = pM->GetMenuItemCount();//得到菜单的个数
+	if (m_CList_Online.GetSelectedCount() == 0)       //如果没有选中
+	{
+		for (int i = 0; i < count; i++) //遍历每一个菜单
+		{
+			pM->EnableMenuItem(i, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);          //菜单全部变灰
+		}
+
+	}
+	pM->TrackPopupMenu(TPM_LEFTALIGN, p.x, p.y, this); //在指定位置显示菜单
+	*pResult = 0;
 }
