@@ -70,4 +70,14 @@ private:
 	void Test();
 public:
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnOnlineAudio();
+	afx_msg void OnOnlineCmd();
+	afx_msg void OnOnlineDesktop();
+	afx_msg void OnOnlineFile();
+	afx_msg void OnOnlineProcess();
+	afx_msg void OnOnlineRegist();
+	afx_msg void OnOnlineServer();
+	afx_msg void OnOnlineVideo();
+	afx_msg void OnOnlineWindow();
+	afx_msg void OnOnlineDelete();
 };

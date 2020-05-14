@@ -72,6 +72,16 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_SIZE()
 	ON_NOTIFY(NM_RCLICK, IDC_ONLINE, &CCcRemoteDlg::OnNMRClickOnline)
+	ON_COMMAND(ID_ONLINE_AUDIO, &CCcRemoteDlg::OnOnlineAudio)
+	ON_COMMAND(ID_ONLINE_CMD, &CCcRemoteDlg::OnOnlineCmd)
+	ON_COMMAND(ID_ONLINE_DESKTOP, &CCcRemoteDlg::OnOnlineDesktop)
+	ON_COMMAND(ID_ONLINE_FILE, &CCcRemoteDlg::OnOnlineFile)
+	ON_COMMAND(ID_ONLINE_PROCESS, &CCcRemoteDlg::OnOnlineProcess)
+	ON_COMMAND(ID_ONLINE_REGIST, &CCcRemoteDlg::OnOnlineRegist)
+	ON_COMMAND(ID_ONLINE_SERVER, &CCcRemoteDlg::OnOnlineServer)
+	ON_COMMAND(ID_ONLINE_VIDEO, &CCcRemoteDlg::OnOnlineVideo)
+	ON_COMMAND(ID_ONLINE_WINDOW, &CCcRemoteDlg::OnOnlineWindow)
+	ON_COMMAND(ID_ONLINE_DELETE, &CCcRemoteDlg::OnOnlineDelete)
 END_MESSAGE_MAP()
 
 
@@ -267,7 +277,10 @@ void CCcRemoteDlg::ShowMessage(bool bIsOK, CString strMsg)
 
 void CCcRemoteDlg::Test()
 {
-	AddList("192.168.0.1", "本机局域网", "Lang", "Windows7", "2.2GHZ", "有", "123232");
+	AddList("192.168.0.1", "本机局域网", "CHANG", "Windows7", "2.2GHZ", "有", "123232");
+	AddList("192.168.10.1", "本机局域网", "WANG", "Windows10", "2.2GHZ", "无", "111111");
+	AddList("192.168.18.25", "本机局域网", "LIU", "Windows8", "2.2GHZ", "有", "654321");
+	AddList("192.168.97.162", "本机局域网", "SHANG", "WindowsXP", "2.2GHZ", "无", "123456");
 	ShowMessage(true, "软件初始化成功...");
 }
 
@@ -291,4 +304,72 @@ void CCcRemoteDlg::OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 	pM->TrackPopupMenu(TPM_LEFTALIGN, p.x, p.y, this); //在指定位置显示菜单
 	*pResult = 0;
+}
+
+
+void CCcRemoteDlg::OnOnlineAudio()
+{
+	// TODO: 在此添加命令处理程序代码
+	MessageBox("声音");
+}
+
+
+void CCcRemoteDlg::OnOnlineCmd()
+{
+	// TODO: 在此添加命令处理程序代码
+	MessageBox("CMD");
+}
+
+
+void CCcRemoteDlg::OnOnlineDesktop()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnOnlineFile()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnOnlineProcess()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnOnlineRegist()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnOnlineServer()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnOnlineVideo()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnOnlineWindow()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnOnlineDelete()
+{
+	// TODO: 在此添加命令处理程序代码
+	CString strIP;//选择断开的IP
+	int iSelect = m_CList_Online.GetSelectionMark();//获得选中的行
+	strIP = m_CList_Online.GetItemText(iSelect, ONLINELIST_IP);//获取断开的IP字符串
+	m_CList_Online.DeleteItem(iSelect);//删除该列表项
+	strIP += " 由主机主动断开连接";
+	ShowMessage(true, strIP);//显示日志
 }
