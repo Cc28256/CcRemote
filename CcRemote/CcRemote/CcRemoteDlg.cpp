@@ -82,6 +82,10 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_COMMAND(ID_ONLINE_VIDEO, &CCcRemoteDlg::OnOnlineVideo)
 	ON_COMMAND(ID_ONLINE_WINDOW, &CCcRemoteDlg::OnOnlineWindow)
 	ON_COMMAND(ID_ONLINE_DELETE, &CCcRemoteDlg::OnOnlineDelete)
+	ON_COMMAND(IDM_MAIN_SET, &CCcRemoteDlg::OnMainSet)
+	ON_COMMAND(IDM_MAIN_CLOSE, &CCcRemoteDlg::OnMainClose)
+	ON_COMMAND(IDM_MAIN_BUILD, &CCcRemoteDlg::OnMainBuild)
+	ON_COMMAND(IDM_MAIN_ABOUT, &CCcRemoteDlg::OnMainAbout)
 END_MESSAGE_MAP()
 
 
@@ -117,9 +121,12 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-
-
+	
+	
+	InitToolBar();//初始化工具栏按钮控件
+	InitMyMenu();//初始化主界面菜单控件
 	InitList();//初始化列表控件
+	InitStatusBar();//初始化状态栏控件
 	//---------改变窗口大小出发动态调整-------|
 	CRect rect;
 	GetWindowRect(&rect);
@@ -187,6 +194,10 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 {
 	double dcx = cx;     //对话框的总宽度
 	CDialogEx::OnSize(nType, cx, cy);
+
+	if (SIZE_MINIMIZED == nType)//当窗口最小化避免大小为0造成崩溃直接返回
+		return;
+
 	if (m_CList_Online.m_hWnd != NULL)
 	{
 		CRect rc;
@@ -212,7 +223,7 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 		rc.left = 1;			//列表的左坐标
 		rc.top = cy - 156;		//列表的上坐标
 		rc.right = cx - 1;		//列表的右坐标
-		rc.bottom = cy - 6;		//列表的下坐标
+		rc.bottom = cy - 20;		//列表的下坐标
 		m_CList_Message.MoveWindow(rc);
 
 		for (int i = 0; i < COLUMN_MESSAGE_COUNT; i++) {                   //遍历每一个列
@@ -223,8 +234,38 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 			m_CList_Message.SetColumnWidth(i, (lenth));        //设置当前的宽度
 		}
 	}
+
+	if (m_wndStatusBar.m_hWnd != NULL) {    //当对话框大小改变时 状态条大小也随之改变
+		CRect rc;
+		rc.top = cy - 20;
+		rc.left = 0;
+		rc.right = cx;
+		rc.bottom = cy;
+		m_wndStatusBar.MoveWindow(rc);
+		m_wndStatusBar.SetPaneInfo(0, m_wndStatusBar.GetItemID(0), SBPS_POPOUT, cx - 10);
+	}
+
+	if (m_ToolBar.m_hWnd != NULL)              //工具条
+	{
+		CRect rc;
+		rc.top = rc.left = 0;
+		rc.right = cx;
+		rc.bottom = 80;
+		m_ToolBar.MoveWindow(rc);     //设置工具条大小位置
+	}
 	// TODO: 在此处添加消息处理程序代码
 }
+
+
+int CCcRemoteDlg::InitMyMenu()
+{
+	HMENU hmenu;
+	hmenu = LoadMenu(NULL, MAKEINTRESOURCE(IDR_MENU_MAIN));  //载入菜单资源
+	::SetMenu(this->GetSafeHwnd(), hmenu);                  //为窗口设置菜单
+	::DrawMenuBar(this->GetSafeHwnd());                    //显示菜单
+	return 0;
+}
+
 
 int CCcRemoteDlg::InitList()
 {
@@ -255,6 +296,7 @@ void CCcRemoteDlg::AddList(CString strIP, CString strAddr, CString strPCName, CS
 	m_CList_Online.SetItemText(0, ONLINELIST_CPU, strCPU);
 	m_CList_Online.SetItemText(0, ONLINELIST_VIDEO, strVideo);
 	m_CList_Online.SetItemText(0, ONLINELIST_PING, strPing);
+	ShowMessage(true, strIP + "主机上线");
 }
 
 void CCcRemoteDlg::ShowMessage(bool bIsOK, CString strMsg)
@@ -272,16 +314,36 @@ void CCcRemoteDlg::ShowMessage(bool bIsOK, CString strMsg)
 	m_CList_Message.InsertItem(0, strIsOK);
 	m_CList_Message.SetItemText(0, 1, strTime);
 	m_CList_Message.SetItemText(0, 2, strMsg);
+
+
+	CString strStatusMsg;
+	if (strMsg.Find("上线") > 0)         //处理上线还是下线消息
+	{
+		m_OnlineCount++;
+	}
+	else if (strMsg.Find("下线") > 0)
+	{
+		m_OnlineCount--;
+	}
+	else if (strMsg.Find("断开") > 0)
+	{
+		m_OnlineCount--;
+	}
+	m_OnlineCount = (m_OnlineCount <= 0 ? 0 : m_OnlineCount);         //防止iCount 有-1的情况
+	strStatusMsg.Format("已连接: %d", m_OnlineCount);
+	m_wndStatusBar.SetPaneText(0, strStatusMsg);   //在状态条上显示文字
+
 }
 
 
 void CCcRemoteDlg::Test()
 {
+	ShowMessage(true, "软件初始化成功...");
 	AddList("192.168.0.1", "本机局域网", "CHANG", "Windows7", "2.2GHZ", "有", "123232");
 	AddList("192.168.10.1", "本机局域网", "WANG", "Windows10", "2.2GHZ", "无", "111111");
 	AddList("192.168.18.25", "本机局域网", "LIU", "Windows8", "2.2GHZ", "有", "654321");
 	AddList("192.168.97.162", "本机局域网", "SHANG", "WindowsXP", "2.2GHZ", "无", "123456");
-	ShowMessage(true, "软件初始化成功...");
+	
 }
 
 void CCcRemoteDlg::OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult)
@@ -372,4 +434,99 @@ void CCcRemoteDlg::OnOnlineDelete()
 	m_CList_Online.DeleteItem(iSelect);//删除该列表项
 	strIP += " 由主机主动断开连接";
 	ShowMessage(true, strIP);//显示日志
+}
+
+
+void CCcRemoteDlg::OnMainSet()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnMainClose()
+{
+	// TODO: 在此添加命令处理程序代码
+	PostMessage(WM_CLOSE);
+}
+
+
+void CCcRemoteDlg::OnMainBuild()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CCcRemoteDlg::OnMainAbout()
+{
+	// TODO: 在此添加命令处理程序代码
+	CAboutDlg dlgAbout;
+	dlgAbout.DoModal();
+}
+
+
+//状态栏数组
+static UINT indicators[] =
+{
+IDR_STATUSBAR_STRING
+};
+
+
+//初始化状态栏
+void CCcRemoteDlg::InitStatusBar()
+{
+	if (!m_wndStatusBar.Create(this) ||
+		!m_wndStatusBar.SetIndicators(indicators,
+			sizeof(indicators) / sizeof(UINT)))                    //创建状态条并设置字符资源的ID
+	{
+		TRACE0("Failed to create status bar\n");
+		return;      // fail to create
+	}
+	CRect rc;
+	::GetWindowRect(m_wndStatusBar.m_hWnd, rc);
+	m_wndStatusBar.MoveWindow(rc);                              //移动状态条到指定位置
+}
+
+
+//初始化工具条按钮控件
+void CCcRemoteDlg::InitToolBar()
+{
+	//创建工具条
+	if (!m_ToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+		!m_ToolBar.LoadToolBar(IDR_TOOLBAR_MAIN))//载入创建好的控件资源
+	{
+		TRACE0("Failed to create toolbar\n");
+		return;      // fail to create
+	}
+	m_ToolBar.ModifyStyle(0, TBSTYLE_FLAT);    //Fix for WinXP
+	
+	//加载位图资源
+	m_ToolBar.LoadTrueColorToolBar
+	(
+		48,    //加载真彩工具条
+		IDB_BITMAP_MAIN,
+		IDB_BITMAP_MAIN,
+		IDB_BITMAP_MAIN
+	);
+	RECT rt, rtMain;
+	GetWindowRect(&rtMain);//获取窗口大小
+	rt.left = 0;
+	rt.top = 0;
+	rt.bottom = 80;
+	rt.right = rtMain.right - rtMain.left + 10;
+	m_ToolBar.MoveWindow(&rt, TRUE);
+
+	m_ToolBar.SetButtonText(0, "终端管理");
+	m_ToolBar.SetButtonText(1, "进程管理");
+	m_ToolBar.SetButtonText(2, "窗口管理");
+	m_ToolBar.SetButtonText(3, "桌面管理");
+	m_ToolBar.SetButtonText(4, "文件管理");
+	m_ToolBar.SetButtonText(5, "语音管理");
+	m_ToolBar.SetButtonText(6, "视频管理");
+	m_ToolBar.SetButtonText(7, "服务管理");
+	m_ToolBar.SetButtonText(8, "注册表管理");
+	m_ToolBar.SetButtonText(10, "参数设置");
+	m_ToolBar.SetButtonText(11, "生成服务端");
+	m_ToolBar.SetButtonText(12, "帮助");
+	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 }

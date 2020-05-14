@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="重写控件">
+      <UniqueIdentifier>{476b0088-5a08-4c04-af41-397f23c6743b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CcRemote.h">
@@ -36,6 +39,9 @@
     <ClInclude Include="PublicStruct.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TrueColorToolBar.h">
+      <Filter>重写控件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -46,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="CcRemoteDlg.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TrueColorToolBar.cpp">
+      <Filter>重写控件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\CcRemote.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\toolbar1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\ToolBar_Main.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

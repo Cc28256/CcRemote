@@ -1,6 +1,7 @@
 ﻿
 // CcRemoteDlg.h: 头文件
 //
+#include "TrueColorToolBar.h"
 #include "PublicStruct.h"
 #pragma once
 
@@ -32,13 +33,17 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
+	CStatusBar  m_wndStatusBar;//状态控件
 	CListCtrl m_CList_Online;//在线列表变量
 	CListCtrl m_CList_Message;//消息列表变量
+	CTrueColorToolBar m_ToolBar;//工具条按钮控件变量
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 
 
 private:
-	//--------------主界面列表的显示变量及常量----------------
+	//--------------变量及常量----------------
+	int m_OnlineCount;
+
 #define COLUMN_ONLINE_COUNT 7	//在线列表的个数
 #define COLUMN_MESSAGE_COUNT 3	//消息列表的个数
 	int m_Column_Online_Width = 0;		//在线列表宽度和
@@ -62,12 +67,19 @@ private:
 		{"信息内容",	    660	}
 	};
 
+	
 
 	//-----------------------函数-----------------------
 	int InitList();//初始化list控件信息
+	int InitMyMenu();//初始化主页面上方菜单
+	void InitStatusBar();//初始化状态控件
+	void InitToolBar();//初始化工具条按钮控件
 	void AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing);
 	void ShowMessage(bool bIsOK, CString strMsg);
 	void Test();
+
+
+
 public:
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnOnlineAudio();
@@ -80,4 +92,8 @@ public:
 	afx_msg void OnOnlineVideo();
 	afx_msg void OnOnlineWindow();
 	afx_msg void OnOnlineDelete();
+	afx_msg void OnMainSet();
+	afx_msg void OnMainClose();
+	afx_msg void OnMainBuild();
+	afx_msg void OnMainAbout();
 };
