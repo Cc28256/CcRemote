@@ -67,6 +67,10 @@ void CCcRemoteDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
+	//-------------自定义------------
+	ON_MESSAGE(UM_ICONNOTIFY, (LRESULT(__thiscall CWnd::*)(WPARAM, LPARAM))OnIconNotify)
+
+	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -86,6 +90,7 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_COMMAND(IDM_MAIN_CLOSE, &CCcRemoteDlg::OnMainClose)
 	ON_COMMAND(IDM_MAIN_BUILD, &CCcRemoteDlg::OnMainBuild)
 	ON_COMMAND(IDM_MAIN_ABOUT, &CCcRemoteDlg::OnMainAbout)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -122,9 +127,9 @@ BOOL CCcRemoteDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 	
-	
+	InitSystemMenu();//初始化系统托盘
 	InitToolBar();//初始化工具栏按钮控件
-	InitMyMenu();//初始化主界面菜单控件
+	InitMyMenu();//初始化菜单控件
 	InitList();//初始化列表控件
 	InitStatusBar();//初始化状态栏控件
 	//---------改变窗口大小出发动态调整-------|
@@ -134,7 +139,6 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	MoveWindow(rect);
 	//----------------------------------------|
 	Test();
-
 	
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -207,8 +211,6 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 		rc.bottom = cy - 160;	//列表的下坐标
 		m_CList_Online.MoveWindow(rc);
 
-		
-
 		for (int i = 0; i < COLUMN_ONLINE_COUNT; i++) {   //遍历每一个列
 			double dd = m_Column_Online_Data[i].nWidth;     //得到当前列的宽度
 			dd /= m_Column_Online_Width;                    //看一看当前宽度占总长度的几分之几
@@ -261,8 +263,19 @@ int CCcRemoteDlg::InitMyMenu()
 {
 	HMENU hmenu;
 	hmenu = LoadMenu(NULL, MAKEINTRESOURCE(IDR_MENU_MAIN));  //载入菜单资源
+	
 	::SetMenu(this->GetSafeHwnd(), hmenu);                  //为窗口设置菜单
 	::DrawMenuBar(this->GetSafeHwnd());                    //显示菜单
+
+	popup.LoadMenu(IDR_MENU_ONLINE);//载入菜单资源
+	::MENUINFO lpcmi;
+	m_brush.CreateSolidBrush(RGB(236, 153, 101));//颜色
+	memset(&lpcmi, 0, sizeof(::LPCMENUINFO));
+	lpcmi.cbSize = sizeof(MENUINFO);
+	lpcmi.fMask =  MIM_APPLYTOSUBMENUS | MIM_BACKGROUND;
+	lpcmi.hbrBack = (HBRUSH)m_brush.operator HBRUSH();
+	::SetMenuInfo(popup, &lpcmi);
+
 	return 0;
 }
 
@@ -350,8 +363,7 @@ void CCcRemoteDlg::OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
-	CMenu	popup;//声明一个菜单变量
-	popup.LoadMenu(IDR_MENU_ONLINE);//载入菜单资源
+	
 	CMenu*	pM = popup.GetSubMenu(0);//得到菜单项
 	CPoint	p;
 	GetCursorPos(&p);//得到鼠标指针的位置
@@ -362,7 +374,13 @@ void CCcRemoteDlg::OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			pM->EnableMenuItem(i, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);          //菜单全部变灰
 		}
-
+	}
+	else
+	{
+		for (int i = 0; i < count; i++) //遍历每一个菜单
+		{
+			pM->EnableMenuItem(i, MF_BYPOSITION | MF_ENABLED );          //菜单可用
+		}
 	}
 	pM->TrackPopupMenu(TPM_LEFTALIGN, p.x, p.y, this); //在指定位置显示菜单
 	*pResult = 0;
@@ -530,3 +548,74 @@ void CCcRemoteDlg::InitToolBar()
 	m_ToolBar.SetButtonText(12, "帮助");
 	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 }
+
+
+//初始化工具条按钮控件
+void CCcRemoteDlg::InitSystemMenu()
+{
+	/*
+	   typedef struct _NOTIFYICONDATA {
+    DWORD cbSize;			//结构体自身大小
+    HWND hWnd;				//托盘的父窗口  托盘发出的消息由哪一个窗口响应
+    UINT uID;				//显示图标的ID
+    UINT uFlags;			//托盘的状态 (如有图标，有气泡提示，有消息响应等)
+    UINT uCallbackMessage;	//托盘事件的消息响应函数
+    HICON hIcon;            //图标的变量
+    TCHAR szTip[64];        //气泡的显示文字
+    DWORD dwState;          //图标的显示状态
+    DWORD dwStateMask;      //图标的显示状态
+    TCHAR szInfo[256];      //气泡的显示文字  (可以忽略)
+    union {
+        UINT uTimeout;
+        UINT uVersion;
+    };
+    TCHAR szInfoTitle[64];
+    DWORD dwInfoFlags;
+    GUID guidItem;
+    HICON hBalloonIcon;
+} NOTIFYICONDATA, *PNOTIFYICONDATA;
+
+	*/
+	nid.cbSize = sizeof(nid);     //大小赋值
+	nid.hWnd = m_hWnd;           //父窗口
+	nid.uID = IDR_MAINFRAME;     //icon  ID
+	nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;   //托盘所拥有的状态
+	nid.uCallbackMessage = UM_ICONNOTIFY;            //回调消息
+	nid.hIcon = m_hIcon;                            //icon 变量
+	CString str = "CcRemote远程协助软件";       //气泡提示
+	lstrcpyn(nid.szTip, (LPCSTR)str, sizeof(nid.szTip) / sizeof(nid.szTip[0]));
+	Shell_NotifyIcon(NIM_ADD, &nid);   //显示托盘
+}
+
+void CCcRemoteDlg::OnClose()
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	Shell_NotifyIcon(NIM_DELETE, &nid); //销毁图标
+	CDialogEx::OnClose();
+}
+
+void CCcRemoteDlg::OnIconNotify(WPARAM wParam, LPARAM lParam)
+{
+	switch ((UINT)lParam)
+	{
+	case WM_LBUTTONDOWN: // click or dbclick left button on icon
+	case WM_LBUTTONDBLCLK: // should show desktop
+		if (!IsWindowVisible())
+			ShowWindow(SW_SHOW);
+		else
+			ShowWindow(SW_HIDE);
+		break;
+	case WM_RBUTTONDOWN: // click right button, show menu
+		CMenu menu;
+		menu.LoadMenu(IDR_MENU_NOTIFY);
+		CPoint point;
+		GetCursorPos(&point);
+		SetForegroundWindow();
+		menu.GetSubMenu(0)->TrackPopupMenu(
+			TPM_LEFTBUTTON | TPM_RIGHTBUTTON,
+			point.x, point.y, this, NULL);
+		PostMessage(WM_USER, 0, 0);
+		break;
+	}
+}
+

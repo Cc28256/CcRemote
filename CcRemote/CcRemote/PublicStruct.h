@@ -1,5 +1,6 @@
 #pragma once
 
+//列表枚举
 enum
 {
 	ONLINELIST_IP = 0,          //IP的列顺序
@@ -17,3 +18,10 @@ typedef struct
 	char	*title;   //列表的名称
 	int		nWidth;   //列表的宽度
 }COLUMNSTRUCT;
+
+//自定义消息枚举
+enum
+{
+	UM_ICONNOTIFY = WM_USER + 0x100,
+};
+

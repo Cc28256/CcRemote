@@ -1,8 +1,8 @@
 ﻿  pch.cpp
   CcRemote.cpp
   CcRemoteDlg.cpp
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(216): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(233): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(220): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(237): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
   TrueColorToolBar.cpp
   正在生成代码...
-  CcRemote.vcxproj -> G:\CcRemote\CcRemote\CcRemote\Debug\CcRemote.exe
+  CcRemote.vcxproj -> F:\myapp\CcRemote\CcRemote\Debug\CcRemote.exe

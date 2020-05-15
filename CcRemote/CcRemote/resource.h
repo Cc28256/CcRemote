@@ -14,6 +14,8 @@
 #define IDR_MENU_MAIN                   133
 #define IDR_TOOLBAR_MAIN                134
 #define IDB_BITMAP_MAIN                 136
+#define IDR_MENU3                       137
+#define IDR_MENU_NOTIFY                 137
 #define IDC_ONLINE                      1000
 #define IDC_LIST2                       1001
 #define IDC_MESSAGE                     1001
@@ -57,13 +59,17 @@
 #define ID_BUTTON32808                  32808
 #define ID_BUTTON32810                  32810
 #define ID_BUTTON32811                  32811
+#define ID_SYSTEMMENU_XIA               32812
+#define ID_SYSTEMMENU_32813             32813
+#define IDM_NOTIFY_SHOW                 32814
+#define IDM_NOTIFY_CLOSE                32815
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        137
-#define _APS_NEXT_COMMAND_VALUE         32812
+#define _APS_NEXT_RESOURCE_VALUE        138
+#define _APS_NEXT_COMMAND_VALUE         32816
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -42,7 +42,10 @@ public:
 
 private:
 	//--------------变量及常量----------------
-	int m_OnlineCount;
+	int m_OnlineCount;//上线计数
+	CBrush m_brush;//绘色函数
+	CMenu popup;//LIST菜单变量
+	NOTIFYICONDATA nid;//含有图标  消息响应 的一个结构体 用于系统托盘
 
 #define COLUMN_ONLINE_COUNT 7	//在线列表的个数
 #define COLUMN_MESSAGE_COUNT 3	//消息列表的个数
@@ -74,6 +77,7 @@ private:
 	int InitMyMenu();//初始化主页面上方菜单
 	void InitStatusBar();//初始化状态控件
 	void InitToolBar();//初始化工具条按钮控件
+	void InitSystemMenu();//初始化系统托盘菜单
 	void AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing);
 	void ShowMessage(bool bIsOK, CString strMsg);
 	void Test();
@@ -81,6 +85,11 @@ private:
 
 
 public:
+	//-------------自定义消息处理-------------
+	afx_msg void OnIconNotify(WPARAM wParam, LPARAM lParam);
+
+
+	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnOnlineAudio();
 	afx_msg void OnOnlineCmd();
@@ -96,4 +105,5 @@ public:
 	afx_msg void OnMainClose();
 	afx_msg void OnMainBuild();
 	afx_msg void OnMainAbout();
+	afx_msg void OnClose();
 };
