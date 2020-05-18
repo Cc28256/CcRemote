@@ -1,13 +1,17 @@
 ﻿  pch.cpp
   CcRemote.cpp
   CcRemoteDlg.cpp
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(146): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(147): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(151): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(152): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(291): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(308): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(292): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(309): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  CSettingDlg.cpp
   CpuUsage.cpp
+  IniFile.cpp
+g:\ccremote\ccremote\ccremote\ccremote\inifile.cpp(33): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
   TrueColorToolBar.cpp
   Buffer.cpp
   IOCPServer.cpp
@@ -18,6 +22,6 @@ g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(715): warning C499
 g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(764): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
 g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(910): warning C4018: “>=”: 有符号/无符号不匹配
   正在生成代码
-  All 391 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 405 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
   CcRemote.vcxproj -> G:\CcRemote\CcRemote\CcRemote\Release\CcRemote.exe

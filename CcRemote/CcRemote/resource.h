@@ -16,9 +16,12 @@
 #define IDB_BITMAP_MAIN                 136
 #define IDR_MENU3                       137
 #define IDR_MENU_NOTIFY                 137
+#define IDD_DIALOG_SETTING              138
 #define IDC_ONLINE                      1000
 #define IDC_LIST2                       1001
 #define IDC_MESSAGE                     1001
+#define IDC_EDIT_PORT                   1002
+#define IDC_EDIT_MAX                    1003
 #define ID_ONLINE_32771                 32771
 #define ID_ONLINE_32772                 32772
 #define ID_ONLINE_32773                 32773
@@ -63,14 +66,15 @@
 #define ID_SYSTEMMENU_32813             32813
 #define IDM_NOTIFY_SHOW                 32814
 #define IDM_NOTIFY_CLOSE                32815
+#define IDM_BUTTON123456                32816
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        138
-#define _APS_NEXT_COMMAND_VALUE         32816
-#define _APS_NEXT_CONTROL_VALUE         1002
+#define _APS_NEXT_RESOURCE_VALUE        140
+#define _APS_NEXT_COMMAND_VALUE         32817
+#define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

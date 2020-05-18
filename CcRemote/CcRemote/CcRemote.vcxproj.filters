@@ -16,6 +16,9 @@
     <Filter Include="重写控件">
       <UniqueIdentifier>{476b0088-5a08-4c04-af41-397f23c6743b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="配置读取">
+      <UniqueIdentifier>{8cd661d2-1faa-45d7-bb15-62aa4ca09e28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CcRemote.h">
@@ -54,6 +57,12 @@
     <ClInclude Include="include\Mapper.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="IniFile.h">
+      <Filter>配置读取</Filter>
+    </ClInclude>
+    <ClInclude Include="CSettingDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -75,6 +84,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="include\IOCPServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFile.cpp">
+      <Filter>配置读取</Filter>
+    </ClCompile>
+    <ClCompile Include="CSettingDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

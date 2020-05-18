@@ -7,6 +7,7 @@
 #include "CcRemote.h"
 #include "CcRemoteDlg.h"
 #include "afxdialogex.h"
+#include "CSettingDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -210,7 +211,7 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	rect.bottom += 20;
 	MoveWindow(rect);
 	//----------------------------------------|
-	Activate(2000,9999);
+	ListenPort();
 	Test();
 	
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -531,6 +532,8 @@ void CCcRemoteDlg::OnOnlineDelete()
 void CCcRemoteDlg::OnMainSet()
 {
 	// TODO: 在此添加命令处理程序代码
+	CSettingDlg MySettingDlg;
+	MySettingDlg.DoModal();
 }
 
 
@@ -692,3 +695,15 @@ void CCcRemoteDlg::OnIconNotify(WPARAM wParam, LPARAM lParam)
 	}
 }
 
+
+
+void CCcRemoteDlg::ListenPort()
+{
+	int	nPort = ((CCcRemoteApp*)AfxGetApp())->m_IniFile.GetInt("Settings", "ListenPort");         //读取ini 文件中的监听端口
+	int	nMaxConnection = ((CCcRemoteApp*)AfxGetApp())->m_IniFile.GetInt("Settings", "MaxConnection");   //读取最大连接数
+	if (nPort == 0)
+		nPort = 80;
+	if (nMaxConnection == 0)
+		nMaxConnection = 10000;
+	Activate(nPort, nMaxConnection);             //开始监听
+}

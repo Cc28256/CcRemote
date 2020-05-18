@@ -201,11 +201,13 @@
   <ItemGroup>
     <ClInclude Include="CcRemote.h" />
     <ClInclude Include="CcRemoteDlg.h" />
+    <ClInclude Include="CSettingDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="include\Buffer.h" />
     <ClInclude Include="include\CpuUsage.h" />
     <ClInclude Include="include\IOCPServer.h" />
     <ClInclude Include="include\Mapper.h" />
+    <ClInclude Include="IniFile.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PublicStruct.h" />
     <ClInclude Include="Resource.h" />
@@ -215,6 +217,7 @@
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp" />
     <ClCompile Include="CcRemoteDlg.cpp" />
+    <ClCompile Include="CSettingDlg.cpp" />
     <ClCompile Include="include\Buffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -225,6 +228,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="IniFile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

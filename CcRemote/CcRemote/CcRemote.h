@@ -9,7 +9,7 @@
 #endif
 
 #include "resource.h"		// 主符号
-
+#include "IniFile.h"
 
 // CCcRemoteApp:
 // 有关此类的实现，请参阅 CcRemote.cpp
@@ -20,6 +20,7 @@ class CCcRemoteApp : public CWinApp
 public:
 	CCcRemoteApp();
 
+	CIniFile m_IniFile;//配置文件对象
 // 重写
 public:
 	virtual BOOL InitInstance();

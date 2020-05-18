@@ -80,11 +80,13 @@ private:
 	void InitToolBar();//初始化工具条按钮控件
 	void InitSystemMenu();//初始化系统托盘菜单
 	void AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing);
-	void ShowMessage(bool bIsOK, CString strMsg);
+	void ShowMessage(bool bIsOK, CString strMsg);//显示日志
 	void Test();
 
+	void ListenPort();
+
 	static void CALLBACK NotifyProc(LPVOID lpParam, ClientContext* pContext, UINT nCode);
-	void Activate(UINT nPort, UINT nMaxConnections);
+	void Activate(UINT nPort, UINT nMaxConnections);//监听端口
 
 public:
 	//-------------自定义消息处理-------------
