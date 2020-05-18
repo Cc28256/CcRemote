@@ -15,7 +15,7 @@
 
 
 
-
+CIOCPServer *m_iocpServer = NULL;
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
 class CAboutDlg : public CDialogEx
@@ -96,6 +96,78 @@ END_MESSAGE_MAP()
 
 // CCcRemoteDlg 消息处理程序
 
+/////////////////////////////////////////////////////////////////////////////
+// CMainFrame message handlers
+//NotifyProc是这个socket内核的核心  所有的关于socket 的处理都要调用这个函数
+void CALLBACK CCcRemoteDlg::NotifyProc(LPVOID lpParam, ClientContext *pContext, UINT nCode)
+{
+	try
+	{
+		switch (nCode)
+		{
+		case NC_CLIENT_CONNECT:
+			break;
+		case NC_CLIENT_DISCONNECT:
+			//g_pConnectView->PostMessage(WM_REMOVEFROMLIST, 0, (LPARAM)pContext);
+			break;
+		case NC_TRANSMIT:
+			break;
+		case NC_RECEIVE:
+			//ProcessReceive(pContext);        //这里是有数据到来 但没有完全接收
+			break;
+		case NC_RECEIVE_COMPLETE:
+			//ProcessReceiveComplete(pContext);       //这里时完全接收 处理发送来的数据 跟进    ProcessReceiveComplete
+			break;
+		}
+	}
+	catch (...) {}
+}
+
+
+//                             监听端口    最大上线个数
+void CCcRemoteDlg::Activate(UINT nPort, UINT nMaxConnections)
+{
+	CString		str;
+
+	if (m_iocpServer != NULL)
+	{
+		m_iocpServer->Shutdown();
+		delete m_iocpServer;
+
+	}
+	m_iocpServer = new CIOCPServer;
+
+	// 开启IPCP服务器 最大连接  端口     查看NotifyProc回调函数  函数定义
+	if (m_iocpServer->Initialize(NotifyProc, NULL, 100000, nPort))
+	{
+
+		char hostname[256];
+		gethostname(hostname, sizeof(hostname));
+		HOSTENT *host = gethostbyname(hostname);
+		if (host != NULL)
+		{
+			for (int i = 0; ; i++)
+			{
+				str += inet_ntoa(*(IN_ADDR*)host->h_addr_list[i]);
+				if (host->h_addr_list[i] + host->h_length >= host->h_name)
+					break;
+				str += "/";
+			}
+		}
+
+
+		str.Format("监听端口: %d成功", nPort);
+		ShowMessage(true, str);
+	}
+	else
+	{
+		str.Format("监听端口: %d失败", nPort);
+		ShowMessage(true, str);
+	}
+
+	//m_wndStatusBar.SetPaneText(3, "连接: 0");
+}
+
 BOOL CCcRemoteDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -138,6 +210,7 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	rect.bottom += 20;
 	MoveWindow(rect);
 	//----------------------------------------|
+	Activate(2000,9999);
 	Test();
 	
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE

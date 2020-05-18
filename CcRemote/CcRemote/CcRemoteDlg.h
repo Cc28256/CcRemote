@@ -3,6 +3,7 @@
 //
 #include "TrueColorToolBar.h"
 #include "PublicStruct.h"
+#include "include/IOCPServer.h"
 #pragma once
 
 
@@ -82,7 +83,8 @@ private:
 	void ShowMessage(bool bIsOK, CString strMsg);
 	void Test();
 
-
+	static void CALLBACK NotifyProc(LPVOID lpParam, ClientContext* pContext, UINT nCode);
+	void Activate(UINT nPort, UINT nMaxConnections);
 
 public:
 	//-------------自定义消息处理-------------
