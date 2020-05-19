@@ -120,12 +120,17 @@ CIOCPServer::~CIOCPServer()
 // N T ALMOND            06042001	1.0        Origin
 // 
 ////////////////////////////////////////////////////////////////////////////////
-//lang2.1_5   初始化监听端口
+//初始化监听端口
 bool CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame, int nMaxConnections, int nPort)
 {
 	m_pNotifyProc	= pNotifyProc;
 	m_pFrame		=  pFrame;
 	m_nMaxConnections = nMaxConnections;
+
+	/*
+	AF_INET:Internet协议版本4（IPv4）地址族。
+	SOCK_STREAM:一种套接字类型
+	*/
 	m_socListen = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 
     //初始化 套接字
@@ -148,6 +153,7 @@ bool CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame, int nMa
 	// The listener is ONLY interested in FD_ACCEPT
 	// That is when a client connects to or IP/Port
 	// Request async notification
+	// 指定的事件对象以与指定的一组FD_XXX网络事件相关联。
 	int nRet = WSAEventSelect(m_socListen,
 						  m_hEvent,
 						  FD_ACCEPT);
@@ -230,7 +236,6 @@ bool CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame, int nMa
 // N T ALMOND            06042001	1.0        Origin
 // 
 ////////////////////////////////////////////////////////////////////////////////
-//lang2.1_6  
 unsigned CIOCPServer::ListenThreadProc(LPVOID lParam)   //监听线程
 {
 	CIOCPServer* pThis = reinterpret_cast<CIOCPServer*>(lParam);
@@ -303,8 +308,6 @@ unsigned CIOCPServer::ListenThreadProc(LPVOID lParam)   //监听线程
 // N T ALMOND            06042001	1.0        Origin
 // Ulf Hedlund			 09072001			   Changes for OVERLAPPEDPLUS
 ////////////////////////////////////////////////////////////////////////////////
-
-//lang2.1_7
 void CIOCPServer::OnAccept()
 {
 
@@ -339,6 +342,7 @@ void CIOCPServer::OnAccept()
 	}
 
 	// Create the Client context to be associted with the completion port
+	// 创建要与完成端口连接客户端的上下文
 	ClientContext* pContext = AllocateContext();
 	// AllocateContext fail
 	if (pContext == NULL)
@@ -396,7 +400,7 @@ void CIOCPServer::OnAccept()
 		NULL
 		);
 
-	CLock cs(m_cs, "OnAccept" );
+	CLock cs(m_cs, "OnAccept" );//多线程互斥按顺序改变变量
 	// Hold a reference to the context
 	m_listContexts.AddTail(pContext);
 
@@ -417,7 +421,7 @@ void CIOCPServer::OnAccept()
 	    return;
     }
 
-	m_pNotifyProc((LPVOID) m_pFrame, pContext, NC_CLIENT_CONNECT);      //回调函数处理  查看Initialize  的使用
+	m_pNotifyProc((LPVOID) m_pFrame, pContext, NC_CLIENT_CONNECT);      //回调函数处理  有Initialize 传进来的函数指针的使用
 
 	// Post to WSARecv Next
 	PostRecv(pContext);

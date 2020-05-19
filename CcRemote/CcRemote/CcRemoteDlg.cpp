@@ -139,7 +139,7 @@ void CCcRemoteDlg::Activate(UINT nPort, UINT nMaxConnections)
 	m_iocpServer = new CIOCPServer;
 
 	// 开启IPCP服务器 最大连接  端口     查看NotifyProc回调函数  函数定义
-	if (m_iocpServer->Initialize(NotifyProc, NULL, 100000, nPort))
+	if (m_iocpServer->Initialize(NotifyProc, NULL, nMaxConnections, nPort))
 	{
 
 		char hostname[256];
@@ -156,7 +156,6 @@ void CCcRemoteDlg::Activate(UINT nPort, UINT nMaxConnections)
 			}
 		}
 
-
 		str.Format("监听端口: %d成功", nPort);
 		ShowMessage(true, str);
 	}
@@ -166,7 +165,6 @@ void CCcRemoteDlg::Activate(UINT nPort, UINT nMaxConnections)
 		ShowMessage(true, str);
 	}
 
-	//m_wndStatusBar.SetPaneText(3, "连接: 0");
 }
 
 BOOL CCcRemoteDlg::OnInitDialog()
@@ -199,19 +197,22 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 	InitSystemMenu();//初始化系统托盘
 	InitToolBar();//初始化工具栏按钮控件
 	InitMyMenu();//初始化菜单控件
 	InitList();//初始化列表控件
 	InitStatusBar();//初始化状态栏控件
-	//---------改变窗口大小出发动态调整-------|
+	//---------改变窗口大小触发动态调整-------|
 	CRect rect;
 	GetWindowRect(&rect);
 	rect.bottom += 20;
 	MoveWindow(rect);
 	//----------------------------------------|
-	ListenPort();
+	ListenPort();//监听端口
 	Test();
 	
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -356,9 +357,11 @@ int CCcRemoteDlg::InitMyMenu()
 
 int CCcRemoteDlg::InitList()
 {
+	//设置list可选中
 	m_CList_Online.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 	m_CList_Message.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 	
+	//计算控件宽度
 	for (int i = 0; i < COLUMN_ONLINE_COUNT; i++)
 	{
 		m_CList_Online.InsertColumn(i, m_Column_Online_Data[i].title, LVCFMT_LEFT, m_Column_Online_Data[i].nWidth);
@@ -670,6 +673,8 @@ void CCcRemoteDlg::OnClose()
 	CDialogEx::OnClose();
 }
 
+
+//托盘图标回调函数
 void CCcRemoteDlg::OnIconNotify(WPARAM wParam, LPARAM lParam)
 {
 	switch ((UINT)lParam)

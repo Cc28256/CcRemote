@@ -52,6 +52,7 @@ public:
 
 	void Lock()
 	{
+		//多线程操作变量需要互斥变量来让每个线程按顺序的访问
 		TRACE(_T("EC %d %s\n") , GetCurrentThreadId(), m_strFunc);
 		EnterCriticalSection(m_pcs);
 	}
@@ -136,7 +137,7 @@ public:
 	CIOCPServer();
 	virtual ~CIOCPServer();
 
-	NOTIFYPROC					m_pNotifyProc;
+	NOTIFYPROC					m_pNotifyProc; //回调函数指针，从我们的回调传进来做参数，只想我们的回调函数
 	CMainFrame*					m_pFrame;
 	
 	bool Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame,  int nMaxConnections, int nPort);
@@ -170,7 +171,7 @@ protected:
 
 	bool				m_bInit;
 	bool				m_bDisconnectAll;
-	BYTE				m_bPacketFlag[5];
+	BYTE				m_bPacketFlag[5]; //数据标记
 	void CloseCompletionPort();
 	void OnAccept();
 	bool InitializeIOCP(void);
