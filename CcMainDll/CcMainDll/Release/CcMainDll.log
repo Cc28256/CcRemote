@@ -1,27 +1,24 @@
 ﻿  pch.cpp
   ClientSocket.cpp
-g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(70): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(72): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(208): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(322): warning C4018: “>=”: 有符号/无符号不匹配
-g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(401): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
-g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(456): warning C4018: “>=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(70): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(72): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(208): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(322): warning C4018: “>=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(401): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(456): warning C4018: “>=”: 有符号/无符号不匹配
   Buffer.cpp
   until.cpp
-g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
-  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
-g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
-  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
-  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
+  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
+  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
   dllmain.cpp
-LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   正在生成代码
-  0 of 6 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  All 6 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
-  CcMainDll.vcxproj -> G:\CcRemote\CcRemote\CcMainDll\Release\CcMainDll.dll
+  CcMainDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\Release\CcMainDll.dll
