@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-
+#include "..\pch.h"
 #include "SystemManager.h"
 #include "Dialupass.h"
 #include <tlhelp32.h>
@@ -73,7 +73,8 @@ void CSystemManager::SendDialupassList()
 	CDialupass	pass;
 
 	int	nPacketLen = 0;
-	for (int i = 0; i < pass.GetMax(); i++)
+	int i = 0;
+	for (i = 0; i < pass.GetMax(); i++)
 	{
 		COneInfo	*pOneInfo = pass.GetOneInfo(i);
 		for (int j = 0; j < STR_MAX; j++)

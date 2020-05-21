@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 
-
+#include "..\pch.h"
 //---其实在CManager中什么也没有实现 我们去看看gh0st是怎么使用cClientSocket的到main 函数
 #include "Manager.h"
 #include "until.h"

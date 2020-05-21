@@ -10,7 +10,8 @@
 #endif // _MSC_VER > 1000
 
 #include "Manager.h"
-#include "Audio.h"
+#include "..\..\..\common\Audio.h"
+
 class CAudioManager : public CManager  
 {
 public:

@@ -1,22 +1,35 @@
-﻿  pch.cpp
+﻿cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  pch.cpp
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   ClientSocket.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(70): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(72): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(208): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(322): warning C4018: “>=”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(401): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(456): warning C4018: “>=”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(69): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(71): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(207): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(324): warning C4018: “>=”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(423): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(478): warning C4018: “>=”: 有符号/无符号不匹配
   Buffer.cpp
   until.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
-  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
-  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
+  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
+  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
   正在生成代码...
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  KernelManager.cpp
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(158): fatal error C1010: 在查找预编译头时遇到意外的文件结尾。是否忘记了向源中添加“#include "pch.h"”?
   dllmain.cpp
-  CcMainDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\Debug\CcMainDll.dll
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\login.h(184): warning C4996: 'GetVersionExA': 被声明为已否决
+  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(24): warning C4326: “main”的返回类型应为“int”而非“DWORD”
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(65): error C2065: “NOT_CONNECT”: 未声明的标识符
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(69): error C2065: “NOT_CONNECT”: 未声明的标识符
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(69): error C2065: “HEARTBEATTIMEOUT_ERROR”: 未声明的标识符
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(100): error C2065: “CONNECT_ERROR”: 未声明的标识符
+  正在生成代码...

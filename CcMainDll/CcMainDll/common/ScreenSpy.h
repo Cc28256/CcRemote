@@ -5,7 +5,7 @@
 #if !defined(AFX_SCREENSPY_H__6600B30F_A7E3_49D4_9DE6_9C35E71CE3EE__INCLUDED_)
 #define AFX_SCREENSPY_H__6600B30F_A7E3_49D4_9DE6_9C35E71CE3EE__INCLUDED_
 #include <windows.h>
-#include "CursorInfo.h"
+#include "..\..\..\common\CursorInfo.h"
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000

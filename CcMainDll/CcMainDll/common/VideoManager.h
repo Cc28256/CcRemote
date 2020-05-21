@@ -11,7 +11,7 @@
 
 #include "Manager.h"
 #include "VideoCap.h"
-#include "VideoCodec.h"
+#include "..\..\..\common\VideoCodec.h"
 class CVideoManager : public CManager  
 {
 public:

@@ -1,6 +1,7 @@
 // VideoCap.cpp: implementation of the CVideoCap class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "..\pch.h"
 #include "VideoCap.h"
 //#include "..\DynamicAPI.h"
 #include "..\DynamicAPI.h"
@@ -129,8 +130,9 @@ bool CVideoCap::Initialize(int nWidth, int nHeight)
 		return false;
 	}
 
+	int i = 0;
 	// 将捕获窗同驱动器连接
-	for (int i = 0; i < 10; i++)
+	for (i = 0; i < 10; i++)
 	{
 		if (capDriverConnect(m_hWndCap, i))
 			break;

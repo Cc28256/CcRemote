@@ -1,7 +1,7 @@
 // VideoManager.cpp: implementation of the CVideoManager class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "..\pch.h"
 #include "VideoManager.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ void CVideoManager::ResetScreen(int nWidth, int nHeight)
 
 DWORD WINAPI CVideoManager::WorkThread( LPVOID lparam )
 {
-	static	dwLastScreen = GetTickCount();
+	static DWORD dwLastScreen = GetTickCount();
 
 	CVideoManager *pThis = (CVideoManager *)lparam;
 	

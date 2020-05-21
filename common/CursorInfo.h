@@ -60,9 +60,9 @@ public:
 		ci.cbSize = sizeof(CURSORINFO);
 		if (!GetCursorInfo(&ci) || ci.flags != CURSOR_SHOWING)
 			return -1;
+		int i = 0;
 		
-		
-		for (int i = 0; i < MAX_CURSOR_TYPE; i++)
+		for (i = 0; i < MAX_CURSOR_TYPE; i++)
 		{
 			if (ci.hCursor == m_CursorHandleArray[i])
 				break;

@@ -1,10 +1,11 @@
 // ScreenManager.cpp: implementation of the CScreenManager class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "..\pch.h"
 #define _WIN32_WINNT	0x0400
 #include "ScreenManager.h"
 #include "until.h"
-#include <winable.h> // BlockInput
+#include <WinUser.h> // BlockInput
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

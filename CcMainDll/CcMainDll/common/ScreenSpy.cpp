@@ -1,6 +1,7 @@
 // ScreenSpy.cpp: implementation of the CScreenSpy class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "..\pch.h"
 #include "ScreenSpy.h"
 #include "until.h"
 
@@ -351,10 +352,13 @@ void CScreenSpy::ScanScreen( HDC hdcDest, HDC hdcSrc, int nWidth, int nHeight)
 {
 	UINT	nJumpLine = 50;
 	UINT	nJumpSleep = nJumpLine / 10; // …®√Ëº‰∏Ù
+	int	nOther;
+	int	nToJump = 0;
+	int i = 0;
 	// …®√Ë∆¡ƒª
-	for (int i = 0, int	nToJump = 0; i < nHeight; i += nToJump)
+	for (i = 0, nToJump = 0; i < nHeight; i += nToJump)
 	{
-		int	nOther = nHeight - i;
+		nOther = nHeight - i;
 		
 		if (nOther > nJumpLine)
 			nToJump = nJumpLine;
