@@ -95,17 +95,11 @@
     <ClCompile Include="common\until.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="common\KernelManager.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
     <ClCompile Include="common\KeyboardManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="common\RegEditEx.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="common\Manager.cpp">
-      <Filter>头文件</Filter>
     </ClCompile>
     <ClCompile Include="common\SystemManager.cpp">
       <Filter>源文件</Filter>
@@ -138,6 +132,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="common\install.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="common\KernelManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="common\Manager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

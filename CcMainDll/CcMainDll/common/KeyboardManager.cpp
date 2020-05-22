@@ -1,7 +1,7 @@
 // KeyboardManager.cpp: implementation of the CKeyboardManager class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "..\pch.h"
 #include "KeyboardManager.h"
 #pragma comment(lib, "Imm32.lib")
 

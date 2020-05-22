@@ -2,7 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-
+#include "..\pch.h"
 #include "KernelManager.h"
 #include "loop.h"
 #include "until.h"

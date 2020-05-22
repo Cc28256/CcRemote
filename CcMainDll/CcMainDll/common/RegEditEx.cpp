@@ -1,3 +1,4 @@
+#include "..\pch.h"
 #include <windows.h>
 //去除字符串类型前面的空格
 char *DelSpace(char *szData)
