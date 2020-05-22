@@ -104,6 +104,7 @@ void CALLBACK CCcRemoteDlg::NotifyProc(LPVOID lpParam, ClientContext *pContext, 
 {
 	try
 	{
+		::MessageBox(NULL, "有连接到来!!", "", NULL);
 		switch (nCode)
 		{
 		case NC_CLIENT_CONNECT:

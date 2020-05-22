@@ -1,27 +1,27 @@
 ﻿  pch.cpp
   CcRemote.cpp
   CcRemoteDlg.cpp
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(147): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(152): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(293): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(310): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(148): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(153): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(294): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(311): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
   CSettingDlg.cpp
   CpuUsage.cpp
   IniFile.cpp
-f:\myapp\ccremote\ccremote\ccremote\inifile.cpp(33): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+g:\ccremote\ccremote\ccremote\ccremote\inifile.cpp(33): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
   TrueColorToolBar.cpp
   Buffer.cpp
   IOCPServer.cpp
-f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(134): warning C4996: 'WSASocketA': Use WSASocketW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(3416): note: 参见“WSASocketA”的声明
-f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(719): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
-f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(768): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(914): warning C4018: “>=”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(134): warning C4996: 'WSASocketA': Use WSASocketW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(3416): note: 参见“WSASocketA”的声明
+g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(719): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(768): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(914): warning C4018: “>=”: 有符号/无符号不匹配
   正在生成代码
   All 405 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
-  CcRemote.vcxproj -> F:\myapp\CcRemote\CcRemote\Release\CcRemote.exe
+  CcRemote.vcxproj -> G:\CcRemote\CcRemote\CcRemote\Release\CcRemote.exe

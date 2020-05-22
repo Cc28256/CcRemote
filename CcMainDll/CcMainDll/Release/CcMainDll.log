@@ -1,103 +1,107 @@
-﻿cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+﻿G:\VS2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   pch.cpp
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   Audio.cpp
-f:\myapp\ccremote\common\audio.cpp(99): warning C4018: “<”: 有符号/无符号不匹配
+g:\ccremote\ccremote\common\audio.cpp(99): warning C4018: “<”: 有符号/无符号不匹配
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   ClientSocket.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(69): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(71): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(207): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(324): warning C4018: “>=”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(423): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(478): warning C4018: “>=”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(69): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(71): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(207): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(324): warning C4018: “>=”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(423): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+g:\ccremote\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(478): warning C4018: “>=”: 有符号/无符号不匹配
   Buffer.cpp
   KeyboardManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(307): warning C4018: “<”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(307): warning C4018: “<”: 有符号/无符号不匹配
   until.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
-  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
-  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
+  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
+  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   AudioManager.cpp
   Dialupass.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(139): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(143): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(147): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(208): warning C4996: 'GetVersionExA': 被声明为已否决
-  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(139): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(143): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(147): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(208): warning C4996: 'GetVersionExA': 被声明为已否决
+  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
   install.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(7): warning C4101: “Desc”: 未引用的局部变量
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(121): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(120): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(215): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(214): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\install.cpp(7): warning C4101: “Desc”: 未引用的局部变量
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\install.cpp(121): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\install.cpp(120): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\install.cpp(215): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\install.cpp(214): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
   KernelManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(43): warning C4018: “<”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(43): warning C4018: “<”: 有符号/无符号不匹配
   Manager.cpp
   RegEditEx.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(9): warning C4996: 'strnicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strnicmp. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(560): note: 参见“strnicmp”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(100): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(114): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(141): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(111): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(112): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(9): warning C4996: 'strnicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strnicmp. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(560): note: 参见“strnicmp”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(100): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(114): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(141): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(111): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(112): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
   ScreenManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenmanager.cpp(5): warning C4005: “_WIN32_WINNT”: 宏重定义
-  d:\windows kits\10\include\10.0.17763.0\shared\sdkddkver.h(216): note: 参见“_WIN32_WINNT”的前一个定义
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\screenmanager.cpp(5): warning C4005: “_WIN32_WINNT”: 宏重定义
+  g:\windows kits\10\include\10.0.17763.0\shared\sdkddkver.h(216): note: 参见“_WIN32_WINNT”的前一个定义
   ScreenSpy.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(363): warning C4018: “>”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(384): warning C4018: “<”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(403): warning C4018: “<”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(363): warning C4018: “>”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(384): warning C4018: “<”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(403): warning C4018: “<”: 有符号/无符号不匹配
   ShellManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\shellmanager.cpp(52): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\shellmanager.cpp(52): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
   SystemManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(111): warning C4018: “<”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(111): warning C4018: “<”: 有符号/无符号不匹配
   VideoCap.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(118): warning C4101: “gCapTureParms”: 未引用的局部变量
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(118): warning C4101: “gCapTureParms”: 未引用的局部变量
   VideoManager.cpp
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   FileManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(271): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(272): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(422): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(594): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(597): warning C4307: “+”: 整型常量溢出
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(271): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(272): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(422): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(594): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(597): warning C4307: “+”: 整型常量溢出
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   dllmain.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(184): warning C4996: 'GetVersionExA': 被声明为已否决
-  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\login.h(184): warning C4996: 'GetVersionExA': 被声明为已否决
+  g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(166): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
 LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
+    正在创建库 ..\bin\server\server.dll\CcMainDll.lib 和对象 ..\bin\server\server.dll\CcMainDll.exp
   正在生成代码
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(240): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
-  All 342 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+g:\ccremote\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(240): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
+  All 364 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
-  CcMainDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\Release\CcMainDll.dll
+  CcMainDll.vcxproj -> G:\CcRemote\CcRemote\CcMainDll\CcMainDll\..\bin\server\server.dll\CcMainDll.dll

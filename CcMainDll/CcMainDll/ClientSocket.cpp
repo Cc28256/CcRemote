@@ -526,8 +526,8 @@ void CClientSocket::setGlobalProxyOption(int nProxyType /*= PROXY_NONE*/, LPCTST
 		lstrcpy(m_strProxyHost, lpszProxyHost);
 
 	m_nProxyPort = nProxyPort;
-	if (m_strUserName != NULL)
+	if (lpszUserName != NULL)
 		lstrcpy(m_strUserName, lpszUserName);
-	if (m_strPassWord != NULL)
+	if (lpszPassWord != NULL)
 		lstrcpy(m_strPassWord, lpszPassWord);
 }
