@@ -26,6 +26,17 @@ CCcRemoteApp::CCcRemoteApp()
 	// 支持重新启动管理器
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
 
+	//打开文件句柄，检查QQwry.dat是村存在，然后给publi变量设置BOOL值
+	HANDLE	hFile = CreateFile("QQwry.dat", 0, 0, NULL, OPEN_EXISTING, 0, NULL);
+	if (hFile != INVALID_HANDLE_VALUE)
+	{
+		m_bIsQQwryExist = true;
+	}
+	else
+	{
+		m_bIsQQwryExist = false;
+	}
+	CloseHandle(hFile);
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
 }

@@ -76,12 +76,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\bin</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\bin</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -199,6 +201,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\macros.h" />
     <ClInclude Include="CcRemote.h" />
     <ClInclude Include="CcRemoteDlg.h" />
     <ClInclude Include="CSettingDlg.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="PublicStruct.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SEU_QQwry.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TrueColorToolBar.h" />
   </ItemGroup>
@@ -239,6 +243,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SEU_QQwry.cpp" />
     <ClCompile Include="TrueColorToolBar.cpp" />
   </ItemGroup>
   <ItemGroup>

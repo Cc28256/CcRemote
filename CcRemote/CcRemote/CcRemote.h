@@ -19,7 +19,7 @@ class CCcRemoteApp : public CWinApp
 {
 public:
 	CCcRemoteApp();
-
+	bool m_bIsQQwryExist;
 	CIniFile m_IniFile;//配置文件对象
 // 重写
 public:

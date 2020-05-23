@@ -4,6 +4,7 @@
 #include "TrueColorToolBar.h"
 #include "PublicStruct.h"
 #include "include/IOCPServer.h"
+#include "SEU_QQwry.h"
 #pragma once
 
 
@@ -43,6 +44,7 @@ public:
 
 private:
 	//--------------变量及常量----------------
+	SEU_QQwry *m_QQwry;
 	int m_OnlineCount;//上线计数
 	CBrush m_brush;//绘色函数
 	CMenu popup;//LIST菜单变量
@@ -79,7 +81,7 @@ private:
 	void InitStatusBar();//初始化状态控件
 	void InitToolBar();//初始化工具条按钮控件
 	void InitSystemMenu();//初始化系统托盘菜单
-	void AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing);
+	void AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing, ClientContext*pContext);
 	void ShowMessage(bool bIsOK, CString strMsg);//显示日志
 	void Test();
 
@@ -88,10 +90,11 @@ private:
 	static void CALLBACK NotifyProc(LPVOID lpParam, ClientContext* pContext, UINT nCode);
 	void Activate(UINT nPort, UINT nMaxConnections);//监听端口
 
+	static void ProcessReceiveComplete(ClientContext *pContext);
 public:
 	//-------------自定义消息处理-------------
 	afx_msg void OnIconNotify(WPARAM wParam, LPARAM lParam);
-
+	afx_msg LRESULT OnAddToList(WPARAM wParam, LPARAM lParam);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
@@ -109,5 +112,5 @@ public:
 	afx_msg void OnMainClose();
 	afx_msg void OnMainBuild();
 	afx_msg void OnMainAbout();
-	afx_msg void OnClose();
+	afx_msg void OnClose(); 
 };
