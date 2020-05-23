@@ -102,7 +102,6 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(184): warning C4996: 'GetVe
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(166): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
 LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
-  LINK : 没有找到 ..\..\bin\server\CcMainDll.dll 或上一个增量链接没有生成它；正在执行完全链接
     正在创建库 ..\..\bin\server\CcMainDll.lib 和对象 ..\..\bin\server\CcMainDll.exp
 LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   CcMainDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\CcMainDll\..\..\bin\server\CcMainDll.dll
