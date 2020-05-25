@@ -84,7 +84,7 @@ public:
 		m_ioType = ioType;
 	}
 };
-//lang2.1_3  
+  
 
 struct ClientContext          //简单分析ClientContext结构体然后回到  SendSelectCommand
 {

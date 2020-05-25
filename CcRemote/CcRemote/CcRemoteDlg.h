@@ -5,6 +5,7 @@
 #include "PublicStruct.h"
 #include "include/IOCPServer.h"
 #include "SEU_QQwry.h"
+#include "CShellDlg.h"
 #pragma once
 
 
@@ -95,6 +96,7 @@ public:
 	//-------------自定义消息处理-------------
 	afx_msg void OnIconNotify(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnAddToList(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnOpenShellDialog(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
@@ -113,4 +115,6 @@ public:
 	afx_msg void OnMainBuild();
 	afx_msg void OnMainAbout();
 	afx_msg void OnClose(); 
+private:
+	void SendSelectCommand(PBYTE pData, UINT nSize);
 };

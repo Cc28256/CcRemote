@@ -12,7 +12,7 @@ int main()
 	//载入服务端dll
 	HMODULE hServerDll = LoadLibrary(".\\..\\..\\bin\\server\\CcMainDll.dll");
 	//HMODULE hServerDll = LoadLibrary(".\server.dll");
-	//声明导出函数类型--查看上一节导出的TestRun函数
+	//声明导出函数类型--导出的TestRun函数
 	typedef void(_cdecl *TestRunT)(char* strHost, int nPort);
 	//寻找dll中导出函数
 	TestRunT pTestRunT = (TestRunT)GetProcAddress(hServerDll, "TestFun");
