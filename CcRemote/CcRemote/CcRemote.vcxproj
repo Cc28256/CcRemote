@@ -206,6 +206,7 @@
     <ClInclude Include="CcRemoteDlg.h" />
     <ClInclude Include="CSettingDlg.h" />
     <ClInclude Include="CShellDlg.h" />
+    <ClInclude Include="CSystemDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="include\Buffer.h" />
     <ClInclude Include="include\CpuUsage.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="CcRemoteDlg.cpp" />
     <ClCompile Include="CSettingDlg.cpp" />
     <ClCompile Include="CShellDlg.cpp" />
+    <ClCompile Include="CSystemDlg.cpp" />
     <ClCompile Include="include\Buffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -257,6 +259,7 @@
   <ItemGroup>
     <Image Include="res\CcRemote.ico" />
     <Image Include="res\cmdshell.ico" />
+    <Image Include="res\system.ico" />
     <Image Include="res\toolbar1.bmp" />
     <Image Include="res\ToolBar_Main.bmp" />
   </ItemGroup>

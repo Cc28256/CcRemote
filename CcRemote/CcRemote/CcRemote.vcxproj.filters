@@ -72,6 +72,9 @@
     <ClInclude Include="CShellDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CSystemDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -107,6 +110,9 @@
     <ClCompile Include="CShellDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CSystemDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CcRemote.rc">
@@ -129,6 +135,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\cmdshell.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\system.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

@@ -20,12 +20,18 @@
 #define IDD_SHELL                       140
 #define IDI_ICON1                       142
 #define IDI_CMDSHELL                    142
+#define IDD_SYSTEM                      143
+#define IDI_SYSTM                       146
+#define IDI_SYSTEM                      146
 #define IDC_ONLINE                      1000
 #define IDC_LIST2                       1001
 #define IDC_MESSAGE                     1001
 #define IDC_EDIT_PORT                   1002
 #define IDC_EDIT_MAX                    1003
 #define IDC_EDIT                        1003
+#define IDC_TAB                         1004
+#define IDC_LIST_WINDOWS                1005
+#define IDC_LIST_PROCESS                1006
 #define ID_ONLINE_32771                 32771
 #define ID_ONLINE_32772                 32772
 #define ID_ONLINE_32773                 32773
@@ -76,9 +82,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        143
+#define _APS_NEXT_RESOURCE_VALUE        147
 #define _APS_NEXT_COMMAND_VALUE         32817
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
