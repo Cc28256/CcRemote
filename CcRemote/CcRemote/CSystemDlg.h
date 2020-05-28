@@ -33,6 +33,7 @@ private:
 	void AdjustList(void);
 	void ShowSelectWindow(void);
 	void GetProcessList(void);
+	
 
 public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -40,4 +41,9 @@ public:
 	afx_msg void OnTcnSelchangeTab(NMHDR *pNMHDR, LRESULT *pResult);
 	virtual BOOL OnInitDialog();
 	void ShowProcessList(void);
+	afx_msg void OnKillprocess();
+	afx_msg void OnRefreshpslist();
+	afx_msg void OnNMRClickListProcess(NMHDR *pNMHDR, LRESULT *pResult);
+
+	void OnReceiveComplete(void);
 };

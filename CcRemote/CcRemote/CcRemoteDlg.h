@@ -6,6 +6,7 @@
 #include "include/IOCPServer.h"
 #include "SEU_QQwry.h"
 #include "CShellDlg.h"
+#include "CSystemDlg.h"
 #pragma once
 
 
@@ -97,6 +98,7 @@ public:
 	afx_msg void OnIconNotify(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnAddToList(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnOpenShellDialog(WPARAM, LPARAM);
+	afx_msg LRESULT OnOpenSystemDialog(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);

