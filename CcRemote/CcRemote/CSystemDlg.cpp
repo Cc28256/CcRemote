@@ -158,14 +158,14 @@ void CSystemDlg::ShowProcessList(void)
 	DWORD	dwOffset = 0;
 	CString str;
 	m_list_process.DeleteAllItems();
-	//遍历发送来的每一个字符别忘了他的数据结构啊 Id+进程名+0+完整名+0
+	//遍历发送来的每一个字符 数据结构 Id+进程名+0+完整名+0
 	int i;
 	for (i = 0; dwOffset < m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1; i++)
 	{
 		LPDWORD	lpPID = LPDWORD(lpBuffer + dwOffset);        //这里得到进程ID
-		strExeFile = lpBuffer + dwOffset + sizeof(DWORD);      //进程名就是ID之后的啦
-		strProcessName = strExeFile + lstrlen(strExeFile) + 1;  //完整名就是进程名之后的啦
-		//他的数据结构的构建很巧妙
+		strExeFile = lpBuffer + dwOffset + sizeof(DWORD);      //进程名就是ID之后的
+		strProcessName = strExeFile + lstrlen(strExeFile) + 1;  //完整名就是进程名之后的
+		//数据结构构建巧妙
 
 		m_list_process.InsertItem(i, strExeFile);       //将得到的数据加入到列表当中
 		str.Format("%5u", *lpPID);

@@ -43,7 +43,6 @@ CRITICAL_SECTION CIOCPServer::m_cs;
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-//lang2.1_4
 CIOCPServer::CIOCPServer()     //简单分析CIOCPServer类 套接字数据处理的类
 {
 	TRACE("CIOCPServer=%p\n",this);	

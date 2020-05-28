@@ -23,10 +23,10 @@
 
 
 ////////////////////////////////////////////////////////////////////
-#define	NC_CLIENT_CONNECT		0x0001
-#define	NC_CLIENT_DISCONNECT	0x0002
-#define	NC_TRANSMIT				0x0003
-#define	NC_RECEIVE				0x0004
+#define	NC_CLIENT_CONNECT		0x0001 //客户端链接
+#define	NC_CLIENT_DISCONNECT	0x0002 //客户端断开链接
+#define	NC_TRANSMIT				0x0003 //传输
+#define	NC_RECEIVE				0x0004 //接受
 #define NC_RECEIVE_COMPLETE		0x0005 // 完整接收
 
 class CLock

