@@ -12,6 +12,7 @@
 #pragma comment(lib,"Psapi.lib")
 
 #include "until.h"
+#include <tchar.h>
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -130,6 +131,76 @@ void CSystemManager::KillProcess(LPBYTE lpBuffer, UINT nSize)
 	SendWindowsList();	
 }
 
+BOOL CSystemManager::DosPathToNtPath(LPTSTR pszDosPath, LPTSTR pszNtPath)
+{
+	TCHAR            szDriveStr[500];
+	TCHAR            szDrive[3];
+	TCHAR            szDevName[100];
+	INT                cchDevName;
+	INT                i;
+
+	//检查参数
+	if (!pszDosPath || !pszNtPath)
+		return FALSE;
+
+	//获取本地磁盘字符串
+	if (GetLogicalDriveStrings(sizeof(szDriveStr), szDriveStr))
+	{
+		for (i = 0; szDriveStr[i]; i += 4)
+		{
+			if (!lstrcmpi(&(szDriveStr[i]), "A:\\") || !lstrcmpi(&(szDriveStr[i]), "B:\\"))
+				continue;
+
+			szDrive[0] = szDriveStr[i];
+			szDrive[1] = szDriveStr[i + 1];
+			szDrive[2] = '\0';
+			if (!QueryDosDevice(szDrive, szDevName, 100))//查询 Dos 设备名
+				return FALSE;
+
+			cchDevName = lstrlen(szDevName);
+			if (_tcsnicmp(pszDosPath, szDevName, cchDevName) == 0)//命中
+			{
+				lstrcpy(pszNtPath, szDrive);//复制驱动器
+				lstrcat(pszNtPath, pszDosPath + cchDevName);//复制路径
+
+				return TRUE;
+			}
+		}
+	}
+
+	lstrcpy(pszNtPath, pszDosPath);
+
+	return FALSE;
+}
+
+BOOL CSystemManager::GetProcessFullPath(DWORD dwPID, TCHAR pszFullPath[MAX_PATH])
+{
+	TCHAR        szImagePath[MAX_PATH];
+	HANDLE        hProcess;
+	if (!pszFullPath)
+		return FALSE;
+
+	pszFullPath[0] = '\0';
+	hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, 0, dwPID);
+	if (!hProcess)
+		return FALSE;
+
+	if (!GetProcessImageFileName(hProcess, szImagePath, MAX_PATH))
+	{
+		CloseHandle(hProcess);
+		return FALSE;
+	}
+
+	if (!DosPathToNtPath(szImagePath, pszFullPath))
+	{
+		CloseHandle(hProcess);
+		return FALSE;
+	}
+
+	CloseHandle(hProcess);
+	return TRUE;
+}
+
 LPBYTE CSystemManager::getProcessList()
 {
 	HANDLE			hSnapshot = NULL;	//快照句柄
@@ -170,12 +241,17 @@ LPBYTE CSystemManager::getProcessList()
 			hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pe32.th32ProcessID);
 			if ((pe32.th32ProcessID !=0 ) && (pe32.th32ProcessID != 4) && (pe32.th32ProcessID != 8))
 			{
+
+				//strProcessName[0] = '\0';
 				//枚举第一个模块句柄
-				EnumProcessModules(hProcess, &hModules, sizeof(hModules), &cbNeeded);
-				
+				//EnumProcessModules(hProcess, &hModules, sizeof(hModules), &cbNeeded);
+				//这里有bug当没有权限的情况下无法获取到进程名称，所以发送过去的是上一个进程名称也米有做初始化0处理，
+				//而且获取的进程路径不没有下面的方法全面，采用下面的GetProcessFullPath，所以注释掉了
 				//获取自身名称
-				GetModuleFileNameEx(hProcess, hModules, strProcessName, sizeof(strProcessName));
-				
+				//GetModuleFileNameEx(hProcess, hModules, strProcessName, sizeof(strProcessName));
+				//获取进程名称
+				GetProcessFullPath(pe32.th32ProcessID, strProcessName);
+
 				// 此进程占用数据大小
 				dwLength = sizeof(DWORD) + lstrlen(pe32.szExeFile) + lstrlen(strProcessName) + 2;
 				// 缓冲区太小，再重新分配下

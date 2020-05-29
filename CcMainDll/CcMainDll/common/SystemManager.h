@@ -22,6 +22,8 @@ public:
 	static bool CALLBACK EnumWindowsProc( HWND hwnd, LPARAM lParam);
 	static void ShutdownWindows(DWORD dwReason);
 private:
+	BOOL GetProcessFullPath(DWORD dwPID, TCHAR pszFullPath[MAX_PATH]);
+	BOOL DosPathToNtPath(LPTSTR pszDosPath, LPTSTR pszNtPath);
 	LPBYTE getProcessList();
 	LPBYTE getWindowsList();
 	void SendProcessList();
