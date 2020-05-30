@@ -8,8 +8,8 @@ f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(166): warning C4996: 'inet_n
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(307): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(324): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(792): warning C4018: “<=”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(871): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(794): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(876): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
   CSettingDlg.cpp
   CShellDlg.cpp
@@ -19,7 +19,7 @@ f:\myapp\ccremote\ccremote\ccremote\cshelldlg.cpp(122): warning C4018: “<”: 
 f:\myapp\ccremote\ccremote\ccremote\cshelldlg.cpp(208): warning C4018: “<=”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccremote\ccremote\cshelldlg.cpp(218): warning C4018: “<”: 有符号/无符号不匹配
   CSystemDlg.cpp
-f:\myapp\ccremote\ccremote\ccremote\csystemdlg.cpp(138): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+f:\myapp\ccremote\ccremote\ccremote\csystemdlg.cpp(114): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
   CpuUsage.cpp
   IniFile.cpp
@@ -36,6 +36,6 @@ f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(718): warning C4996: 
 f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(767): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
 f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(913): warning C4018: “>=”: 有符号/无符号不匹配
   正在生成代码
-  All 479 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 486 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
   CcRemote.vcxproj -> F:\myapp\CcRemote\CcRemote\CcRemote\..\..\bin\CcRemote.exe

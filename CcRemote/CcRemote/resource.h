@@ -25,6 +25,7 @@
 #define IDI_SYSTEM                      146
 #define IDR_MENU4                       147
 #define IDR_PSLIST                      147
+#define IDR_WINDOW_LIST                 148
 #define IDC_ONLINE                      1000
 #define IDC_LIST2                       1001
 #define IDC_MESSAGE                     1001
@@ -33,7 +34,8 @@
 #define IDC_EDIT                        1003
 #define IDC_TAB                         1004
 #define IDC_LIST_WINDOWS                1005
-#define IDC_LIST_PROCESS                1006
+#define IDC_LIST_PROCESS_OR_WINDOW      1006
+#define IDC_LIST_PROCESS_OR_WINDOW_OR_WINDOW 1006
 #define ID_ONLINE_32771                 32771
 #define ID_ONLINE_32772                 32772
 #define ID_ONLINE_32773                 32773
@@ -83,13 +85,31 @@
 #define ID_PSLIST_32818                 32818
 #define IDM_KILLPROCESS                 32819
 #define IDM_REFRESHPSLIST               32820
+#define ID_WINDOW_32821                 32821
+#define ID_WINDOW_32822                 32822
+#define ID_WINDOW_32823                 32823
+#define ID_WINDOW_32824                 32824
+#define ID_WINDOW_32825                 32825
+#define ID_WINDOW_32826                 32826
+#define ID_WINDOW_32827                 32827
+#define ID_WINDOW_32828                 32828
+#define ID_WINDOW_U32829                32829
+#define ID_WINDOW_32830                 32830
+#define ID_WINDOW_32831                 32831
+#define ID_WINDOW_REFLUSH               32832
+#define ID_WINDOW_CLOST                 32833
+#define ID_WINDOW_HIDE                  32834
+#define ID_WINDOW_RETURN                32835
+#define ID_WINDOW_MAX                   32836
+#define ID_WINDOW_MIN                   32837
+#define ID_WINDOW_S                     32838
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        148
-#define _APS_NEXT_COMMAND_VALUE         32821
+#define _APS_NEXT_RESOURCE_VALUE        149
+#define _APS_NEXT_COMMAND_VALUE         32839
 #define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
