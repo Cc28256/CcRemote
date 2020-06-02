@@ -204,6 +204,7 @@
     <ClInclude Include="..\..\common\macros.h" />
     <ClInclude Include="CcRemote.h" />
     <ClInclude Include="CcRemoteDlg.h" />
+    <ClInclude Include="CScreenSpyDlg.h" />
     <ClInclude Include="CSettingDlg.h" />
     <ClInclude Include="CShellDlg.h" />
     <ClInclude Include="CSystemDlg.h" />
@@ -223,6 +224,7 @@
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp" />
     <ClCompile Include="CcRemoteDlg.cpp" />
+    <ClCompile Include="CScreenSpyDlg.cpp" />
     <ClCompile Include="CSettingDlg.cpp" />
     <ClCompile Include="CShellDlg.cpp" />
     <ClCompile Include="CSystemDlg.cpp" />
