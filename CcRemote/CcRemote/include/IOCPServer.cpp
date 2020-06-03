@@ -343,6 +343,11 @@ void CIOCPServer::OnAccept()
 	// Create the Client context to be associted with the completion port
 	// 创建要与完成端口连接客户端的上下文
 	ClientContext* pContext = AllocateContext();
+
+	// 很神奇的bug，如果注释掉了这个局部变量，那么在调用WSAIoctl函数的时候会发生地址改变造成写入异常
+	// 加了pContext2则pContext2的地址会改变，pContext没有受到影响
+	// 这只有debug才会出现，很奇怪，应该是编译器的原因造成的，堆栈没有平衡导致？猜测的
+	ClientContext* pContext2 = pContext;//这个变量什么也不会做
 	// AllocateContext fail
 	if (pContext == NULL)
 		return;
@@ -386,9 +391,10 @@ void CIOCPServer::OnAccept()
 	klive.onoff = 1; // 启用保活
 	klive.keepalivetime = m_nKeepLiveTime;
 	klive.keepaliveinterval = 1000 * 10; // 重试间隔为10秒 Resend if No-Reply
+	SOCKET dwIoControlCode = pContext->m_Socket;
 	WSAIoctl
 		(
-		pContext->m_Socket, 
+		dwIoControlCode,
 		SIO_KEEPALIVE_VALS,
 		&klive,
 		sizeof(tcp_keepalive),
@@ -412,7 +418,7 @@ void CIOCPServer::OnAccept()
 
 	OVERLAPPEDPLUS	*pOverlap = new OVERLAPPEDPLUS(IOInitialize);
 
-	BOOL bSuccess = PostQueuedCompletionStatus(m_hCompletionPort, 0, (DWORD) pContext, &pOverlap->m_ol);
+	BOOL bSuccess = PostQueuedCompletionStatus(m_hCompletionPort, 0, (DWORD)pContext, &pOverlap->m_ol);
 	
 	if ( (!bSuccess && GetLastError( ) != ERROR_IO_PENDING))
 	{            

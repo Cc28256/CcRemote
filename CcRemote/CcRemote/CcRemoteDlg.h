@@ -7,6 +7,7 @@
 #include "SEU_QQwry.h"
 #include "CShellDlg.h"
 #include "CSystemDlg.h"
+#include "CScreenSpyDlg.h"
 #pragma once
 
 
@@ -99,6 +100,7 @@ public:
 	afx_msg LRESULT OnAddToList(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnOpenShellDialog(WPARAM, LPARAM);
 	afx_msg LRESULT OnOpenSystemDialog(WPARAM, LPARAM);
+	afx_msg	LRESULT OnOpenScreenSpyDialog(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);

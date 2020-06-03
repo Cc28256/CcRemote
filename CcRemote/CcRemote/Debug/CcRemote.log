@@ -2,14 +2,14 @@
   pch.cpp
   CcRemote.cpp
   CcRemoteDlg.cpp
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(161): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(162): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(166): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(167): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(307): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(324): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(794): warning C4018: “<=”: 有符号/无符号不匹配
-g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(876): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(308): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(325): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(797): warning C4018: “<=”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccremote\ccremote\ccremotedlg.cpp(879): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
   CScreenSpyDlg.cpp
 g:\ccremote\ccremote\ccremote\ccremote\cscreenspydlg.cpp(54): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
@@ -35,9 +35,9 @@ g:\ccremote\ccremote\ccremote\ccremote\inifile.cpp(33): warning C4996: 'strcat':
   IOCPServer.cpp
 g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(133): warning C4996: 'WSASocketA': Use WSASocketW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(3416): note: 参见“WSASocketA”的声明
-g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(718): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(720): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   g:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
-g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(767): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
-g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(913): warning C4018: “>=”: 有符号/无符号不匹配
+g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(769): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\include\iocpserver.cpp(915): warning C4018: “>=”: 有符号/无符号不匹配
   正在生成代码...
   CcRemote.vcxproj -> G:\CcRemote\CcRemote\CcRemote\CcRemote\..\..\bin\CcRemote.exe
