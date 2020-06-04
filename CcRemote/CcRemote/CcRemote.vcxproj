@@ -258,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\CcRemote.rc2" />
+    <None Include="res\dot.cur" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\CcRemote.ico" />

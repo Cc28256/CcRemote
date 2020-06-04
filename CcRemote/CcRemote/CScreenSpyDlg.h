@@ -52,14 +52,21 @@ public:
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnPaint();
-
+	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 private:
 	void DrawTipString(CString str);
 	void UpdateLocalClipboard(char *buf, int len);
+	void SendLocalClipboard(void);
 public:
 	void OnReceiveComplete(void);
 	void DrawFirstScreen(void);
 	void DrawNextScreenDiff(void);
 	void DrawNextScreenRect(void);
 	void ResetScreen(void);
+	void SendCommand(MSG* pMsg);
+	bool SaveSnapshot(void);
+	void SendResetAlgorithm(UINT nAlgorithm);
+	void SendResetScreen(int nBitCount);
+
 };

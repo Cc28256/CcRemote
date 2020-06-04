@@ -28,6 +28,8 @@
 #define IDR_WINDOW_LIST                 148
 #define IDD_DIALOG1                     149
 #define IDD_SCREENSPY                   149
+#define IDI_DOT                         153
+#define IDC_DOT                         153
 #define IDC_ONLINE                      1000
 #define IDC_LIST2                       1001
 #define IDC_MESSAGE                     1001
@@ -110,7 +112,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        151
+#define _APS_NEXT_RESOURCE_VALUE        154
 #define _APS_NEXT_COMMAND_VALUE         32839
 #define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           101

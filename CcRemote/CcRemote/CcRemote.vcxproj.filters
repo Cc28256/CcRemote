@@ -129,6 +129,9 @@
     <None Include="res\CcRemote.rc2">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="res\dot.cur">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\CcRemote.ico">
