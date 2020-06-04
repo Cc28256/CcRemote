@@ -169,7 +169,7 @@ BOOL CScreenSpyDlg::OnInitDialog()
 	m_RemoteCursorPos.x = 0;
 	m_bIsTraceCursor = false;
 
-	// 初始化窗口大小结构  这里的初始化就不讲解了，同服务端一样的位图的图像数据
+	// 初始化窗口大小结构  位图的图像数据
 	//是我们分配好的缓冲区也就是说我们可以更改这个缓冲区里的数据来改变位图图像
 	m_hDC = ::GetDC(m_hWnd);
 	m_hMemDC = CreateCompatibleDC(m_hDC);

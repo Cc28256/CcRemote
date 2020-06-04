@@ -358,6 +358,7 @@ int CCcRemoteDlg::InitMyMenu()
 	::DrawMenuBar(this->GetSafeHwnd());                    //显示菜单
 
 	popup.LoadMenu(IDR_MENU_ONLINE);//载入菜单资源
+	//popup.GetSubMenu(0)->SetMenuItemBitmaps();
 	::MENUINFO lpcmi;
 	m_brush.CreateSolidBrush(RGB(236, 153, 101));//颜色
 	memset(&lpcmi, 0, sizeof(::LPCMENUINFO));

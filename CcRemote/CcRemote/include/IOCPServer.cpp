@@ -344,10 +344,11 @@ void CIOCPServer::OnAccept()
 	// 创建要与完成端口连接客户端的上下文
 	ClientContext* pContext = AllocateContext();
 
+	// 这个变量什么也不会做
 	// 很神奇的bug，如果注释掉了这个局部变量，那么在调用WSAIoctl函数的时候会发生地址改变造成写入异常
 	// 加了pContext2则pContext2的地址会改变，pContext没有受到影响
 	// 这只有debug才会出现，很奇怪，应该是编译器的原因造成的，堆栈没有平衡导致？猜测的
-	ClientContext* pContext2 = pContext;//这个变量什么也不会做
+	ClientContext* pContext2 = pContext;
 	// AllocateContext fail
 	if (pContext == NULL)
 		return;
