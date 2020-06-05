@@ -121,4 +121,7 @@ public:
 	afx_msg void OnClose(); 
 private:
 	void SendSelectCommand(PBYTE pData, UINT nSize);
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

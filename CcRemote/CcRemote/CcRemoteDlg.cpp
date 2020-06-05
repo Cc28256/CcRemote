@@ -107,6 +107,8 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_COMMAND(IDM_MAIN_BUILD, &CCcRemoteDlg::OnMainBuild)
 	ON_COMMAND(IDM_MAIN_ABOUT, &CCcRemoteDlg::OnMainAbout)
 	ON_WM_CLOSE()
+	ON_WM_ERASEBKGND()
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -373,6 +375,16 @@ int CCcRemoteDlg::InitMyMenu()
 
 int CCcRemoteDlg::InitList()
 {
+	//m_CList_Online.SetTextBkColor(CLR_NONE);
+	//m_CList_Online.SetBkColor(CLR_NONE);
+	//m_CList_Online.SetTextColor(RGB(255, 0, 0));
+	//TCHAR szBuffer[_MAX_PATH];	
+	//VERIFY(::GetModuleFileName(AfxGetInstanceHandle(), szBuffer, _MAX_PATH));	
+	////CString sPath = (CString)szBuffer;	sPath = sPath.Left(sPath.ReverseFind('\\') + 1);	
+	//CString sPath = "F:\myapp\\CcRemote\\CcRemote\\CcRemote\\background_picture.bmp";
+	//m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl m_controllist1;	
+	//sPath.ReleaseBuffer();
+
 	//设置list可选中
 	m_CList_Online.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 	m_CList_Message.SetExtendedStyle(LVS_EX_FULLROWSELECT);
@@ -612,6 +624,7 @@ void CCcRemoteDlg::InitStatusBar()
 //初始化工具条按钮控件
 void CCcRemoteDlg::InitToolBar()
 {
+	
 	//创建工具条
 	if (!m_ToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
@@ -650,6 +663,7 @@ void CCcRemoteDlg::InitToolBar()
 	m_ToolBar.SetButtonText(10, "参数设置");
 	m_ToolBar.SetButtonText(11, "生成服务端");
 	m_ToolBar.SetButtonText(12, "帮助");
+
 	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 }
 
@@ -1013,4 +1027,59 @@ LRESULT CCcRemoteDlg::OnOpenScreenSpyDialog(WPARAM wParam, LPARAM lParam)
 	pContext->m_Dialog[0] = SCREENSPY_DLG;
 	pContext->m_Dialog[1] = (int)dlg;
 	return 0;
+}
+
+
+//绘制背景图片
+BOOL CCcRemoteDlg::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	CDC MemDC;	MemDC.CreateCompatibleDC(pDC); 
+	CBitmap Cbp;	
+	Cbp.LoadBitmap(IDB_BACKGROUND_CCREMOTE);
+	MemDC.SelectObject(&Cbp); 	
+	BITMAP Bp;	
+	Cbp.GetBitmap(&Bp); 	
+	CRect rect;	
+	GetClientRect(&rect);	
+	pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &MemDC, 0, 0, Bp.bmWidth, Bp.bmHeight, SRCCOPY); 	
+	MemDC.DeleteDC();	
+	return TRUE;
+	//return CDialogEx::OnEraseBkgnd(pDC);
+}
+
+
+HBRUSH CCcRemoteDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  在此更改 DC 的任何特性
+	//switch (pWnd->GetDlgCtrlID()) {
+	////case IDC_STATIC_NAME:
+	////case IDC_STATIC_ID:
+	////case IDC_STATIC_PW:
+	////	pDC->SetBkMode(TRANSPARENT);
+	////	pDC->SetTextColor(RGB(0, 255, 0));
+	////	hbr = (HBRUSH)GetStockObject(NULL_BRUSH);//空画刷，不加此句会有阴影		
+	////	break;
+	//case IDR_TOOLBAR_MAIN:
+	//	CWnd* pd;
+	//	CRect rc;
+	//	if (pWnd->GetDlgCtrlID() == IDR_TOOLBAR_MAIN)
+	//		pd = (CWnd*)GetDlgItem(IDR_TOOLBAR_MAIN);
+	//	pd->GetClientRect(&rc);
+	//	ScreenToClient(&rc);
+	//	pDC->SetBkMode(TRANSPARENT);
+	//	pDC->SetTextColor(RGB(255, 0, 0));
+	//	CBitmap bmp;
+	//	bmp.LoadBitmap(IDB_BACKGROUND_CCREMOTE);
+	//	CBrush brush(&bmp);
+	//	CBrush* pOldBrush = (CBrush*)pDC->SelectObject(&brush);
+	//	pDC->FillRect(&rc, &brush);
+	//	hbr = (HBRUSH)brush;
+	//	break;
+	//}
+	
+	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	return hbr;
 }

@@ -1291,6 +1291,8 @@ void CIOCPServer::ResetConnection(ClientContext* pContext)
 	}
 }
 
+
+//清理所有
 void CIOCPServer::DisconnectAll()
 {
 	m_bDisconnectAll = true;

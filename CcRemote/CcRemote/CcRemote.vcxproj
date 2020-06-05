@@ -261,6 +261,7 @@
     <None Include="res\dot.cur" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\background_picture.bmp" />
     <Image Include="res\CcRemote.ico" />
     <Image Include="res\cmdshell.ico" />
     <Image Include="res\system.ico" />
