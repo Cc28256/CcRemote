@@ -15,6 +15,8 @@
 #include <afxwin.h>
 #include <afxwin.h>
 #include <afxwin.h>
+#include <afxwin.h>
+#include <afxwin.h>
 
 #endif //PCH_H
 

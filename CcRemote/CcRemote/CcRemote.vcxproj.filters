@@ -78,6 +78,15 @@
     <ClInclude Include="CScreenSpyDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CFileManagerDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransferModeDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDlg.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -119,6 +128,15 @@
     <ClCompile Include="CScreenSpyDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CFileManagerDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransferModeDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InputDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CcRemote.rc">
@@ -130,6 +148,18 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="res\dot.cur">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\1.cur">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\2.cur">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\3.cur">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="res\4.cur">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
@@ -150,6 +180,18 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\background_picture.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\Bitmap_4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\Bitmap_5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmp00001.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\toolbar2.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
