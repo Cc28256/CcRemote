@@ -87,6 +87,12 @@
     <ClInclude Include="InputDlg.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="CAudioDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\Audio.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -135,6 +141,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InputDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CAudioDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\Audio.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -192,6 +204,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\toolbar2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\audio.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

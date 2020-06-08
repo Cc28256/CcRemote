@@ -9,6 +9,7 @@
 #include "CSystemDlg.h"
 #include "CScreenSpyDlg.h"
 #include "CFileManagerDlg.h"
+#include "CAudioDlg.h"
 #pragma once
 
 
@@ -48,7 +49,7 @@ public:
 
 private:
 	//--------------变量及常量----------------
-	SEU_QQwry *m_QQwry;
+	SEU_QQwry *m_QQwry; //识别IP区域
 	int m_OnlineCount;//上线计数
 	CBrush m_brush;//绘色函数
 	CMenu popup;//LIST菜单变量
@@ -103,6 +104,7 @@ public:
 	afx_msg LRESULT OnOpenSystemDialog(WPARAM, LPARAM);
 	afx_msg	LRESULT OnOpenScreenSpyDialog(WPARAM, LPARAM);
 	afx_msg LRESULT OnOpenManagerDialog(WPARAM, LPARAM);
+	afx_msg	LRESULT	OnOpenAudioDialog(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);

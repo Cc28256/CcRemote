@@ -202,7 +202,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\Audio.h" />
     <ClInclude Include="..\..\common\macros.h" />
+    <ClInclude Include="CAudioDlg.h" />
     <ClInclude Include="CcRemote.h" />
     <ClInclude Include="CcRemoteDlg.h" />
     <ClInclude Include="CFileManagerDlg.h" />
@@ -226,6 +228,10 @@
     <ClInclude Include="TrueColorToolBar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\Audio.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\CcMainDll\CcMainDll\pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="CAudioDlg.cpp" />
     <ClCompile Include="CcRemote.cpp" />
     <ClCompile Include="CcRemoteDlg.cpp" />
     <ClCompile Include="CFileManagerDlg.cpp" />
@@ -271,6 +277,7 @@
     <None Include="res\dot.cur" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\audio.ico" />
     <Image Include="res\background_picture.bmp" />
     <Image Include="res\Bitmap_4.bmp" />
     <Image Include="res\Bitmap_5.bmp" />
