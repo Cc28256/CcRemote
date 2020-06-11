@@ -1,0 +1,3 @@
+﻿  StartDemo.cpp
+f:\myapp\ccremote\startdemo\startdemo\startdemo.cpp(205): warning C4101: “vari”: 未引用的局部变量
+  StartDemo.vcxproj -> F:\myapp\CcRemote\StartDemo\x64\Debug\StartDemo.exe
