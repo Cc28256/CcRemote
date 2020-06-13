@@ -28,6 +28,7 @@ private:
 	//²éÑ¯¼üÖµ
 	void Query(HKEY rootKey, const char* path);
 public:
-	vector<string> vecKeyName;
+	vector<string> vecKeyData;
+	vector<string> vecKeyPath;
 };
 

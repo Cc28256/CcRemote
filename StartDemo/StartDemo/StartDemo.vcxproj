@@ -31,6 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -84,8 +85,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
@@ -156,10 +155,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CRegOperate.cpp" />
+    <ClCompile Include="md5.cpp" />
+    <ClCompile Include="md5file.cpp" />
     <ClCompile Include="StartDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRegOperate.h" />
+    <ClInclude Include="md5.h" />
+    <ClInclude Include="md5file.h" />
+    <ClInclude Include="md5global.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="StartDemo.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

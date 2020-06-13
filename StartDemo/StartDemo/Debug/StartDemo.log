@@ -1,5 +1,6 @@
 ﻿  StartDemo.cpp
-f:\myapp\ccremote\startdemo\startdemo\startdemo.cpp(39): warning C4018: “<”: 有符号/无符号不匹配
-f:\myapp\ccremote\startdemo\startdemo\startdemo.cpp(58): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 参见“fopen”的声明
+f:\myapp\ccremote\startdemo\startdemo\startdemo.cpp(65): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\startdemo\startdemo\startdemo.cpp(75): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\startdemo\startdemo\startdemo.cpp(80): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
   StartDemo.vcxproj -> F:\myapp\CcRemote\StartDemo\Debug\StartDemo.exe

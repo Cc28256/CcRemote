@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="算法">
+      <UniqueIdentifier>{dc0bb3e5-2f00-43a3-a484-ea9ea63595c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StartDemo.cpp">
@@ -21,10 +24,33 @@
     <ClCompile Include="CRegOperate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="md5file.cpp">
+      <Filter>算法</Filter>
+    </ClCompile>
+    <ClCompile Include="md5.cpp">
+      <Filter>算法</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRegOperate.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="md5.h">
+      <Filter>算法</Filter>
+    </ClInclude>
+    <ClInclude Include="md5file.h">
+      <Filter>算法</Filter>
+    </ClInclude>
+    <ClInclude Include="md5global.h">
+      <Filter>算法</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="StartDemo.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

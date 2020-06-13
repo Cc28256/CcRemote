@@ -30,8 +30,7 @@ CRegOperate::CRegOperate(HKEY beginKey, TCHAR* path)
 
 CRegOperate::~CRegOperate()
 {
-
-
+	vecKeyData.clear();
 }
 
 
@@ -40,8 +39,8 @@ CRegOperate::~CRegOperate()
 void CRegOperate::Query(HKEY rootKey, const char* path)
 
 {
-	vecKeyName.clear();
-	vecKeyName.reserve(200);
+	vecKeyData.clear();
+	vecKeyData.reserve(200);
 
 #ifdef COMMAND_OUTPUT
 
@@ -171,6 +170,7 @@ void CRegOperate::Query(HKEY rootKey, const char* path)
 
 			{
 				std::string filePath = "";
+				std::string filePath2 = "";
 				TCHAR szBuffer[255] = { 0 };
 				DWORD dwNameLen = 255;
 				DWORD rQ = RegQueryValueEx(hKey, achValue, 0, &dwType, (LPBYTE)szBuffer, &dwNameLen);
@@ -179,7 +179,45 @@ void CRegOperate::Query(HKEY rootKey, const char* path)
 				{
 					filePath.append(szBuffer);
 					//获取到的键值保存在vector中
-					vecKeyName.push_back(filePath);
+					vecKeyData.push_back(filePath);
+
+
+					char* filePathData;
+					filePathData = (char*)(filePath.c_str());
+					if (filePathData[0] == 0x22)
+					{
+						filePathData += 1;
+						for (size_t i = 0; i < strlen(filePathData); i++)
+						{
+							if (filePathData[i] == 0x22)
+							{
+								filePathData[i] = 0x00;
+								break;
+							}
+						}
+					}
+					else
+					{
+						for (size_t i = 0; i < strlen(filePathData); i++)
+						{
+							if (i<5)
+							{
+								continue;
+							}
+							if (filePathData[i] == 0x20 &&
+								filePathData[i-1] == 0x65 &&
+								filePathData[i-2] == 0x78 &&
+								filePathData[i-3] == 0x65 &&
+								filePathData[i-4] == 0x2e
+								)
+							{
+								filePathData[i] = 0x00;
+								break;
+							}
+						}
+					}
+					filePath2.append(filePathData);
+					vecKeyPath.push_back(filePath2);
 					//_tprintf(TEXT("(%d) %s %s\n"), i + 1, achValue, szBuffer);
 
 				}
