@@ -9,11 +9,11 @@ char* crycode(char* str)
 	int len = strlen(str);
 	char * a = (char *)operator new(len + 1);
 	a[0] = len;
-	printf("%02hhx", a[0]);
+	printf("0x%02hhx,", a[0]);
 	for (size_t i = 1; i <= len; i++)
 	{
 		a[i] = str[i - 1] ^ (0xCC - i);
-		printf("%02hhx", a[i]);
+		printf("0x%02hhx,", a[i]);
 	}
 	printf("\n");
 	return a;

