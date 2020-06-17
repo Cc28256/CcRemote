@@ -50,7 +50,7 @@ DWORD WINAPI main(char *lpServiceName)
 		SetUnhandledExceptionFilter(bad_exception);
 
 		lstrcpy(strServiceName, lpServiceName);
-		wsprintf(strKillEvent, "Global\\Gh0st %d", GetTickCount()); // 随机事件名
+		wsprintf(strKillEvent, "Global\\CcRem %d", GetTickCount()); // 随机事件名
 
 		hInstallMutex = CreateMutex(NULL, true, g_strHost);
 		//ReConfigService(strServiceName); 

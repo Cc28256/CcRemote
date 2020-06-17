@@ -21,10 +21,11 @@ CVideoCap::CVideoCap()
 
 	if (!IsWebCam() || m_bIsConnected)
 		return;
+	//"#32770默认的窗口类名
 	m_hWnd = CreateWindow("#32770", /* Dialog */ "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	m_hWndCap = capCreateCaptureWindow
 		(
-		"CVideoCap", 
+		"VideoCapWindow", 
 		WS_CHILD | WS_VISIBLE,
 		0,
 		0,
