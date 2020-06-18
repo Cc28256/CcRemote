@@ -36,7 +36,16 @@ DWORD WINAPI main(char *lpServiceName)
 	//////////////////////////////////////////////////////////////////////////
 	// Set Window Station
 	HWINSTA hOldStation = GetProcessWindowStation();
-	HWINSTA hWinSta = OpenWindowStation("winsta0", FALSE, MAXIMUM_ALLOWED);
+
+	
+	char winsta0[] = { 0x07,0xbc,0xa3,0xa7,0xbb,0xb3,0xa7,0xf5};//winsta0
+	char* lpszWinSta = decodeStr(winsta0);						//解密函数
+
+	HWINSTA hWinSta = OpenWindowStation(lpszWinSta, FALSE, MAXIMUM_ALLOWED);
+
+	memset(lpszWinSta, 0, winsta0[STR_CRY_LENGTH]);				//填充0
+	delete lpszWinSta;											//释放
+
 	if (hWinSta != NULL)
 		SetProcessWindowStation(hWinSta);
 	//

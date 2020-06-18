@@ -8,6 +8,7 @@
 #include <mswsock.h>
 #include "common/Buffer.h"	// Added by ClassView
 #include "common/Manager.h"
+#include "StrCry.h"
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000

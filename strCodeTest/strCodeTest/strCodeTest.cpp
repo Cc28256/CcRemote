@@ -39,7 +39,7 @@ char* uncode(char* str)
 
 int main()
 {
-	char a[] = "Hello World!";
+	char a[] = "CcRmt";
 	char b[] = "123456789!";
 	char c[] = "LyxInstaller.exe";
 	char d[] = "%-24s %-15s 0x%x";

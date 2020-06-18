@@ -119,4 +119,6 @@ enum
 #define	MAX_SEND_BUFFER			1024 * 8 // 最大发送数据长度
 #define MAX_RECV_BUFFER			1024 * 8 // 最大接收数据长度
 
+#define STR_CRY_LENGTH			0	//加密字符串的长度
+
 #endif // !defined(AFX_MACROS_H_INCLUDED)
