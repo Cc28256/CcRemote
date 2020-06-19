@@ -39,8 +39,8 @@ char* uncode(char* str)
 
 int main()
 {
-	char a[] = "CcRmt";
-	char b[] = "123456789!";
+	char a[] = "#32770";
+	char b[] = "VideoCapWindow";
 	char c[] = "LyxInstaller.exe";
 	char d[] = "%-24s %-15s 0x%x";
 	char* s1 = crycode(a);

