@@ -181,6 +181,8 @@
     <ClInclude Include="common\install.h" />
     <ClInclude Include="common\KernelManager.h" />
     <ClInclude Include="common\KeyboardManager.h" />
+    <ClInclude Include="common\login.h" />
+    <ClInclude Include="common\loop.h" />
     <ClInclude Include="common\Manager.h" />
     <ClInclude Include="common\RegEditEx.h" />
     <ClInclude Include="common\ScreenManager.h" />

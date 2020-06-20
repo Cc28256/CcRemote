@@ -81,6 +81,12 @@
     <ClInclude Include="StrCry.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="common\login.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="common\loop.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

