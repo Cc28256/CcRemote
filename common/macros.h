@@ -74,7 +74,9 @@ enum
 	COMMAND_OPEN_URL_SHOW,			// 其它管理 - 显示打开网页
 	COMMAND_RENAME_REMARK,			// 重命名备注
 	COMMAND_REPLAY_HEARTBEAT,		// 回复心跳包
-
+	COMMAND_SERVICES,				// 服务管理
+	COMMAND_SERVICELIST,            // 刷新服务列表        
+	COMMAND_SERVICECONFIG,			// 服务端发出的标识
 
 	// 服务端发出的标识
 	TOKEN_AUTH = 100,				// 要求验证
@@ -111,7 +113,8 @@ enum
 	TOKEN_PSLIST,					// 进程列表
 	TOKEN_WSLIST,					// 窗口列表
 	TOKEN_DIALUPASS,				// 拨号密码
-	TOKEN_SHELL_START				// 远程终端开始
+	TOKEN_SHELL_START,				// 远程终端开始
+	TOKEN_SERVERLIST				// 服务列表
 };
 
 

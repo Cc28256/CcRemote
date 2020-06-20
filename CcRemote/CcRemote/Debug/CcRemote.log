@@ -13,8 +13,8 @@ f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(171): warning C4996: 'inet_n
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(314): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(337): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(833): warning C4018: “<=”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(915): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(838): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(923): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
   CFileManagerDlg.cpp
 f:\myapp\ccremote\ccremote\ccremote\inputdlg.h(69): warning C4302: “类型强制转换”: 从“LPSTR”到“WORD”截断
@@ -34,6 +34,9 @@ f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1901): warning C4129: �
 f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1925): warning C4129: “*”: 不可识别的字符转义序列
 f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1942): warning C4129: “*”: 不可识别的字符转义序列
 f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1986): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  CServerDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\cserverdlg.cpp(56): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
   FileTransferModeDlg.cpp
   CScreenSpyDlg.cpp
 f:\myapp\ccremote\ccremote\ccremote\cscreenspydlg.cpp(54): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings

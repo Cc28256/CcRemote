@@ -208,6 +208,7 @@
     <ClInclude Include="CcRemote.h" />
     <ClInclude Include="CcRemoteDlg.h" />
     <ClInclude Include="CFileManagerDlg.h" />
+    <ClInclude Include="CServerDlg.h" />
     <ClInclude Include="FileTransferModeDlg.h" />
     <ClInclude Include="CScreenSpyDlg.h" />
     <ClInclude Include="CSettingDlg.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="CcRemote.cpp" />
     <ClCompile Include="CcRemoteDlg.cpp" />
     <ClCompile Include="CFileManagerDlg.cpp" />
+    <ClCompile Include="CServerDlg.cpp" />
     <ClCompile Include="FileTransferModeDlg.cpp" />
     <ClCompile Include="CScreenSpyDlg.cpp" />
     <ClCompile Include="CSettingDlg.cpp" />

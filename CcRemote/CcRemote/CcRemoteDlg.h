@@ -10,6 +10,7 @@
 #include "CScreenSpyDlg.h"
 #include "CFileManagerDlg.h"
 #include "CAudioDlg.h"
+#include "CServerDlg.h"
 #pragma once
 
 
@@ -105,6 +106,7 @@ public:
 	afx_msg	LRESULT OnOpenScreenSpyDialog(WPARAM, LPARAM);
 	afx_msg LRESULT OnOpenManagerDialog(WPARAM, LPARAM);
 	afx_msg	LRESULT	OnOpenAudioDialog(WPARAM, LPARAM);
+	afx_msg	LRESULT	OnOpenServerDialog(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
