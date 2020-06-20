@@ -1,5 +1,6 @@
 #include "..\pch.h"
 #include <windows.h>
+#include "..\StrCry.h"
 //去除字符串类型前面的空格
 char *DelSpace(char *szData)
 {
@@ -69,6 +70,15 @@ int SetKeySecurityEx(HKEY MainKey,LPCTSTR SubKey,DWORD security)
 //读取注册表的指定键的数据(Mode:0-读键值数据 1-牧举子键 2-牧举指定键项 3-判断该键是否存在)
 int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData,LPBYTE szBytes,DWORD lbSize,int Mode)
 {   
+	//strcry -----------------------
+	char* pDecodeStr;
+	char char_REG_SZ[] = { 0x06,0x99,0x8f,0x8e,0x97,0x94,0x9c };	//REG_SZ
+	char char_REG_EXPAND_SZ[] = { 0x0d,0x99,0x8f,0x8e,0x97,0x82,0x9e,0x95,0x85,0x8d,0x86,0x9e,0x93,0xe5 };	//REG_EXPAND_SZ
+	char char_REG_BINARY[] = { 0x0a,0x99,0x8f,0x8e,0x97,0x85,0x8f,0x8b,0x85,0x91,0x9b };	//REG_BINARY
+	char char_REG_MULTI_SZ[] = { 0x0c,0x99,0x8f,0x8e,0x97,0x8a,0x93,0x89,0x90,0x8a,0x9d,0x92,0x9a };	//REG_MULTI_SZ
+	char char_REG_DWORD[] = { 0x09,0x99,0x8f,0x8e,0x97,0x83,0x91,0x8a,0x96,0x87 };	//REG_DWORD
+	//------------------------------
+	
 	HKEY   hKey;  
 	int    ValueDWORD,iResult=0;
 	char*  PointStr;  
@@ -154,20 +164,52 @@ int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData
 					break;
 				switch(Type)				 				
 				{				     
-				case REG_SZ:					 						 
-					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName,"REG_SZ",ValueSz);					     
+				case REG_SZ:	
+					pDecodeStr = decodeStr(char_REG_SZ);							//解密函数
+
+					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName, pDecodeStr,ValueSz);
+
+					memset(pDecodeStr, 0, char_REG_SZ[STR_CRY_LENGTH]);					//填充0
+					delete pDecodeStr;
+					pDecodeStr = NULL;
 					break;
-				case REG_EXPAND_SZ:                   						 
-					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName,"REG_EXPAND_SZ",ValueSz);
+				case REG_EXPAND_SZ:    
+					pDecodeStr = decodeStr(char_REG_EXPAND_SZ);
+
+					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName, pDecodeStr,ValueSz);
+
+					memset(pDecodeStr, 0, char_REG_EXPAND_SZ[STR_CRY_LENGTH]);					//填充0
+					delete pDecodeStr;
+					pDecodeStr = NULL;
 					break;
 				case REG_DWORD:
-					wsprintf(ValueTemp,"%-24s  %-15s 0x%x(%d) \r\n",KeyName,"REG_DWORD",ValueSz,int(ValueSz));
+					pDecodeStr = decodeStr(char_REG_DWORD);
+
+					wsprintf(ValueTemp,"%-24s  %-15s 0x%x(%d) \r\n",KeyName, pDecodeStr,ValueSz,int(ValueSz));
+
+					memset(pDecodeStr, 0, char_REG_DWORD[STR_CRY_LENGTH]);					//填充0
+					delete pDecodeStr;
+					pDecodeStr = NULL;
+
 					break;
 				case REG_MULTI_SZ:
-                    wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName,"REG_MULTI_SZ");
+					pDecodeStr = decodeStr(char_REG_MULTI_SZ);
+
+                    wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName, pDecodeStr);
+
+					memset(pDecodeStr, 0, char_REG_MULTI_SZ[STR_CRY_LENGTH]);					//填充0
+					delete pDecodeStr;
+					pDecodeStr = NULL;
 					break;
 			    case REG_BINARY:
-					wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName,"REG_BINARY");
+					pDecodeStr = decodeStr(char_REG_BINARY);
+
+					wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName, pDecodeStr);
+
+					memset(pDecodeStr, 0, char_REG_BINARY[STR_CRY_LENGTH]);					//填充0
+					delete pDecodeStr;
+					pDecodeStr = NULL;
+
 					break;
 				}
 				lstrcat(szData,ValueTemp);

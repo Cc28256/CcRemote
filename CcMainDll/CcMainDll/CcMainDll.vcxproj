@@ -173,6 +173,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\Audio.h" />
+    <ClInclude Include="..\..\common\zlib\zlib.h" />
     <ClInclude Include="ClientSocket.h" />
     <ClInclude Include="common\AudioManager.h" />
     <ClInclude Include="common\Buffer.h" />

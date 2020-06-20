@@ -39,10 +39,10 @@ char* uncode(char* str)
 
 int main()
 {
-	char a[] = "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0";
-	char b[] = "Security";
-	char c[] = "System";
-	char d[] = "Application";
+	char a[] = "REG_SZ";
+	char b[] = "REG_DWORD";
+	char c[] = "REG_BINARY";
+	char d[] = "REG_MULTI_SZ";
 	char* s1 = crycode(a);
 	char* s2 = crycode(b);
 	char* s3 = crycode(c);

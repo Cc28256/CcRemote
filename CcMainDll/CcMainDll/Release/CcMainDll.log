@@ -77,17 +77,27 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C48
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C4309: “初始化”: 截断常量值
   Manager.cpp
   RegEditEx.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(9): warning C4996: 'strnicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strnicmp. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(10): warning C4996: 'strnicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strnicmp. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(560): note: 参见“strnicmp”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(100): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(75): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(75): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(76): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(76): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(77): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(77): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(78): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(78): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(79): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(79): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(110): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(114): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(124): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(141): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(151): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(111): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(121): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(112): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(122): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
   ScreenManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenmanager.cpp(5): warning C4005: “_WIN32_WINNT”: 宏重定义
@@ -129,11 +139,11 @@ cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(103): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(103): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(159): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(159): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(197): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(197): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(224): warning C4996: 'GetVersionExA': 被声明为已否决
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(160): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(160): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(225): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(41): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(41): warning C4309: “初始化”: 截断常量值
