@@ -319,7 +319,16 @@ bool http_get(LPCTSTR szURL, LPCTSTR szFileName)
 	DWORD		dwBytesWritten = 0;
 	BOOL		bIsFirstPacket = true;
 	BOOL		bRet = true;
-	hInternet = InternetOpen("Mozilla/4.0 (compatible)", INTERNET_OPEN_TYPE_PRECONFIG, NULL,INTERNET_INVALID_PORT_NUMBER,0);
+
+	//strcry
+	char Mozilla[] = { 0x18,0x86,0xa5,0xb3,0xa1,0xab,0xaa,0xa4,0xeb,0xf7,0xec,0xf1,0xe0,0x97,0xdd,0xd2,0xd1,0xcb,0xdb,0xcd,0xd1,0xd5,0xda,0xd0,0x9d };	//Mozilla/4.0 (compatible)
+	char* pMozilla = decodeStr(Mozilla);					//½âÃÜº¯Êý
+
+	hInternet = InternetOpen(pMozilla, INTERNET_OPEN_TYPE_PRECONFIG, NULL,INTERNET_INVALID_PORT_NUMBER,0);
+
+	memset(pMozilla, 0, pMozilla[STR_CRY_LENGTH]);					//Ìî³ä0
+	delete pMozilla;
+	
 	if (hInternet == NULL)
 		return false;
 	

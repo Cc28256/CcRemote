@@ -32,6 +32,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(179): warning C4996: 'Get
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(324): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(324): warning C4309: “初始化”: 截断常量值
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   AudioManager.cpp
   Dialupass.cpp
@@ -97,13 +99,15 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(124): warning C4101: �
   VideoManager.cpp
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   FileManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(271): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(272): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(422): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(238): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(238): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(282): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(283): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(433): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(594): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(605): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(597): warning C4307: “+”: 整型常量溢出
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(608): warning C4307: “+”: 整型常量溢出
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   dllmain.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
@@ -119,7 +123,7 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(10): warning C4267: “=”: �
 LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
     正在创建库 ..\..\bin\server\CcMainDll.lib 和对象 ..\..\bin\server\CcMainDll.exp
   正在生成代码
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(240): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(251): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
   All 352 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
   CcMainDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\CcMainDll\..\..\bin\server\CcMainDll.dll

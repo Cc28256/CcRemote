@@ -19,12 +19,18 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(429): warning C4244: “�
 f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(484): warning C4018: “>=”: 有符号/无符号不匹配
   Buffer.cpp
   until.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(68): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(69): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(169): warning C4996: 'GetVersionExA': 被声明为已否决
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(103): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(103): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(176): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(172): warning C4996: 'GetVersionExA': 被声明为已否决
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(179): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(324): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(324): warning C4309: “初始化”: 截断常量值
   正在生成代码...
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   AudioManager.cpp
@@ -51,6 +57,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(215): warning C4996: 's
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
   KernelManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(43): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C4309: “初始化”: 截断常量值
   KeyboardManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(307): warning C4018: “<”: 有符号/无符号不匹配
@@ -84,19 +92,25 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'st
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(137): warning C4018: “<”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(228): warning C4101: “cbNeeded”: 未引用的局部变量
   VideoCap.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(119): warning C4101: “gCapTureParms”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(124): warning C4101: “gCapTureParms”: 未引用的局部变量
   VideoManager.cpp
   正在生成代码...
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   FileManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(271): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(272): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(422): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(238): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(238): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(282): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(283): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(433): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(597): warning C4307: “+”: 整型常量溢出
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(594): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(608): warning C4307: “+”: 整型常量溢出
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(605): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(240): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(251): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   dllmain.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量

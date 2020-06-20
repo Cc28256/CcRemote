@@ -155,19 +155,19 @@ int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData
 				switch(Type)				 				
 				{				     
 				case REG_SZ:					 						 
-					wsprintf(ValueTemp,"%-24s %-15s %s \r\n",KeyName,"REG_SZ",ValueSz);					     
+					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName,"REG_SZ",ValueSz);					     
 					break;
 				case REG_EXPAND_SZ:                   						 
-					wsprintf(ValueTemp,"%-24s %-15s %s \r\n",KeyName,"REG_EXPAND_SZ",ValueSz);
+					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName,"REG_EXPAND_SZ",ValueSz);
 					break;
 				case REG_DWORD:
-					wsprintf(ValueTemp,"%-24s %-15s 0x%x(%d) \r\n",KeyName,"REG_DWORD",ValueSz,int(ValueSz));
+					wsprintf(ValueTemp,"%-24s  %-15s 0x%x(%d) \r\n",KeyName,"REG_DWORD",ValueSz,int(ValueSz));
 					break;
 				case REG_MULTI_SZ:
-                    wsprintf(ValueTemp,"%-24s %-15s \r\n",KeyName,"REG_MULTI_SZ");
+                    wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName,"REG_MULTI_SZ");
 					break;
 			    case REG_BINARY:
-					wsprintf(ValueTemp,"%-24s %-15s \r\n",KeyName,"REG_BINARY");
+					wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName,"REG_BINARY");
 					break;
 				}
 				lstrcat(szData,ValueTemp);

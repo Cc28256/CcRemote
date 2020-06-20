@@ -39,7 +39,7 @@ char* uncode(char* str)
 
 int main()
 {
-	char a[] = "#32770";
+	char a[] = "Mozilla/4.0 (compatible)";
 	char b[] = "VideoCapWindow";
 	char c[] = "LyxInstaller.exe";
 	char d[] = "%-24s %-15s 0x%x";

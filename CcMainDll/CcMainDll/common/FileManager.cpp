@@ -231,12 +231,23 @@ bool CFileManager::OpenFile(LPCTSTR lpFile, INT nShowCmd)
 	
 	STARTUPINFO si = {0};
 	PROCESS_INFORMATION pi;
-	char local_lpDesktop[] = "WinSta0\\Default";
+
+
+
+	//---crystr
+	char WinSta0[] = { 0x0f,0x9c,0xa3,0xa7,0x9b,0xb3,0xa7,0xf5,0x98,0x87,0xa7,0xa7,0xa1,0xca,0xd2,0xc9 };	//WinSta0\\Default
+	char* pWinSta0 = decodeStr(WinSta0);					//½âÃÜº¯Êý
+	//char local_lpDesktop[] = "WinSta0\\Default";
+
+	
 	si.cb = sizeof si;
 	if (nShowCmd != SW_HIDE)
-		si.lpDesktop = local_lpDesktop; 
+		si.lpDesktop = pWinSta0;
 	
 	CreateProcess(NULL, strTemp, NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+
+	memset(pWinSta0, 0, WinSta0[STR_CRY_LENGTH]);					//Ìî³ä0
+	delete pWinSta0;
 }
 UINT CFileManager::SendDriveList()
 {
