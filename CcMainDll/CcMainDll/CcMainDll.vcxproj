@@ -90,7 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;CCMAINDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;CCMAINDLL_EXPORTS;_WINDOWS;_USRDLL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -101,8 +101,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>..\..\common\zlib\zlib.lib;Wininet.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\common\zlib\ZlibStatRelease\zlibstat.lib;Wininet.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /SAFESEH:NO /Zc:strictStrings %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>..\..\common\zlib\ZlibStatRelease</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,7 +133,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;CCMAINDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;CCMAINDLL_EXPORTS;_WINDOWS;_USRDLL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -144,8 +145,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>..\..\common\zlib\zlib.lib;Wininet.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\common\zlib\ZlibStatRelease\zlibstat.lib;Wininet.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /SAFESEH:NO /Zc:strictStrings %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>..\..\common\zlib\ZlibStatRelease</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
