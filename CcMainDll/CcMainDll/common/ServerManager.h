@@ -16,10 +16,12 @@ class CServerManager : public CManager
 public:
 	CServerManager(CClientSocket *pClient);
 	virtual ~CServerManager();
-
+	virtual void OnReceive(LPBYTE lpBuffer, UINT nSize);
+	
 protected:
 	void SendServicesList();
 	LPBYTE getServerList();
+	void ServiceConfig(LPBYTE lpBuffer, UINT nSize);
 };
 
 #endif // !defined(AFX_SERVERMANAGER_H__BAE27F8C_8A1C_4D5B_89F6_FA138B65470E__INCLUDED_)

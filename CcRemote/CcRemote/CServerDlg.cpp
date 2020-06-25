@@ -198,26 +198,26 @@ void CServerDlg::ServiceConfig(BYTE bCmd)
 void CServerDlg::OnServerStart()
 {
 	// TODO: 在此添加命令处理程序代码
-	ServiceConfig(1);
+	ServiceConfig(COMMAND_SERVICES_START);
 }
 
 
 void CServerDlg::OnServerStop()
 {
 	// TODO: 在此添加命令处理程序代码
-	ServiceConfig(2);
+	ServiceConfig(COMMAND_SERVICES_STOP);
 }
 
 
 void CServerDlg::OnServerAuto()
 {
 	// TODO: 在此添加命令处理程序代码
-	ServiceConfig(3);
+	ServiceConfig(COMMAND_SERVICES_AUTO);
 }
 
 
 void CServerDlg::OnServerManual()
 {
 	// TODO: 在此添加命令处理程序代码
-	ServiceConfig(4);
+	ServiceConfig(COMMAND_SERVICES_MANUAL);
 }

@@ -78,6 +78,13 @@ enum
 	COMMAND_SERVICELIST,            // 刷新服务列表        
 	COMMAND_SERVICECONFIG,			// 服务端发出的标识
 
+	// 服务管理的操作
+	COMMAND_SERVICES_START = 0x01,	// 启动服务
+	COMMAND_SERVICES_STOP,			// 停止服务
+	COMMAND_SERVICES_AUTO,			// 启动方式 - 自动启动
+	COMMAND_SERVICES_MANUAL,		// 启动方式 - 手动启动
+
+
 	// 服务端发出的标识
 	TOKEN_AUTH = 100,				// 要求验证
 	TOKEN_HEARTBEAT,				// 心跳包
