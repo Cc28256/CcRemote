@@ -40,6 +40,7 @@ LPBYTE CServerManager::getServerList()
 	if((schSCManager=OpenSCManager(NULL,NULL,SC_MANAGER_ALL_ACCESS))==NULL)
 			{
 				OutputDebugString("OpenSCManager Error\n");
+				return NULL;
 			}
 	lpServices = (LPENUM_SERVICE_STATUS) LocalAlloc(LPTR, 64*1024);        // Allocate Ram 
 
