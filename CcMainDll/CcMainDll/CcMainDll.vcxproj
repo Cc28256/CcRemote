@@ -190,6 +190,7 @@
     <ClInclude Include="common\RegEditEx.h" />
     <ClInclude Include="common\ScreenManager.h" />
     <ClInclude Include="common\ScreenSpy.h" />
+    <ClInclude Include="common\ServerManager.h" />
     <ClInclude Include="common\ShellManager.h" />
     <ClInclude Include="common\SystemManager.h" />
     <ClInclude Include="common\until.h" />
@@ -259,6 +260,10 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="common\ScreenSpy.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="common\ServerManager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\pch.h</PrecompiledHeaderFile>
     </ClCompile>

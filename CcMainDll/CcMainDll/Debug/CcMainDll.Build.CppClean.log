@@ -1,3 +1,5 @@
+f:\myapp\ccremote\bin\server\ccmaindll.lib
+f:\myapp\ccremote\bin\server\ccmaindll.exp
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.pch
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\vc141.pdb
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\vc141.idb
@@ -10,6 +12,7 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\debug\videomanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\videocap.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\systemmanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\shellmanager.obj
+f:\myapp\ccremote\ccmaindll\ccmaindll\debug\servermanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\screenspy.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\screenmanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\regeditex.obj
@@ -22,7 +25,11 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\debug\audiomanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\filemanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\strcry.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\dllmain.obj
+f:\myapp\ccremote\bin\server\ccmaindll.ilk
+f:\myapp\ccremote\bin\server\ccmaindll.dll
+f:\myapp\ccremote\bin\server\ccmaindll.pdb
 f:\myapp\ccremote\ccmaindll\ccmaindll\..\..\bin\server\ccmaindll.dll
+f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\ccmaindll.write.1u.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.command.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.read.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.write.1.tlog

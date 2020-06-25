@@ -56,23 +56,23 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(214): warning C4996: 's
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(215): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
   KernelManager.cpp
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(192): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(192): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(218): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(218): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(256): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(256): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(275): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(275): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(193): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(193): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(219): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(219): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(257): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(257): warning C4309: “初始化”: 截断常量值
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(276): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(276): warning C4309: “初始化”: 截断常量值
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(277): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(277): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(310): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(310): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(278): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(278): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(311): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(311): warning C4309: “初始化”: 截断常量值
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(43): warning C4018: “<”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(146): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(150): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(150): warning C4309: “初始化”: 截断常量值
   KeyboardManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(307): warning C4018: “<”: 有符号/无符号不匹配
@@ -107,6 +107,7 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenmanager.cpp(5): warning C4005
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(379): warning C4018: “>”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(400): warning C4018: “<”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(419): warning C4018: “<”: 有符号/无符号不匹配
+  ServerManager.cpp
   ShellManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\shellmanager.cpp(52): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
