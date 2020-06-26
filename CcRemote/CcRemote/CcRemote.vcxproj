@@ -293,10 +293,15 @@
     <Image Include="res\bmp00001.bmp" />
     <Image Include="res\CcRemote.ico" />
     <Image Include="res\cmdshell.ico" />
+    <Image Include="res\dword.ico" />
+    <Image Include="res\file_ico.ico" />
+    <Image Include="res\regsz.ico" />
+    <Image Include="res\remote.ico" />
     <Image Include="res\system.ico" />
     <Image Include="res\toolbar1.bmp" />
     <Image Include="res\toolbar2.bmp" />
     <Image Include="res\ToolBar_Main.bmp" />
+    <Image Include="res\文件夹1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

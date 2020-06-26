@@ -68,10 +68,10 @@ BOOL CRegDlg::OnInitDialog()
 	HICON hIcon = NULL;
 	m_ImageList_tree.Create(18, 18, ILC_COLOR16,10, 0);
 
-	//hIcon = (HICON)::LoadImage(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDI_FATHER_ICON), IMAGE_ICON, 18, 18, 0);
-	//m_ImageList_tree.Add(hIcon);
-	//hIcon = (HICON)::LoadImage(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDI_DIR_ICON), IMAGE_ICON, 32, 32, 0);
-	//m_ImageList_tree.Add(hIcon);
+	hIcon = (HICON)::LoadImage(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDI_FATHER_ICON), IMAGE_ICON, 18, 18, 0);
+	m_ImageList_tree.Add(hIcon);
+	hIcon = (HICON)::LoadImage(::AfxGetInstanceHandle(),MAKEINTRESOURCE(IDI_DIR_ICON), IMAGE_ICON, 32, 32, 0);
+	m_ImageList_tree.Add(hIcon);
 
 
 
@@ -96,10 +96,10 @@ BOOL CRegDlg::OnInitDialog()
 	m_list.InsertColumn(2,"数据",LVCFMT_LEFT,300,-1);
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 	//////添加图标//////
-	//m_HeadIcon.Create(16,16,TRUE,2,2);
-	//m_HeadIcon.Add(AfxGetApp()->LoadIcon(IDI_STR_ICON));
-	//m_HeadIcon.Add(AfxGetApp()->LoadIcon(IDI_DWORD_ICON));
-	//m_list.SetImageList(&m_HeadIcon,LVSIL_SMALL);
+	m_HeadIcon.Create(16,16,TRUE,2,2);
+	m_HeadIcon.Add(AfxGetApp()->LoadIcon(IDI_STR_ICON));
+	m_HeadIcon.Add(AfxGetApp()->LoadIcon(IDI_DWORD_ICON));
+	m_list.SetImageList(&m_HeadIcon,LVSIL_SMALL);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }

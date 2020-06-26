@@ -221,5 +221,20 @@
     <Image Include="res\audio.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\dword.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\regsz.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\remote.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\文件夹1.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\file_ico.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
