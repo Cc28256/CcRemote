@@ -44,6 +44,7 @@ enum
 	WM_OPENPSLISTDIALOG,			// 打开进程管理窗口
 	WM_OPENSHELLDIALOG,				// 打开shell窗口
 	WM_OPENSERVERDIALOG,			// 打开服务窗口
+	WM_OPENREGEDITDIALOG,           // 打开注册表管理窗口
 	WM_RESETPORT,					// 改变端口
 	//////////////////////////////////////////////////////////////////////////
 	FILEMANAGER_DLG = 1,			// 文件管理
@@ -53,7 +54,8 @@ enum
 	KEYBOARD_DLG,					// 键盘 未实现
 	SYSTEM_DLG,						// 进程
 	SHELL_DLG,						// shell管理
-	SERVER_DLG						// 服务管理
+	SERVER_DLG,						// 服务管理
+	REGEDIT_DLG                     // 注册表管理
 };
 
 

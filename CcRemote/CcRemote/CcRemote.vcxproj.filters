@@ -96,6 +96,9 @@
     <ClInclude Include="CServerDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="RegDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -153,6 +156,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CServerDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RegDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
