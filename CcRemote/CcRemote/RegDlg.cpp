@@ -223,6 +223,8 @@ void CRegDlg::AddKey(char* lpBuffer)
 	REGMSG msg;
 	memcpy((void*)&msg,lpBuffer,sizeof(msg));
 	char* tmp=lpBuffer+sizeof(msg);
+
+	int bin_temp;
 	for(int i=0;i<msg.count;i++)
 	{
 		BYTE Type=tmp[0];   //取出标志头
@@ -243,8 +245,8 @@ void CRegDlg::AddKey(char* lpBuffer)
 			DWORD d=(DWORD)szValueDate;
 			memcpy((void*)&d,szValueDate,sizeof(DWORD));
 			CString value;
-			value.Format("0x%x",d);
-			sprintf(ValueDate,"  (%wd)",d);
+			value.Format("0x%08x",d);
+			sprintf(ValueDate," (%d)",d);
 			value+=" ";
 			value+=ValueDate;
 			int nitem=m_list.InsertItem(0,szValueName,1);
@@ -254,12 +256,28 @@ void CRegDlg::AddKey(char* lpBuffer)
 		}
 		if(Type==MREG_BINARY)
 		{
-			char ValueDate[256];
-			sprintf(ValueDate,"%wd",szValueDate);
-
+			//不能申请内存来动态操作获取，不清楚原因，只要是动态获取的话就会造成崩溃，所以上限0x1000大小不过应该也够用了
+			int i = 0;
+			int index_max = msg.valsize;
+			char ValueDate[0x1000] = { 0 };
+			if (msg.valsize > 0x1000)
+			{
+				index_max = 0x990;//incomplete
+			}
+			for (i = 0; i < index_max; i++)
+			{
+				bin_temp = szValueDate[i];
+				sprintf(ValueDate +(i*3), "%02x ", bin_temp);
+			}
+			CString value = ValueDate;
+			if (index_max == 0x990)
+			{
+				value+=" incomplete";
+			}
+			
 			int nitem=m_list.InsertItem(0,szValueName,1);
 			m_list.SetItemText(nitem,1,"REG_BINARY");	
-			m_list.SetItemText(nitem,2,ValueDate);
+			m_list.SetItemText(nitem,2, value);
 		}
 		if(Type==MREG_EXPAND_SZ)
 		{

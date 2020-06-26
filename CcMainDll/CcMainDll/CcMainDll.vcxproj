@@ -188,6 +188,8 @@
     <ClInclude Include="common\loop.h" />
     <ClInclude Include="common\Manager.h" />
     <ClInclude Include="common\RegEditEx.h" />
+    <ClInclude Include="common\RegeditOpt.h" />
+    <ClInclude Include="common\RegManager.h" />
     <ClInclude Include="common\ScreenManager.h" />
     <ClInclude Include="common\ScreenSpy.h" />
     <ClInclude Include="common\ServerManager.h" />
@@ -254,6 +256,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="common\RegeditOpt.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="common\RegManager.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="common\ScreenManager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\pch.h</PrecompiledHeaderFile>

@@ -93,6 +93,12 @@
     <ClInclude Include="common\ServerManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="common\RegeditOpt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="common\RegManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -159,6 +165,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="common\ServerManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="common\RegeditOpt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="common\RegManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
