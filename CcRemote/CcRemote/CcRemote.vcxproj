@@ -227,6 +227,7 @@
     <ClInclude Include="InputDlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PublicStruct.h" />
+    <ClInclude Include="RegDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SEU_QQwry.h" />
     <ClInclude Include="targetver.h" />
@@ -269,6 +270,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RegDlg.cpp" />
     <ClCompile Include="SEU_QQwry.cpp" />
     <ClCompile Include="TrueColorToolBar.cpp" />
   </ItemGroup>

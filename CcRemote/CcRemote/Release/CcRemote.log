@@ -70,10 +70,17 @@ f:\myapp\ccremote\ccremote\ccremote\inputdlg.h(69): warning C4302: “类型强�
 f:\myapp\ccremote\ccremote\ccremote\inputdlg.cpp(124): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\corecrt_wstring.h(123): note: 参见“wcscpy”的声明
 f:\myapp\ccremote\ccremote\ccremote\inputdlg.cpp(159): warning C4302: “类型强制转换”: 从“LPSTR”到“WORD”截断
+  RegDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\regdlg.cpp(247): warning C4475: “sprintf”: 不可在格式说明符中将长度修饰符“w”与类型字段字符“d”一起使用
+f:\myapp\ccremote\ccremote\ccremote\regdlg.cpp(258): warning C4475: “sprintf”: 不可在格式说明符中将长度修饰符“w”与类型字段字符“d”一起使用
+f:\myapp\ccremote\ccremote\ccremote\regdlg.cpp(247): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
+f:\myapp\ccremote\ccremote\ccremote\regdlg.cpp(258): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
   SEU_QQwry.cpp
   TrueColorToolBar.cpp
   正在生成代码
-  All 717 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 731 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
 nafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new(unsigned int)" (??2@YAPAXI@Z) 已在 LIBCMTD.lib(new_scalar.obj) 中定义；已忽略第二个定义
 nafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete(void *)" (??3@YAXPAX@Z) 已在 LIBCMTD.lib(delete_scalar.obj) 中定义；已忽略第二个定义
