@@ -76,6 +76,7 @@ void CCcRemoteDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_ONLINE, m_CList_Online);
 	DDX_Control(pDX, IDC_MESSAGE, m_CList_Message);
+	DDX_Control(pDX, IDC_STATIC_LOGO, m_PicLogoA);
 }
 
 BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
@@ -221,22 +222,36 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	m_OnlineCount = 0;//初始上线数为0
-	InitSystemMenu();//初始化系统托盘
-	InitToolBar();//初始化工具栏按钮控件
-	InitMyMenu();//初始化菜单控件
-	InitList();//初始化列表控件
+	m_OnlineCount = 0;	// 初始上线数为0
+	InitPic();
+	InitSystemMenu();	// 初始化系统托盘
+	InitToolBar();		// 初始化工具栏按钮控件
+	InitMyMenu();		// 初始化菜单控件
+	InitList();			// 初始化列表控件
 	InitStatusBar();//初始化状态栏控件
 	//---------改变窗口大小触发动态调整-------|
 	CRect rect;
 	GetWindowRect(&rect);
 	rect.bottom += 20;
+	rect.right += 30;
 	MoveWindow(rect);
 	//----------------------------------------|
 	ListenPort();//监听端口
 	Test();
-	
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+}
+
+void CCcRemoteDlg::InitPic()
+{
+	CRect rect;
+	rect.left = 0;
+	rect.top =	0;
+	m_PicLogoA.MoveWindow(rect);
+	//通过资源ID载入BitMap资源
+	p.LoadBitmapA(IDB_BITMAP_LOGO);
+	//给图片控件设置位图
+	m_PicLogoA.SetBitmap((HBITMAP)p.m_hObject);
 }
 
 void CCcRemoteDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -357,7 +372,8 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 	if (m_ToolBar.m_hWnd != NULL)              //工具条
 	{
 		CRect rc;
-		rc.top = rc.left = 0;
+		rc.top = 0;
+		rc.left = 250;
 		rc.right = cx;
 		rc.bottom = 80;
 		m_ToolBar.MoveWindow(rc);     //设置工具条大小位置

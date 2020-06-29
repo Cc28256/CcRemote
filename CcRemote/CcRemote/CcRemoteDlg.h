@@ -38,23 +38,30 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	CStatusBar  m_wndStatusBar;//状态控件
-	CListCtrl m_CList_Online;//在线列表变量
-	CListCtrl m_CList_Message;//消息列表变量
-	CTrueColorToolBar m_ToolBar;//工具条按钮控件变量
-	afx_msg void OnSize(UINT nType, int cx, int cy);
+	
+
+
+	
 
 
 private:
 	//--------------变量及常量----------------
-	SEU_QQwry *m_QQwry; //识别IP区域
-	int m_OnlineCount;//上线计数
-	CBrush m_brush;//绘色函数
-	CMenu popup;//LIST菜单变量
-	NOTIFYICONDATA nid;//含有图标  消息响应 的一个结构体 用于系统托盘
+	NOTIFYICONDATA		nid;			// 含有图标  消息响应 的一个结构体 用于系统托盘
+	CMenu				popup;			// LIST菜单变量
+	SEU_QQwry*			m_QQwry;		// 识别IP区域
+	CBrush				m_brush;		// 绘色函数
+	CTrueColorToolBar	m_ToolBar;		// 工具条按钮控件变量
+	CBitmap				p;
+	CStatic				m_PicLogoA;		// 左上角logo
+	CStatusBar			m_wndStatusBar;	// 状态控件
+	CListCtrl			m_CList_Online;	// 在线列表变量
+	CListCtrl			m_CList_Message;// 消息列表变量
+	int					m_OnlineCount;	// 上线计数
+
 
 #define COLUMN_ONLINE_COUNT 7	//在线列表的个数
 #define COLUMN_MESSAGE_COUNT 3	//消息列表的个数
@@ -82,21 +89,26 @@ private:
 	
 
 	//-----------------------函数-----------------------
-	int InitList();//初始化list控件信息
-	int InitMyMenu();//初始化主页面上方菜单
-	void InitStatusBar();//初始化状态控件
-	void InitToolBar();//初始化工具条按钮控件
-	void InitSystemMenu();//初始化系统托盘菜单
-	void AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing, ClientContext*pContext);
-	void ShowMessage(bool bIsOK, CString strMsg);//显示日志
-	void Test();
+	void	Test();
+	int		InitList();			// 初始化list控件信息
+	int		InitMyMenu();		// 初始化主页面上方菜单
+	void	InitStatusBar();	// 初始化状态控件
+	void	InitToolBar();		// 初始化工具条按钮控件
+	void	InitSystemMenu();	// 初始化系统托盘菜单
+	void	ListenPort();		// 监听端口设置
+	void	InitPic();			// 初始化界面图片
+	void	Activate(UINT nPort, UINT nMaxConnections);	// 监听端口
+	void	ShowMessage(bool bIsOK, CString strMsg);	// 显示日志
 
-	void ListenPort();
+	// 添加信息到列表							
+	void	AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing, ClientContext*pContext);
 
+	// socket 的处理都要调用这个回调函数
 	static void CALLBACK NotifyProc(LPVOID lpParam, ClientContext* pContext, UINT nCode);
-	void Activate(UINT nPort, UINT nMaxConnections);//监听端口
 
+	// 控制命令都要经过这个函数
 	static void ProcessReceiveComplete(ClientContext *pContext);
+
 public:
 	//-------------自定义消息处理-------------
 	afx_msg void OnIconNotify(WPARAM wParam, LPARAM lParam);
@@ -131,4 +143,5 @@ private:
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+
 };
