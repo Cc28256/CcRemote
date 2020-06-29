@@ -295,6 +295,7 @@
     <Image Include="res\cmdshell.ico" />
     <Image Include="res\dword.ico" />
     <Image Include="res\file_ico.ico" />
+    <Image Include="res\liset_online_pic.bmp" />
     <Image Include="res\logo.bmp" />
     <Image Include="res\regsz.ico" />
     <Image Include="res\remote.ico" />

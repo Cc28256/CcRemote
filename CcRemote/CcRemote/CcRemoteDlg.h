@@ -55,13 +55,15 @@ private:
 	SEU_QQwry*			m_QQwry;		// 识别IP区域
 	CBrush				m_brush;		// 绘色函数
 	CTrueColorToolBar	m_ToolBar;		// 工具条按钮控件变量
-	CBitmap				p;
-	CStatic				m_PicLogoA;		// 左上角logo
 	CStatusBar			m_wndStatusBar;	// 状态控件
 	CListCtrl			m_CList_Online;	// 在线列表变量
 	CListCtrl			m_CList_Message;// 消息列表变量
 	int					m_OnlineCount;	// 上线计数
 
+	CBitmap				m_BitmapPicLogoA;
+	CStatic				m_PicLogoA;		// 左上角logo
+
+	bool				isTrue;			//list背景是否已经加载
 
 #define COLUMN_ONLINE_COUNT 7	//在线列表的个数
 #define COLUMN_MESSAGE_COUNT 3	//消息列表的个数

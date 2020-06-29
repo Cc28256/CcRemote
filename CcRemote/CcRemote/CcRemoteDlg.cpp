@@ -223,22 +223,23 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	m_OnlineCount = 0;	// 初始上线数为0
-	InitPic();
+	
 	InitSystemMenu();	// 初始化系统托盘
 	InitToolBar();		// 初始化工具栏按钮控件
 	InitMyMenu();		// 初始化菜单控件
 	InitList();			// 初始化列表控件
 	InitStatusBar();//初始化状态栏控件
+	InitPic();
 	//---------改变窗口大小触发动态调整-------|
 	CRect rect;
 	GetWindowRect(&rect);
-	rect.bottom += 20;
+	rect.bottom += 50;
 	rect.right += 30;
 	MoveWindow(rect);
 	//----------------------------------------|
 	ListenPort();//监听端口
 	Test();
-
+	isTrue = 0;
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -249,9 +250,10 @@ void CCcRemoteDlg::InitPic()
 	rect.top =	0;
 	m_PicLogoA.MoveWindow(rect);
 	//通过资源ID载入BitMap资源
-	p.LoadBitmapA(IDB_BITMAP_LOGO);
+	m_BitmapPicLogoA.LoadBitmapA(IDB_BITMAP_LOGO);
+
 	//给图片控件设置位图
-	m_PicLogoA.SetBitmap((HBITMAP)p.m_hObject);
+	m_PicLogoA.SetBitmap(m_BitmapPicLogoA);
 }
 
 void CCcRemoteDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -331,12 +333,9 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 			int lenth = dd;                                 //转换为int 类型
 			m_CList_Online.SetColumnWidth(i, (lenth));      //设置当前的宽度
 		}
-		//TCHAR szBuffer[_MAX_PATH];
-		//VERIFY(::GetModuleFileName(AfxGetInstanceHandle(), szBuffer, _MAX_PATH));
-		//CString sPath = (CString)szBuffer;	sPath = sPath.Left(sPath.ReverseFind('\\') + 1);	
-		CString sPath = "F:\\myapp\\CcRemote\\CcRemote\\CcRemote\\res\\background_list_online.bmp";
-		m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl m_controllist1;	
-		sPath.ReleaseBuffer();
+
+		
+		
 	}
 	if (m_CList_Message.m_hWnd != NULL)
 	{
@@ -354,9 +353,6 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 			int lenth = dd;                                   //转换为int 类型
 			m_CList_Message.SetColumnWidth(i, (lenth));        //设置当前的宽度
 		}
-		CString sPath = "F:\\myapp\\CcRemote\\CcRemote\\CcRemote\\res\\background_list_online.bmp";
-		m_CList_Message.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl m_controllist1;	
-		sPath.ReleaseBuffer();
 	}
 
 	if (m_wndStatusBar.m_hWnd != NULL) {    //当对话框大小改变时 状态条大小也随之改变
@@ -378,6 +374,7 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 		rc.bottom = 80;
 		m_ToolBar.MoveWindow(rc);     //设置工具条大小位置
 	}
+
 	// TODO: 在此处添加消息处理程序代码
 }
 
@@ -1161,7 +1158,7 @@ BOOL CCcRemoteDlg::OnEraseBkgnd(CDC* pDC)
 	//pDC->StretchBlt(0, 0, rect.Width(), rect.Height(), &MemDC, 0, 0, Bp.bmWidth, Bp.bmHeight, SRCCOPY); 	
 	//MemDC.DeleteDC();	
 	
-	return TRUE;
+	//return TRUE;
 	return CDialogEx::OnEraseBkgnd(pDC);
 }
 
@@ -1170,33 +1167,17 @@ HBRUSH CCcRemoteDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	// TODO:  在此更改 DC 的任何特性
-	//switch (pWnd->GetDlgCtrlID()) {
-	////case IDC_STATIC_NAME:
-	////case IDC_STATIC_ID:
-	////case IDC_STATIC_PW:
-	////	pDC->SetBkMode(TRANSPARENT);
-	////	pDC->SetTextColor(RGB(0, 255, 0));
-	////	hbr = (HBRUSH)GetStockObject(NULL_BRUSH);//空画刷，不加此句会有阴影		
-	////	break;
-	//case IDR_TOOLBAR_MAIN:
-	//	CWnd* pd;
-	//	CRect rc;
-	//	if (pWnd->GetDlgCtrlID() == IDR_TOOLBAR_MAIN)
-	//		pd = (CWnd*)GetDlgItem(IDR_TOOLBAR_MAIN);
-	//	pd->GetClientRect(&rc);
-	//	ScreenToClient(&rc);
-	//	pDC->SetBkMode(TRANSPARENT);
-	//	pDC->SetTextColor(RGB(255, 0, 0));
-	//	CBitmap bmp;
-	//	bmp.LoadBitmap(IDB_BACKGROUND_CCREMOTE);
-	//	CBrush brush(&bmp);
-	//	CBrush* pOldBrush = (CBrush*)pDC->SelectObject(&brush);
-	//	pDC->FillRect(&rc, &brush);
-	//	hbr = (HBRUSH)brush;
-	//	break;
-	//}
-	
-	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	if (m_CList_Online.m_hWnd != NULL&& isTrue == 0)
+	{ 
+		TCHAR szBuffer[_MAX_PATH];
+		VERIFY(::GetModuleFileName(AfxGetInstanceHandle(), szBuffer, _MAX_PATH));
+		CString sPath = (CString)szBuffer;
+		sPath = sPath.Left(sPath.ReverseFind('\\') + 1);
+		sPath += "res\\list_online_pic.bmp";
+		isTrue = m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl   m_controllist1;
+		sPath.ReleaseBuffer();
+		// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	}
+
 	return hbr;
 }
