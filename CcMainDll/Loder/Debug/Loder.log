@@ -1,3 +1,3 @@
-﻿  Loder.cpp
-G:\VS2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(1216,5): warning MSB8012: TargetPath(G:\CcRemote\CcRemote\CcMainDll\Debug\Loder.exe) 与 Linker 的 OutputFile 属性值(G:\CcRemote\CcRemote\bin\server\loder.exe)不匹配。这可能导致项目生成不正确。若要更正此问题，请确保 $(OutDir)、$(TargetName) 和 $(TargetExt) 属性值与 %(Link.OutputFile) 中指定的值匹配。
-  Loder.vcxproj -> G:\CcRemote\CcRemote\CcMainDll\Debug\Loder.exe
+﻿G:\VS2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+  LINK : 缺少程序数据库 G:\CcRemote\CcRemote\bin\server\Loder.pdb；正在执行完全链接
+  Loder.vcxproj -> G:\CcRemote\CcRemote\CcMainDll\Loder\..\\..\\bin\\server\Loder.exe
