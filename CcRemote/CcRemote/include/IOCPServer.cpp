@@ -467,10 +467,12 @@ bool CIOCPServer::InitializeIOCP(void)
     // we need an overlapped file handle.
     //
 
+
     s = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
     if ( s == INVALID_SOCKET ) 
         return false;
 
+	// 使用完成端口之前，要调用CreateIoCompletionPort函数先创建完成端口对象。
     // Create the completion port that will be used by all the worker
     // threads.
     m_hCompletionPort = CreateIoCompletionPort( (HANDLE)s, NULL, 0, 0 );

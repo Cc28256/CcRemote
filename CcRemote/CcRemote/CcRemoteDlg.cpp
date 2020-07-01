@@ -228,7 +228,7 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	InitToolBar();		// 初始化工具栏按钮控件
 	InitMyMenu();		// 初始化菜单控件
 	InitList();			// 初始化列表控件
-	InitStatusBar();//初始化状态栏控件
+	InitStatusBar();	// 初始化状态栏控件
 	InitPic();
 	//---------改变窗口大小触发动态调整-------|
 	CRect rect;
@@ -237,7 +237,7 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	rect.right += 30;
 	MoveWindow(rect);
 	//----------------------------------------|
-	ListenPort();//监听端口
+	ListenPort();		// 监听端口
 	Test();
 	isTrue = 0;
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE

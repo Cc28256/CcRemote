@@ -7,7 +7,7 @@
 int main()
 {
     std::cout << "Hello World!\n";
-	char strHost[] = "127.0.0.1";          //声明上线地址
+	char strHost[] = "192.168.2.173";          //声明上线地址
 	int  nPort = 80;                     //声明上线端口
 	//载入服务端dll
 	HMODULE hServerDll = LoadLibrary(".\\..\\..\\bin\\server\\CcMainDll.dll");

@@ -1,7 +1,3 @@
-f:\myapp\ccremote\bin\server\ccmaindll.lib
-f:\myapp\ccremote\bin\server\ccmaindll.exp
-f:\myapp\ccremote\bin\server\ccmaindll.ipdb
-f:\myapp\ccremote\bin\server\ccmaindll.iobj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.pch
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\vc141.pdb
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\pch.obj
@@ -17,6 +13,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\release\shellmanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\servermanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\screenspy.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\screenmanager.obj
+f:\myapp\ccremote\ccmaindll\ccmaindll\release\regmanager.obj
+f:\myapp\ccremote\ccmaindll\ccmaindll\release\regeditopt.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\regeditex.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\manager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\kernelmanager.obj
@@ -26,13 +24,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\release\audiomanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\filemanager.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\strcry.obj
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\dllmain.obj
-f:\myapp\ccremote\bin\server\ccmaindll.dll
-f:\myapp\ccremote\bin\server\ccmaindll.pdb
-f:\myapp\ccremote\ccmaindll\ccmaindll\..\..\bin\server\ccmaindll.dll
-f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.tlog\ccmaindll.write.1u.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.tlog\cl.command.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.tlog\cl.read.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.tlog\cl.write.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.tlog\link.command.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.tlog\link.read.1.tlog
-f:\myapp\ccremote\ccmaindll\ccmaindll\release\ccmaindll.tlog\link.write.1.tlog
