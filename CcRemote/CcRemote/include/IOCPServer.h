@@ -86,7 +86,7 @@ public:
 };
   
 
-struct ClientContext          //简单分析ClientContext结构体然后回到  SendSelectCommand
+struct ClientContext          //ClientContext结构体  SendSelectCommand
 {
     SOCKET				m_Socket;              //套接字
 	// Store buffers

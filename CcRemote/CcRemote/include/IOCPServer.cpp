@@ -812,10 +812,12 @@ void CIOCPServer::Send(ClientContext* pContext, LPBYTE lpData, UINT nSize)
 		WaitForSingleObject(pContext->m_hWriteComplete, INFINITE);
 
 		// Prepare Packet
-	 //	pContext->m_wsaOutBuffer.buf = (CHAR*) new BYTE[nSize];
-	 //	pContext->m_wsaOutBuffer.len = pContext->m_WriteBuffer.GetBufferLen();
+		// pContext->m_wsaOutBuffer.buf = (CHAR*) new BYTE[nSize];
+		// pContext->m_wsaOutBuffer.len = pContext->m_WriteBuffer.GetBufferLen();
 
  		OVERLAPPEDPLUS * pOverlap = new OVERLAPPEDPLUS(IOWrite);
+		// PostQueuedCompletionStatus主要是投递一个任务到完成队列当中
+		// 从而使得在等待队列消息的某一个线程收取到.其参与分别与GetQueuedCompletionStauts相对应,
  		PostQueuedCompletionStatus(m_hCompletionPort, 0, (DWORD) pContext, &pOverlap->m_ol);
 
 		pContext->m_nMsgOut++;

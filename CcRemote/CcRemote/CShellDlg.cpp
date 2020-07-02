@@ -146,7 +146,7 @@ HBRUSH CShellDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
-
+// 梳理消息函数
 void CShellDlg::OnReceiveComplete(void)
 {
 	AddKeyBoardData();

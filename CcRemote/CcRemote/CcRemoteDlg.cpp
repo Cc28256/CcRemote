@@ -136,7 +136,7 @@ void CALLBACK CCcRemoteDlg::NotifyProc(LPVOID lpParam, ClientContext *pContext, 
 		case NC_TRANSMIT:
 			break;
 		case NC_RECEIVE:
-			//ProcessReceive(pContext);        //这里是有数据到来 但没有完全接收
+			//ProcessReceive(pContext);        // 这里是有数据到来 但没有完全接收
 			break;
 		case NC_RECEIVE_COMPLETE:
 			ProcessReceiveComplete(pContext);       //这里时完全接收 处理发送来的数据 跟进    ProcessReceiveComplete
@@ -799,7 +799,7 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		return;
 
 	// 如果管理对话框打开，交给相应的对话框处理
-	CDialog	*dlg = (CDialog	*)pContext->m_Dialog[1];      //这里就是ClientContext 结构体的int m_Dialog[2];
+	CDialog	*dlg = (CDialog	*)pContext->m_Dialog[1];      // ClientContext 结构体的int m_Dialog[2];
 
 	// 交给窗口处理
 	if (pContext->m_Dialog[0] > 0)                //这里查看是否给他赋值了，如果赋值了就把数据传给功能窗口处理
@@ -880,11 +880,11 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		g_pCcRemoteDlg->PostMessage(WM_OPENAUDIODIALOG, 0, (LPARAM)pContext);
 		break;
 	case TOKEN_DRIVE_LIST: // 驱动器列表
-		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事,太菜
+		// 指接调用public函数非模态对话框会失去反应
 		g_pCcRemoteDlg->PostMessage(WM_OPENMANAGERDIALOG, 0, (LPARAM)pContext);
 		break;
 	case TOKEN_BITMAPINFO: //
-		// 指接调用public函数非模态对话框会失去反应， 不知道怎么回事
+		// 指接调用public函数非模态对话框会失去反应
 		g_pCcRemoteDlg->PostMessage(WM_OPENSCREENSPYDIALOG, 0, (LPARAM)pContext);
 		break;
 	//进程遍历和窗口遍历公用的一个窗口类，在构造判断判断下类型来显示不同的数据
