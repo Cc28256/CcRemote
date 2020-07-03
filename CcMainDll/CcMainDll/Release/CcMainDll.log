@@ -15,8 +15,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(77): warning C4996: 'geth
 f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(213): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
 f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(330): warning C4018: “>=”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(429): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
-f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(484): warning C4018: “>=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(431): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(486): warning C4018: “>=”: 有符号/无符号不匹配
   Buffer.cpp
   KeyboardManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
@@ -164,6 +164,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4838: 从“
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4309: “初始化”: 截断常量值
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(225): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(40): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(51): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(51): warning C4309: “初始化”: 截断常量值
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(187): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

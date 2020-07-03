@@ -413,6 +413,8 @@ void CClientSocket::Disconnect()
 	InterlockedExchange((LPLONG)&m_bIsRunning, false);
 	closesocket(m_Socket);
 	// 设置事件的状态为有标记，释放任意等待线程。
+	Sleep(500);
+	
 	SetEvent(m_hEvent);
 	//INVALID_SOCKET不是有效的套接字
 	m_Socket = INVALID_SOCKET;
