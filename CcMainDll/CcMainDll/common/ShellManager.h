@@ -28,6 +28,8 @@ private:
     HANDLE m_hThreadRead;
 	HANDLE m_hThreadMonitor;
 
+	unsigned long	m_ByteWrite;
+	bool			m_UserShell;
 	static DWORD WINAPI ReadPipeThread(LPVOID lparam);
 	static DWORD WINAPI MonitorThread(LPVOID lparam);
 };

