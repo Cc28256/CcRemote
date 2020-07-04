@@ -65,7 +65,8 @@ private:
 	CBitmap				m_BitmapPicLogoA;
 	CStatic				m_PicLogoA;		// 左上角logo
 
-	bool				isTrue;			// list背景是否已经加载
+	bool				isOnlineIcoTrue;			// list背景是否已经加载
+	bool				isMessageIcoTrue;
 
 #define COLUMN_ONLINE_COUNT 7			// 在线列表的个数
 #define COLUMN_MESSAGE_COUNT 3			// 消息列表的个数

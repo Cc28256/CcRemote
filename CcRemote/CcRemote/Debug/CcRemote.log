@@ -1,5 +1,12 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
-  CKeyBoardDlg.cpp
-f:\myapp\ccremote\ccremote\ccremote\ckeyboarddlg.cpp(27): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  CcRemoteDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(170): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(175): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(335): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(355): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(894): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(985): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
   CcRemote.vcxproj -> F:\myapp\CcRemote\CcRemote\CcRemote\..\..\bin\CcRemote.exe

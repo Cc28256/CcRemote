@@ -240,7 +240,8 @@ BOOL CCcRemoteDlg::OnInitDialog()
 	//----------------------------------------|
 	ListenPort();		// 监听端口
 	Test();
-	isTrue = 0;
+	isOnlineIcoTrue = 0;
+	isMessageIcoTrue = 0;
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -1221,14 +1222,25 @@ HBRUSH CCcRemoteDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	if (m_CList_Online.m_hWnd != NULL&& isTrue == 0)
+	if (m_CList_Online.m_hWnd != NULL&& isOnlineIcoTrue == 0)
 	{ 
 		TCHAR szBuffer[_MAX_PATH];
 		VERIFY(::GetModuleFileName(AfxGetInstanceHandle(), szBuffer, _MAX_PATH));
 		CString sPath = (CString)szBuffer;
 		sPath = sPath.Left(sPath.ReverseFind('\\') + 1);
 		sPath += "res\\list_online_pic.bmp";
-		isTrue = m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl   m_controllist1;
+		isOnlineIcoTrue = m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl   m_controllist1;
+		sPath.ReleaseBuffer();
+		// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	}
+	if (m_CList_Message.m_hWnd != NULL && isMessageIcoTrue == 0)
+	{
+		TCHAR szBuffer[_MAX_PATH];
+		VERIFY(::GetModuleFileName(AfxGetInstanceHandle(), szBuffer, _MAX_PATH));
+		CString sPath = (CString)szBuffer;
+		sPath = sPath.Left(sPath.ReverseFind('\\') + 1);
+		sPath += "res\\list_message_pic.bmp";
+		isMessageIcoTrue = m_CList_Message.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl   m_controllist1;
 		sPath.ReleaseBuffer();
 		// TODO:  如果默认的不是所需画笔，则返回另一个画笔
 	}
