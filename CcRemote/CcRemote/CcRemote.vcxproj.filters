@@ -242,5 +242,38 @@
     <Image Include="res\liset_online_pic.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_regist.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\list_online_pic.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_audio.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_desk.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_file.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_null.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_process.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_quit.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_service.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_shell.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_window.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

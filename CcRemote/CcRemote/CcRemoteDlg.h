@@ -50,6 +50,7 @@ public:
 
 private:
 	//--------------变量及常量----------------
+	CBitmap				m_IconBitmap;
 	NOTIFYICONDATA		nid;			// 含有图标  消息响应 的一个结构体 用于系统托盘
 	CMenu				popup;			// LIST菜单变量
 	SEU_QQwry*			m_QQwry;		// 识别IP区域

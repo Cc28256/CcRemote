@@ -296,6 +296,7 @@
     <Image Include="res\dword.ico" />
     <Image Include="res\file_ico.ico" />
     <Image Include="res\liset_online_pic.bmp" />
+    <Image Include="res\list_online_pic.bmp" />
     <Image Include="res\logo.bmp" />
     <Image Include="res\regsz.ico" />
     <Image Include="res\remote.ico" />
@@ -303,6 +304,16 @@
     <Image Include="res\toolbar1.bmp" />
     <Image Include="res\toolbar2.bmp" />
     <Image Include="res\ToolBar_Main.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_audio.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_desk.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_file.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_null.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_process.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_quit.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_regist.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_service.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_shell.bmp" />
+    <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_window.bmp" />
     <Image Include="res\文件夹1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

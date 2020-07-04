@@ -387,15 +387,48 @@ int CCcRemoteDlg::InitMyMenu()
 	::SetMenu(this->GetSafeHwnd(), hmenu);                  //为窗口设置菜单
 	::DrawMenuBar(this->GetSafeHwnd());                    //显示菜单
 
+	int enum_ico[] = {	IDB_BITMAP_ENUM_SHELL ,
+						IDB_BITMAP_ENUM_PROCESS,
+						IDB_BITMAP_ENUM_WINDOW,
+						IDB_BITMAP_ENUM_DESK,
+						IDB_BITMAP_ENUM_FILE,
+						IDB_BITMAP_ENUM_AUDIO,
+						IDB_BITMAP_ENUM_NULL,
+						IDB_BITMAP_ENUM_SERVICE,
+						IDB_BITMAP_ENUM_REGIST,
+						IDB_BITMAP_ENUM_QUIT };
+
 	popup.LoadMenu(IDR_MENU_ONLINE);//载入菜单资源
-	//popup.GetSubMenu(0)->SetMenuItemBitmaps();
-	::MENUINFO lpcmi;
-	m_brush.CreateSolidBrush(RGB(236, 153, 101));//颜色
-	memset(&lpcmi, 0, sizeof(::LPCMENUINFO));
-	lpcmi.cbSize = sizeof(MENUINFO);
-	lpcmi.fMask =  MIM_APPLYTOSUBMENUS | MIM_BACKGROUND;
-	lpcmi.hbrBack = (HBRUSH)m_brush.operator HBRUSH();
-	::SetMenuInfo(popup, &lpcmi);
+	m_IconBitmap.LoadBitmap(IDB_BITMAP_ENUM_REGIST);
+	CMenu *pSubMenu = popup.GetSubMenu(0);//获得子菜单（如果有）0表示索引，对应“文件”菜单
+	for (int i = 0; i < 10; i++)
+	{
+		CBitmap bmp;
+		bmp.LoadBitmap(enum_ico[i]);
+		pSubMenu->SetMenuItemBitmaps(i, MF_BYPOSITION, &bmp, &bmp);
+		bmp.Detach();
+	}
+
+	CBitmap bmp;
+	CBrush m_BKBrush;
+	bmp.LoadBitmap(IDB_BITMAP_LOGO);
+	m_BKBrush.CreatePatternBrush(&bmp);//创建位图画刷
+	MENUINFO mnInfo;
+	memset(&mnInfo, 0, sizeof(MENUINFO));
+	mnInfo.cbSize = sizeof(MENUINFO);
+	mnInfo.fMask = MIM_BACKGROUND;
+	mnInfo.hbrBack = m_BKBrush;
+	::SetMenuInfo(pSubMenu->m_hMenu, &mnInfo);
+	m_BKBrush.Detach();
+
+	
+	//::MENUINFO lpcmi;
+	//m_brush.CreateSolidBrush(RGB(236, 153, 101));//颜色
+	//memset(&lpcmi, 0, sizeof(::LPCMENUINFO));
+	//lpcmi.cbSize = sizeof(MENUINFO);
+	//lpcmi.fMask =  MIM_APPLYTOSUBMENUS | MIM_BACKGROUND;
+	//lpcmi.hbrBack = (HBRUSH)m_brush.operator HBRUSH();
+	//::SetMenuInfo(popup, &lpcmi);
 
 	return 0;
 }
@@ -1177,6 +1210,13 @@ HBRUSH CCcRemoteDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		isTrue = m_CList_Online.SetBkImage(sPath.GetBuffer(sPath.GetLength()), TRUE);   // 定义：CListCtrl   m_controllist1;
 		sPath.ReleaseBuffer();
 		// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	}
+	if (nCtlColor == CTLCOLOR_STATIC)
+	{
+		pDC->SetTextColor(RGB(255, 255, 255));
+		pDC->SetBkMode(TRANSPARENT); //设置背景透明
+		return HBRUSH(GetStockObject(HOLLOW_BRUSH));
+
 	}
 
 	return hbr;
