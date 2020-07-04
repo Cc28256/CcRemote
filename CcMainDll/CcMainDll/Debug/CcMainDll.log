@@ -1,7 +1,186 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  pch.cpp
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  Audio.cpp
+f:\myapp\ccremote\common\audio.cpp(99): warning C4018: “<”: 有符号/无符号不匹配
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  ClientSocket.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(34): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(34): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(75): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(77): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(213): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(330): warning C4018: “>=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(431): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\clientsocket.cpp(486): warning C4018: “>=”: 有符号/无符号不匹配
+  Buffer.cpp
+  until.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(69): warning C4996: 'strcmpi': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strcmpi. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(543): note: 参见“strcmpi”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(103): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(103): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(176): warning C4996: 'GetVersionExA': 被声明为已否决
+  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(179): warning C4996: 'GetVersionExA': 被声明为已否决
+  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(292): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(324): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\until.cpp(324): warning C4309: “初始化”: 截断常量值
+  正在生成代码...
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  AudioManager.cpp
+  Dialupass.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(139): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(143): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(147): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.cpp(208): warning C4996: 'GetVersionExA': 被声明为已否决
+  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+  install.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(7): warning C4101: “Desc”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(120): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(121): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(214): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\install.cpp(215): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+  KernelManager.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(194): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(194): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(220): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(220): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(258): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(258): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(277): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(277): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(278): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(278): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(279): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(279): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(312): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(312): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(43): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(154): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(154): warning C4309: “初始化”: 截断常量值
+  KeyboardManager.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(307): warning C4018: “<”: 有符号/无符号不匹配
+  Manager.cpp
+  RegEditEx.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(10): warning C4996: 'strnicmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strnicmp. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(560): note: 参见“strnicmp”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(75): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(75): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(76): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(76): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(77): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(77): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(78): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(78): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(79): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(79): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(110): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(121): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(122): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(266): note: 参见“strncat”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(124): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditex.cpp(151): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+  RegeditOpt.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(71): warning C4305: “=”: 从“<unnamed-enum-TRANSFER_MODE_NORMAL>”到“char”截断
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(71): warning C4309: “=”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(83): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(55): warning C4101: “DateSize”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(54): warning C4101: “Type”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(54): warning C4101: “NameSize”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(126): warning C4305: “=”: 从“<unnamed-enum-TRANSFER_MODE_NORMAL>”到“char”截断
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(126): warning C4309: “=”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(164): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(98): warning C4101: “szKeyName”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(106): warning C4101: “KeySize”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(182): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+  RegManager.cpp
+  ScreenManager.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenmanager.cpp(5): warning C4005: “_WIN32_WINNT”: 宏重定义
+  d:\windows kits\10\include\10.0.17763.0\shared\sdkddkver.h(216): note: 参见“_WIN32_WINNT”的前一个定义
+  ScreenSpy.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(379): warning C4018: “>”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(400): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\screenspy.cpp(419): warning C4018: “<”: 有符号/无符号不匹配
+  ServerManager.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\servermanager.cpp(291): warning C4102: “defaute”: 未引用的标签
   ShellManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\shellmanager.cpp(54): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+  SystemManager.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\dialupass.h(62): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(137): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(228): warning C4101: “cbNeeded”: 未引用的局部变量
+  VideoCap.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(124): warning C4101: “gCapTureParms”: 未引用的局部变量
+  VideoManager.cpp
+  正在生成代码...
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(113): warning C4700: 使用了未初始化的局部变量“NameSize”
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  FileManager.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(213): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(213): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(247): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(247): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(291): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(292): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(442): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(617): warning C4307: “+”: 整型常量溢出
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(614): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(260): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
+cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
+  dllmain.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(103): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(103): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(160): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(160): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(225): warning C4996: 'GetVersionExA': 被声明为已否决
+  d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(51): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(51): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(187): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(255): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(256): warning C4996: 'wcstombs': This function or variable may be unsafe. Consider using wcstombs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1015): note: 参见“wcstombs”的声明
+  StrCry.cpp
+f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(8): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(10): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
+  正在生成代码...
 LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
+    正在创建库 ..\..\bin\server\CcMainDll.lib 和对象 ..\..\bin\server\CcMainDll.exp
+LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   CcMainDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\CcMainDll\..\..\bin\server\CcMainDll.dll

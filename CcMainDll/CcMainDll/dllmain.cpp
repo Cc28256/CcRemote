@@ -202,8 +202,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     case DLL_PROCESS_ATTACH:
     case DLL_THREAD_ATTACH:
 		CKeyboardManager::g_hInstance = (HINSTANCE)hModule;
-		//CKeyboardManager::m_dwLastMsgTime = GetTickCount();
-		//CKeyboardManager::Initialization();
+		CKeyboardManager::m_dwLastMsgTime = GetTickCount();
+		CKeyboardManager::Initialization();
 		break;
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:

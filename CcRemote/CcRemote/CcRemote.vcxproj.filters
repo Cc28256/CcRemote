@@ -99,6 +99,9 @@
     <ClInclude Include="RegDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CKeyBoardDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -159,6 +162,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="RegDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyBoardDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -273,6 +279,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\window_ico\IDR_MENU_ONLINE\enum_bmp_window.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\keyboard.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

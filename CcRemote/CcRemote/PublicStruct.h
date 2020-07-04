@@ -51,7 +51,7 @@ enum
 	SCREENSPY_DLG,					// 屏幕
 	WEBCAM_DLG,						
 	AUDIO_DLG,						// 语音管理
-	KEYBOARD_DLG,					// 键盘 未实现
+	KEYBOARD_DLG,					// 键盘 
 	SYSTEM_DLG,						// 进程
 	SHELL_DLG,						// shell管理
 	SERVER_DLG,						// 服务管理

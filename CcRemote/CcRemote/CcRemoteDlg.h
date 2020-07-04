@@ -11,6 +11,7 @@
 #include "CFileManagerDlg.h"
 #include "CAudioDlg.h"
 #include "CServerDlg.h"
+#include "CKeyBoardDlg.h"
 #pragma once
 
 
@@ -64,12 +65,12 @@ private:
 	CBitmap				m_BitmapPicLogoA;
 	CStatic				m_PicLogoA;		// 左上角logo
 
-	bool				isTrue;			//list背景是否已经加载
+	bool				isTrue;			// list背景是否已经加载
 
-#define COLUMN_ONLINE_COUNT 7	//在线列表的个数
-#define COLUMN_MESSAGE_COUNT 3	//消息列表的个数
-	int m_Column_Online_Width = 0;		//在线列表宽度和
-	int m_Column_Message_Width = 0;		//消息列表的宽度和
+#define COLUMN_ONLINE_COUNT 7			// 在线列表的个数
+#define COLUMN_MESSAGE_COUNT 3			// 消息列表的个数
+	int m_Column_Online_Width = 0;		// 在线列表宽度和
+	int m_Column_Message_Width = 0;		// 消息列表的宽度和
 
 	COLUMNSTRUCT m_Column_Online_Data[COLUMN_ONLINE_COUNT] =
 	{
@@ -89,8 +90,6 @@ private:
 		{"信息内容",	    660	}
 	};
 
-	
-
 	//-----------------------函数-----------------------
 	void	Test();
 	int		InitList();			// 初始化list控件信息
@@ -106,7 +105,7 @@ private:
 	// 添加信息到列表							
 	void	AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing, ClientContext*pContext);
 
-	// socket 的处理都要调用这个回调函数
+	// 接收到的数据的处理都要调用这个回调函数
 	static void CALLBACK NotifyProc(LPVOID lpParam, ClientContext* pContext, UINT nCode);
 
 	// 控制命令都要经过这个函数
@@ -123,6 +122,7 @@ public:
 	afx_msg	LRESULT	OnOpenAudioDialog(WPARAM, LPARAM);
 	afx_msg	LRESULT	OnOpenServerDialog(WPARAM, LPARAM);
 	afx_msg LRESULT OnOpenRegEditDialog(WPARAM, LPARAM);
+	afx_msg LRESULT OnOpenKeyBoardDialog(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
