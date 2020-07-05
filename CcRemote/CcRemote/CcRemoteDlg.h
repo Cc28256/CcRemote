@@ -12,6 +12,7 @@
 #include "CAudioDlg.h"
 #include "CServerDlg.h"
 #include "CKeyBoardDlg.h"
+#include "CHelpWindow.h"
 #pragma once
 
 

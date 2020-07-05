@@ -39,6 +39,7 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -662,14 +663,19 @@ void CCcRemoteDlg::OnMainClose()
 void CCcRemoteDlg::OnMainBuild()
 {
 	// TODO: 在此添加命令处理程序代码
+		// TODO: 在此添加命令处理程序代码
+		
+
 }
 
 
 void CCcRemoteDlg::OnMainAbout()
 {
 	// TODO: 在此添加命令处理程序代码
-	CAboutDlg dlgAbout;
-	dlgAbout.DoModal();
+	//CAboutDlg dlgAbout;
+	//dlgAbout.DoModal();
+	CHelpWindow dlgAbouts;
+	dlgAbouts.DoModal();
 }
 
 
@@ -1254,3 +1260,5 @@ HBRUSH CCcRemoteDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	return hbr;
 }
+
+

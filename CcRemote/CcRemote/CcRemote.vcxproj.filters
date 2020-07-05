@@ -102,6 +102,9 @@
     <ClInclude Include="CKeyBoardDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CHelpWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -165,6 +168,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CKeyBoardDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CHelpWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -282,6 +288,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\keyboard.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\help_window.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

@@ -212,6 +212,7 @@
     <ClInclude Include="CcRemote.h" />
     <ClInclude Include="CcRemoteDlg.h" />
     <ClInclude Include="CFileManagerDlg.h" />
+    <ClInclude Include="CHelpWindow.h" />
     <ClInclude Include="CKeyBoardDlg.h" />
     <ClInclude Include="CServerDlg.h" />
     <ClInclude Include="FileTransferModeDlg.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="CcRemote.cpp" />
     <ClCompile Include="CcRemoteDlg.cpp" />
     <ClCompile Include="CFileManagerDlg.cpp" />
+    <ClCompile Include="CHelpWindow.cpp" />
     <ClCompile Include="CKeyBoardDlg.cpp" />
     <ClCompile Include="CServerDlg.cpp" />
     <ClCompile Include="FileTransferModeDlg.cpp" />
@@ -297,6 +299,7 @@
     <Image Include="res\cmdshell.ico" />
     <Image Include="res\dword.ico" />
     <Image Include="res\file_ico.ico" />
+    <Image Include="res\help_window.bmp" />
     <Image Include="res\keyboard.ico" />
     <Image Include="res\liset_online_pic.bmp" />
     <Image Include="res\list_online_pic.bmp" />
