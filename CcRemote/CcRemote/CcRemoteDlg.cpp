@@ -738,7 +738,7 @@ void CCcRemoteDlg::InitToolBar()
 	m_ToolBar.SetButtonText(3, "桌面管理");
 	m_ToolBar.SetButtonText(4, "文件管理");
 	m_ToolBar.SetButtonText(5, "语音管理");
-	m_ToolBar.SetButtonText(6, "视频管理");
+	m_ToolBar.SetButtonText(6, "键盘管理");
 	m_ToolBar.SetButtonText(7, "服务管理");
 	m_ToolBar.SetButtonText(8, "注册表管理");
 	m_ToolBar.SetButtonText(10, "参数设置");
