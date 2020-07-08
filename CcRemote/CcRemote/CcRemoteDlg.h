@@ -125,6 +125,7 @@ public:
 	afx_msg	LRESULT	OnOpenServerDialog(WPARAM, LPARAM);
 	afx_msg LRESULT OnOpenRegEditDialog(WPARAM, LPARAM);
 	afx_msg LRESULT OnOpenKeyBoardDialog(WPARAM, LPARAM);
+	afx_msg LRESULT OnRemoveFromList(WPARAM, LPARAM);
 
 	//-------------系统消息处理-------------
 	afx_msg void OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult);
