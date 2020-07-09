@@ -135,7 +135,7 @@ void CALLBACK CCcRemoteDlg::NotifyProc(LPVOID lpParam, ClientContext *pContext, 
 		case NC_CLIENT_CONNECT:
 			break;
 		case NC_CLIENT_DISCONNECT:
-			g_pCcRemoteDlg->PostMessage(WM_REMOVEFROMLIST, 0, (LPARAM)pContext);
+			g_pCcRemoteDlg->PostMessage(WM_REMOVEFROMLIST, 0, (LPARAM)pContext);	// 当服务端断开或出错响应
 			break;
 		case NC_TRANSMIT:
 			break;
@@ -325,18 +325,18 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 	if (m_CList_Online.m_hWnd != NULL)
 	{
 		CRect rc;
-		rc.left = 1;			//列表的左坐标
-		rc.top = 80;			//列表的上坐标
-		rc.right = cx - 1;		//列表的右坐标
-		rc.bottom = cy - 160;	//列表的下坐标
+		rc.left = 1;			// 列表的左坐标
+		rc.top = 80;			// 列表的上坐标
+		rc.right = cx - 1;		// 列表的右坐标
+		rc.bottom = cy - 160;	// 列表的下坐标
 		m_CList_Online.MoveWindow(rc);
 
-		for (int i = 0; i < COLUMN_ONLINE_COUNT; i++) {   //遍历每一个列
-			double dd = m_Column_Online_Data[i].nWidth;     //得到当前列的宽度
-			dd /= m_Column_Online_Width;                    //看一看当前宽度占总长度的几分之几
-			dd *= dcx;                                      //用原来的长度乘以所占的几分之几得到当前的宽度
-			int lenth = dd;                                 //转换为int 类型
-			m_CList_Online.SetColumnWidth(i, (lenth));      //设置当前的宽度
+		for (int i = 0; i < COLUMN_ONLINE_COUNT; i++) {     // 遍历每一个列
+			double dd = m_Column_Online_Data[i].nWidth;     // 得到当前列的宽度
+			dd /= m_Column_Online_Width;                    // 看一看当前宽度占总长度的几分之几
+			dd *= dcx;                                      // 用原来的长度乘以所占的几分之几得到当前的宽度
+			int lenth = dd;                                 // 转换为int 类型
+			m_CList_Online.SetColumnWidth(i, (lenth));      // 设置当前的宽度
 		}
 
 		
@@ -345,18 +345,18 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 	if (m_CList_Message.m_hWnd != NULL)
 	{
 		CRect rc;
-		rc.left = 1;			//列表的左坐标
-		rc.top = cy - 156;		//列表的上坐标
-		rc.right = cx - 1;		//列表的右坐标
-		rc.bottom = cy - 20;		//列表的下坐标
+		rc.left = 1;				// 列表的左坐标
+		rc.top = cy - 156;			// 列表的上坐标
+		rc.right = cx - 1;			// 列表的右坐标
+		rc.bottom = cy - 20;		// 列表的下坐标
 		m_CList_Message.MoveWindow(rc);
 
-		for (int i = 0; i < COLUMN_MESSAGE_COUNT; i++) {                   //遍历每一个列
-			double dd = m_Column_Message_Data[i].nWidth;     //得到当前列的宽度
-			dd /= m_Column_Message_Width;                    //看一看当前宽度占总长度的几分之几
-			dd *= dcx;                                       //用原来的长度乘以所占的几分之几得到当前的宽度
-			int lenth = dd;                                   //转换为int 类型
-			m_CList_Message.SetColumnWidth(i, (lenth));        //设置当前的宽度
+		for (int i = 0; i < COLUMN_MESSAGE_COUNT; i++) {        // 遍历每一个列
+			double dd = m_Column_Message_Data[i].nWidth;		// 得到当前列的宽度
+			dd /= m_Column_Message_Width;						// 看一看当前宽度占总长度的几分之几
+			dd *= dcx;											// 用原来的长度乘以所占的几分之几得到当前的宽度
+			int lenth = dd;										// 转换为int 类型
+			m_CList_Message.SetColumnWidth(i, (lenth));			// 设置当前的宽度
 		}
 	}
 
@@ -387,10 +387,10 @@ void CCcRemoteDlg::OnSize(UINT nType, int cx, int cy)
 int CCcRemoteDlg::InitMyMenu()
 {
 	HMENU hmenu;
-	hmenu = LoadMenu(NULL, MAKEINTRESOURCE(IDR_MENU_MAIN));  //载入菜单资源
+	hmenu = LoadMenu(NULL, MAKEINTRESOURCE(IDR_MENU_MAIN)); // 载入菜单资源
 	
-	::SetMenu(this->GetSafeHwnd(), hmenu);                  //为窗口设置菜单
-	::DrawMenuBar(this->GetSafeHwnd());                    //显示菜单
+	::SetMenu(this->GetSafeHwnd(), hmenu);                  // 为窗口设置菜单
+	::DrawMenuBar(this->GetSafeHwnd());						// 显示菜单
 
 	int enum_ico[] = {	IDB_BITMAP_ENUM_SHELL ,
 						IDB_BITMAP_ENUM_PROCESS,
@@ -403,9 +403,9 @@ int CCcRemoteDlg::InitMyMenu()
 						IDB_BITMAP_ENUM_REGIST,
 						IDB_BITMAP_ENUM_QUIT };
 
-	popup.LoadMenu(IDR_MENU_ONLINE);//载入菜单资源
+	popup.LoadMenu(IDR_MENU_ONLINE);				// 载入菜单资源
 	m_IconBitmap.LoadBitmap(IDB_BITMAP_ENUM_REGIST);
-	CMenu *pSubMenu = popup.GetSubMenu(0);//获得子菜单（如果有）0表示索引，对应“文件”菜单
+	CMenu *pSubMenu = popup.GetSubMenu(0);			// 获得子菜单（如果有）0表示索引，对应“文件”菜单
 	for (int i = 0; i < 10; i++)
 	{
 		CBitmap bmp;
@@ -417,7 +417,7 @@ int CCcRemoteDlg::InitMyMenu()
 	CBitmap bmp;
 	CBrush m_BKBrush;
 	bmp.LoadBitmap(IDB_BITMAP_LOGO);
-	m_BKBrush.CreatePatternBrush(&bmp);//创建位图画刷
+	m_BKBrush.CreatePatternBrush(&bmp);				// 创建位图画刷
 	MENUINFO mnInfo;
 	memset(&mnInfo, 0, sizeof(MENUINFO));
 	mnInfo.cbSize = sizeof(MENUINFO);
@@ -449,13 +449,13 @@ int CCcRemoteDlg::InitList()
 
 	m_CList_Message.SetTextBkColor(CLR_NONE);
 	m_CList_Message.SetBkColor(CLR_NONE);
-	//m_CList_Message.SetTextColor(RGB(255, 0, 0));
+	// m_CList_Message.SetTextColor(RGB(255, 0, 0));
 
-	//设置list可选中
+	// 设置list可选中
 	m_CList_Online.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 	m_CList_Message.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 	
-	//计算控件宽度
+	// 计算控件宽度
 	for (int i = 0; i < COLUMN_ONLINE_COUNT; i++)
 	{
 		m_CList_Online.InsertColumn(i, m_Column_Online_Data[i].title, LVCFMT_LEFT, m_Column_Online_Data[i].nWidth);
@@ -473,9 +473,9 @@ int CCcRemoteDlg::InitList()
 
 void CCcRemoteDlg::AddList(CString strIP, CString strAddr, CString strPCName, CString strOS, CString strCPU, CString strVideo, CString strPing, ClientContext*pContext)
 {
-	m_CList_Online.InsertItem(0, strIP);           //默认为0行  这样所有插入的新列都在最上面
-	m_CList_Online.SetItemText(0, ONLINELIST_ADDR, strAddr);      //设置列的显示字符   这里 ONLINELIST_ADDR等 为第二节课中的枚举类型 用这样的方法
-	m_CList_Online.SetItemText(0, ONLINELIST_COMPUTER_NAME, strPCName); //解决问题会避免以后扩展时的冲突
+	m_CList_Online.InsertItem(0, strIP);									// 默认为0行  这样所有插入的新列都在最上面
+	m_CList_Online.SetItemText(0, ONLINELIST_ADDR, strAddr);				// 设置列的显示字符   这里 ONLINELIST_ADDR等 为第二节课中的枚举类型 用这样的方法
+	m_CList_Online.SetItemText(0, ONLINELIST_COMPUTER_NAME, strPCName);		// 解决问题会避免以后扩展时的冲突
 	m_CList_Online.SetItemText(0, ONLINELIST_OS, strOS);
 	m_CList_Online.SetItemText(0, ONLINELIST_CPU, strCPU);
 	m_CList_Online.SetItemText(0, ONLINELIST_VIDEO, strVideo);
@@ -502,7 +502,7 @@ void CCcRemoteDlg::ShowMessage(bool bIsOK, CString strMsg)
 
 
 	CString strStatusMsg;
-	if (strMsg.Find("上线") > 0)         //处理上线还是下线消息
+	if (strMsg.Find("上线") > 0)         // 处理上线还是下线消息
 	{
 		m_OnlineCount++;
 	}
@@ -514,9 +514,9 @@ void CCcRemoteDlg::ShowMessage(bool bIsOK, CString strMsg)
 	{
 		m_OnlineCount--;
 	}
-	m_OnlineCount = (m_OnlineCount <= 0 ? 0 : m_OnlineCount);         //防止iCount 有-1的情况
+	m_OnlineCount = (m_OnlineCount <= 0 ? 0 : m_OnlineCount);			// 防止iCount 有-1的情况
 	strStatusMsg.Format("已连接: %d", m_OnlineCount);
-	m_wndStatusBar.SetPaneText(0, strStatusMsg);   //在状态条上显示文字
+	m_wndStatusBar.SetPaneText(0, strStatusMsg);						// 在状态条上显示文字
 	
 }
 
@@ -525,10 +525,6 @@ void CCcRemoteDlg::Test()
 {
 	
 	ShowMessage(true, "软件初始化成功...");
-	//AddList("192.168.0.1", "本机局域网", "CHANG", "Windows7", "2.2GHZ", "有", "123232");
-	//AddList("192.168.10.1", "本机局域网", "WANG", "Windows10", "2.2GHZ", "无", "111111");
-	//AddList("192.168.18.25", "本机局域网", "LIU", "Windows8", "2.2GHZ", "有", "654321");
-	//AddList("192.168.97.162", "本机局域网", "SHANG", "WindowsXP", "2.2GHZ", "无", "123456");
 	
 }
 
@@ -537,25 +533,25 @@ void CCcRemoteDlg::OnNMRClickOnline(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
 	
-	CMenu*	pM = popup.GetSubMenu(0);//得到菜单项
+	CMenu*	pM = popup.GetSubMenu(0);	// 得到菜单项
 	CPoint	p;
-	GetCursorPos(&p);//得到鼠标指针的位置
-	int	count = pM->GetMenuItemCount();//得到菜单的个数
-	if (m_CList_Online.GetSelectedCount() == 0)       //如果没有选中
+	GetCursorPos(&p);					// 得到鼠标指针的位置
+	int	count = pM->GetMenuItemCount();	// 得到菜单的个数
+	if (m_CList_Online.GetSelectedCount() == 0)       // 如果没有选中
 	{
 		for (int i = 0; i < count; i++) //遍历每一个菜单
 		{
-			pM->EnableMenuItem(i, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);          //菜单全部变灰
+			pM->EnableMenuItem(i, MF_BYPOSITION | MF_DISABLED | MF_GRAYED);          // 菜单全部变灰
 		}
 	}
 	else
 	{
-		for (int i = 0; i < count; i++) //遍历每一个菜单
+		for (int i = 0; i < count; i++) // 遍历每一个菜单
 		{
-			pM->EnableMenuItem(i, MF_BYPOSITION | MF_ENABLED );          //菜单可用
+			pM->EnableMenuItem(i, MF_BYPOSITION | MF_ENABLED );          // 菜单可用
 		}
 	}
-	pM->TrackPopupMenu(TPM_LEFTALIGN, p.x, p.y, this); //在指定位置显示菜单
+	pM->TrackPopupMenu(TPM_LEFTALIGN, p.x, p.y, this); // 在指定位置显示菜单
 	*pResult = 0;
 }
 
@@ -564,7 +560,7 @@ void CCcRemoteDlg::OnOnlineAudio()
 {
 	// TODO: 在此添加命令处理程序代码
 	// MessageBox("声音");
-	BYTE	bToken = COMMAND_AUDIO;                 //向服务端发送命令
+	BYTE	bToken = COMMAND_AUDIO;                 // 向服务端发送命令
 	SendSelectCommand(&bToken, sizeof(BYTE));
 
 }
@@ -582,7 +578,7 @@ void CCcRemoteDlg::OnOnlineCmd()
 void CCcRemoteDlg::OnOnlineDesktop()
 {
 	// TODO: 在此添加命令处理程序代码
-	BYTE	bToken = COMMAND_SCREEN_SPY;  //向服务端发送COMMAND_SCREEN_SPY CKernelManager::OnReceive搜之
+	BYTE	bToken = COMMAND_SCREEN_SPY;  // 向服务端发送COMMAND_SCREEN_SPY CKernelManager::OnReceive搜之
 	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
@@ -590,7 +586,7 @@ void CCcRemoteDlg::OnOnlineDesktop()
 void CCcRemoteDlg::OnOnlineFile()
 {
 	// TODO: 在此添加命令处理程序代码
-	BYTE	bToken = COMMAND_LIST_DRIVE;            //服务端中COMMAND_LIST_DRIVE
+	BYTE	bToken = COMMAND_LIST_DRIVE;            // 服务端中COMMAND_LIST_DRIVE
 	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
@@ -598,7 +594,7 @@ void CCcRemoteDlg::OnOnlineFile()
 void CCcRemoteDlg::OnOnlineProcess()
 {
 	// TODO: 在此添加命令处理程序代码
-	BYTE	bToken = COMMAND_SYSTEM;         //赋值一个宏 然后发送到服务端，到服务端搜索COMMAND_SYSTEM
+	BYTE	bToken = COMMAND_SYSTEM;         // 赋值一个宏 然后发送到服务端，到服务端搜索COMMAND_SYSTEM
 	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
@@ -614,7 +610,7 @@ void CCcRemoteDlg::OnOnlineRegist()
 void CCcRemoteDlg::OnOnlineServer()
 {
 	// TODO: 在此添加命令处理程序代码
-	BYTE	bToken = COMMAND_SERVICES;         //赋值一个宏 然后发送到服务端，服务端COMMAND_SYSTEM
+	BYTE	bToken = COMMAND_SERVICES;         // 赋值一个宏 然后发送到服务端，服务端COMMAND_SYSTEM
 	SendSelectCommand(&bToken, sizeof(BYTE));
 }
 
@@ -638,12 +634,12 @@ void CCcRemoteDlg::OnOnlineWindow()
 void CCcRemoteDlg::OnOnlineDelete()
 {
 	// TODO: 在此添加命令处理程序代码
-	CString strIP;//选择断开的IP
-	int iSelect = m_CList_Online.GetSelectionMark();//获得选中的行
-	strIP = m_CList_Online.GetItemText(iSelect, ONLINELIST_IP);//获取断开的IP字符串
-	m_CList_Online.DeleteItem(iSelect);//删除该列表项
+	CString strIP;// 选择断开的IP
+	int iSelect = m_CList_Online.GetSelectionMark();// 获得选中的行
+	strIP = m_CList_Online.GetItemText(iSelect, ONLINELIST_IP);// 获取断开的IP字符串
+	m_CList_Online.DeleteItem(iSelect);// 删除该列表项
 	strIP += " 由主机主动断开连接";
-	ShowMessage(true, strIP);//显示日志
+	ShowMessage(true, strIP);// 显示日志
 }
 
 
@@ -1025,19 +1021,14 @@ LRESULT CCcRemoteDlg::OnAddToList(WPARAM wParam, LPARAM lParam)
 			LoginInfo->OsVerInfoEx.wServicePackMajor,
 			LoginInfo->OsVerInfoEx.dwBuildNumber
 		);
-		//m_pListCtrl->SetItemText(i, 4, strOS);
-
+	
 		// CPU
 		strCPU.Format("%dMHz", LoginInfo->CPUClockMhz);
-		//m_pListCtrl->SetItemText(i, 5, str);
-
+	
 		// Speed
 		strPing.Format("%d", LoginInfo->dwSpeed);
-		//m_pListCtrl->SetItemText(i, 6, str);
-
 
 		strVideo = LoginInfo->bIsWebCam ? "有" : "--";
-		//m_pListCtrl->SetItemText(i, 7, str);
 
 		strToolTipsText.Format("New Connection Information:\nHost: %s\nIP  : %s\nOS  : Windows %s", LoginInfo->HostName, IPAddress, strOS);
 
@@ -1046,12 +1037,8 @@ LRESULT CCcRemoteDlg::OnAddToList(WPARAM wParam, LPARAM lParam)
 
 			strAddr = m_QQwry->IPtoAdd(IPAddress);
 
-			//strToolTipsText += "\nArea: ";
-			//strToolTipsText += str;
 		}
-		// 指定唯一标识
-		//m_pListCtrl->SetItemData(i, (DWORD) pContext);    //这里将服务端的套接字等信息加入列表中保存
-		AddList(strIP, strAddr, strPCName, strOS, strCPU, strVideo, strPing, pContext);
+			AddList(strIP, strAddr, strPCName, strOS, strCPU, strVideo, strPing, pContext);
 	}
 	catch (...) {}
 
@@ -1101,10 +1088,10 @@ LRESULT CCcRemoteDlg::OnOpenSystemDialog(WPARAM wParam, LPARAM lParam)
 	CSystemDlg	*dlg = new CSystemDlg(this, m_iocpServer, pContext);  //动态创建CSystemDlg
 
 	// 设置父窗口为桌面
-	dlg->Create(IDD_SYSTEM, GetDesktopWindow());      //创建对话框
-	dlg->ShowWindow(SW_SHOW);                      //显示对话框
+	dlg->Create(IDD_SYSTEM, GetDesktopWindow());		// 创建对话框
+	dlg->ShowWindow(SW_SHOW);							// 显示对话框
 
-	pContext->m_Dialog[0] = SYSTEM_DLG;              //这个值用做服务端再次发送数据时的标识
+	pContext->m_Dialog[0] = SYSTEM_DLG;					// 这个值用做服务端再次发送数据时的标识
 	pContext->m_Dialog[1] = (int)dlg;
 	//先看一下这个对话框的界面再看这个对话框类的构造函数
 	return 0;

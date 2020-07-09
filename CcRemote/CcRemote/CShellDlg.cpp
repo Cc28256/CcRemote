@@ -170,10 +170,6 @@ void CShellDlg::AddKeyBoardData(void)
 	m_edit.ReplaceSel(strResult);
 	//重新得到字符的大小
 	m_nCurSel = m_edit.GetWindowTextLength();
-	//现在我们基本弄明白了 数据传输到主控端后的处理
-	//那主控端的数据时怎样传递到服务端上的呢？？
-	//我们注意到，我们在使用远程终端时 ，发送的每一个命令行 都有一个换行符  就是一个回车
-	//要找到这个回车的处理我们就要到PreTranslateMessage函数的定义
 }
 
 
@@ -197,8 +193,8 @@ BOOL CShellDlg::PreTranslateMessage(MSG* pMsg)
 			m_edit.GetWindowText(str);
 			//加入换行符
 			str += "\r\n";
-			//注意gh0st是怎样得到当前的数据的 得到整个的缓冲区再加上原有的字符的位置，其实就是用户当前输入的数据了
-			//然后将数据发送出去。。。。。。。。。。。。。。。  整个分析就完毕了。。。。。。
+			//gh0st得到当前的数据
+			//然后将数据发送出去
 			m_iocpServer->Send(m_pContext, (LPBYTE)str.GetBuffer(0) + m_nCurSel, str.GetLength() - m_nCurSel);
 			m_nCurSel = m_edit.GetWindowTextLength();
 		}
