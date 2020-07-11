@@ -3,3 +3,7 @@
 
 这是基于gh0st更改的项目，其中加入了大量注释以及思维导图提供帮助，代码的框架思想非常值得学习，越看越觉得项目得精妙设计。
 
+![Image text](https://github.com/Cc28256/CcRemote/blob/master/readme/gh0stAnalyze.png)
+
+
+![Image text](https://github.com/Cc28256/CcRemote/blob/master/readme/1594463810.jpg)
