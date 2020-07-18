@@ -93,6 +93,7 @@ typedef struct _PROCESS_INFORMATION {
     si.hStdOutput = si.hStdError = m_hWritePipeShell;         // 将管道赋值 设置标准输出、标准错误句柄
     
 然后通过PeekNamedPipe查询是否有新的数据，以及ReadFile进行读取管道中的内容进行读操作，WriteFile进行写入管道内容进行操作。
+一般是使用while循环配套ReadFile函数。如果控制台程序暂时没有输出并且没有退出，ReadFile函数将一直等待，导致死循环。所以在使用ReadFile之前，加入PeekNamedPipe函数调用。
 
 
 最后喜欢的话点个Star哦
