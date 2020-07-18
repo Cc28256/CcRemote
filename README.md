@@ -5,6 +5,8 @@
 
 #### 通讯框架
 
+通讯是同的是IOCP完成端口,它可以高效地将I/O事件通知给应用程序,处理逻辑我做成了xmind，一张图来了解通讯框架
+
 ![Image text](https://github.com/Cc28256/CcRemote/blob/master/readme/gh0stAnalyze.png)
 
 #### 主界面
