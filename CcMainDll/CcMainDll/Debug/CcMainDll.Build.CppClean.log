@@ -1,3 +1,5 @@
+g:\ccremote\ccremote\bin\server\ccmaindll.lib
+g:\ccremote\ccremote\bin\server\ccmaindll.exp
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.pch
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\vc141.pdb
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\vc141.idb
@@ -24,6 +26,15 @@ g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\dialupass.obj
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\audiomanager.obj
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\filemanager.obj
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\strcry.obj
+g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\dllmain.obj
+g:\ccremote\ccremote\bin\server\ccmaindll.ilk
+g:\ccremote\ccremote\bin\server\ccmaindll.dll
+g:\ccremote\ccremote\bin\server\ccmaindll.pdb
+g:\ccremote\ccremote\ccmaindll\ccmaindll\..\..\bin\server\ccmaindll.dll
+g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\ccmaindll.write.1u.tlog
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.command.1.tlog
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.read.1.tlog
 g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.write.1.tlog
+g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\link.command.1.tlog
+g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\link.read.1.tlog
+g:\ccremote\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\link.write.1.tlog
