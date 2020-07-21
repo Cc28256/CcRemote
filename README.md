@@ -95,6 +95,23 @@ typedef struct _PROCESS_INFORMATION {
 然后通过PeekNamedPipe查询是否有新的数据，以及ReadFile进行读取管道中的内容进行读操作，WriteFile进行写入管道内容进行操作。
 一般是使用while循环配套ReadFile函数。如果控制台程序暂时没有输出并且没有退出，ReadFile函数将一直等待，导致死循环。所以在使用ReadFile之前，加入PeekNamedPipe函数调用。
 
+#### active启动方式
+win7 64下
+     
+     64位程序注册表位置 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Active Setup\Installed Components
+     32位重定位注册表位置 HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
+
+例如{052860C8-3E53-3D0B-9332-48A8B4971352}
+
+Active Setup是微软使用此键来安装windows组件，可以在这个位置下看到已安装组件得列表，每个组件都有一个值，windows使用这些值来识别组件。其中StubPath是其中最重要的一项，它包含一个命令，windows每次启动都会执行这个命令。
+
+创建一个（在64位位置，需要根据启动程序而定）{052860C8-3E53-3D0B-9332-48A8B4971352} StubPath 项为REG_EXPAND_SZ类型 calc.exe
+
+1 重启计算机后，calc便会启动，但是启动后，程序执行会造成电脑卡住，无法进入系统，必须要退出程序才能执行。
+2 并且再次启动calc不会再启动了这是因为在user同位置的active setup下有相同的guid，将其删除再次重启就会启动了。
+
+所以每次执行要将user位置guid删除，并且程序通过再次启动自己或者注入到其他进程来解决上面的两个问题。
+
 
 最后喜欢的话点个Star哦
 
