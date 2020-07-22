@@ -95,6 +95,44 @@ typedef struct _PROCESS_INFORMATION {
 然后通过PeekNamedPipe查询是否有新的数据，以及ReadFile进行读取管道中的内容进行读操作，WriteFile进行写入管道内容进行操作。
 一般是使用while循环配套ReadFile函数。如果控制台程序暂时没有输出并且没有退出，ReadFile函数将一直等待，导致死循环。所以在使用ReadFile之前，加入PeekNamedPipe函数调用。
 
+#### 2 键盘监控
+###### 键盘钩子
+
+windows系统是建立在事件驱动的机制上，整个系统都是通过消息传递来实现的，而钩子是windows系统中非常重要的系统接口，用它可以截获并处理发送给其他进程的消息来实现诸多功能，钩子种类很多，每种钩子可以截取相应的消息，例如键盘钩子截取键盘消息等等。
+
+全局钩子运行机制，通过系统调用，将狗子挂入系统，每当特定消息发出，在消息没有到达目标窗口之前，钩子就会先行捕获到消息。这时钩子回调函数可以对消息进行操作，然后继续传递该消息，也可结束该消息的传递。每种类型的钩子都会由系统来维护一个钩子链，并且最后安装的钩子在链子的开始，最先安装的在最后。实现win32的系统钩子，必须调用API函数SetWindowsHookEx来安装这个函数
+
+###### 安装钩子
+```c
+HHOOK WINAPI SetWindowsHookEx(
+__in int idHook,            \\ 钩子类型
+__in HOOKPROC lpfn,         \\ 回调函数地址 
+__in HINSTANCE hMod,        \\ 实例句柄 (包含钩子函数的模块句柄)
+__in DWORD dwThreadId);     \\ 线程ID (指定监视的线程,如果指定确定的线程，即为线程专用钩子；如果指定为空，即为全局钩子。)
+```
+几点需要说明的地方：
+　　（1） 如果对于同一事件（如键盘消息）既安装了线程钩子又安装了系统钩子，系统会优先调用线程钩子，然后调用系统钩子。
+　　（2） 对同一事件消息可安装多个钩子处理过程，这些钩子处理过程形成了钩子链。处理顺序是先安装的后处理，后安装的先处理。
+　　（3） 钩子特别是系统钩子会消耗消息处理时间，降低系统性能。只有在必要的时候才安装钩子，在使用完毕后要及时卸载。
+###### 定义钩子回调
+
+    LRESULT CALLBACK HookProc(int nCode ,WPARAM wParam,LPARAM lParam) 
+
+我们先在钩子函数中实现自定义的功能，然后调用函数 CallNextHookEx 把钩子信息传递给钩子链的下一个钩子函数。
+
+    LRESULT CallNextHookEx( HHOOK hhk, int nCode, WPARAM wParam, LPARAM lParam )
+
+参数 hhk是钩子句柄。nCode、wParam和lParam 是钩子函数。 
+当然也可以通过直接返回TRUE来丢弃该消息，就阻止了该消息的传递。
+
+当不再使用钩子时，必须及时卸载。简单地调用下面的函数即可。
+
+    BOOL UnhookWindowsHookEx( HHOOK hhk)
+
+值得注意的是线程钩子和系统钩子的钩子函数的位置有很大的差别。
+线程钩子一般在当前线程或者当前线程派生的线程内，而系统钩子必须放在独立的动态链接库中。
+
+
 #### active启动方式
 win7 64下
      
