@@ -15,6 +15,7 @@
 
 ## 各个功能实现的方法
 
+
 #### 1 shell控制
   shell管理用到匿名管道，创建CMD子进程实现进程间通信达到操作控制的目的：
    管道pipe 用于进程间通讯的一段共享内存。创建管道的进程称为服务器，连接到一个管道的进为管道客户机。一个进程在想管道写入数据有，另一个进程就可以从瓜岛的另一端将其读取出来。匿名管道Anonymous Pipes 是在父进程和子进程单向传输数据的一种未命名的管道，只能在本地计算机中是同，不能用于网络间的通讯。
@@ -95,7 +96,127 @@ typedef struct _PROCESS_INFORMATION {
 然后通过PeekNamedPipe查询是否有新的数据，以及ReadFile进行读取管道中的内容进行读操作，WriteFile进行写入管道内容进行操作。
 一般是使用while循环配套ReadFile函数。如果控制台程序暂时没有输出并且没有退出，ReadFile函数将一直等待，导致死循环。所以在使用ReadFile之前，加入PeekNamedPipe函数调用。
 
-#### 2 键盘监控
+
+
+#### 2 进程监控
+
+###### 进行进程枚举有很多方法
+
+    A：CreateToolhelp32Snapshot()、Process32First()和Process32Next()
+    B：EnumProcesses()、EnumProcessModules()、GetModuleBaseName()
+    C：Native Api的ZwQuerySystemInformation
+    D：wtsapi32.dll的WTSOpenServer()、WTSEnumerateProcess()
+
+gh0st使用的最常见的方法A，通过建立进程快照进行遍历进程获取信息
+```c
+HANDLE
+WINAPI
+CreateToolhelp32Snapshot(
+    DWORD dwFlags,      // 用来指定快照中需要返回的对象
+    DWORD th32ProcessID // 一个进程ID号，为0可获取所有或当前快照
+    );
+```
+通过函数CreateToolhelp32Snapshot获取的快照句柄使用Process32First、Process32Next遍历所有进程的PROCESSENTRY32信息
+再通过GetProcessFullPath获取进程路径等信息。
+
+###### 下面的方法可以获取进程内存列表、模块等信息，不过没有加入到项目中：
+
+###### 获取进程模块信息使用到的API：
+
+```c
+    HANDLE WINAPI OpenProcess(
+  __in          DWORD dwDesiredAccess,      // 打开的标识
+  __in          BOOL bInheritHandle,        // 是否继承句柄
+  __in          DWORD dwProcessId           // 被打开的进程句柄
+);
+    //枚举进程里的模块
+   BOOL WINAPI EnumProcessModules(
+  __in          HANDLE hProcess,            // 进程句柄
+  __out         HMODULE* lphModule,         // 返回进程里的模块
+  __in          DWORD cb,                   // 模块的个数
+  __out         LPDWORD lpcbNeeded          // 存储的模块的空间大小
+);  
+  //得到模块的名字
+  DWORD WINAPI GetModuleFileNameEx(
+  __in          HANDLE hProcess,            // 进程的句柄
+  __in          HMODULE hModule,            // 模块的句柄
+  __out         LPTSTR lpFilename,          // 返回模块的名字
+  __in          DWORD nSize                 // 缓冲区大小
+);
+```
+
+###### 获取进程所有内存信息：
+
+```c
+//枚举指定进程所有内存块
+//assert(hProcess != nullptr);
+//参数:
+//  hProcess:  要枚举的进程,需拥有PROCESS_QUERY_INFORMATION权限
+//  memories:  返回枚举到的内存块数组
+//返回:
+//  成功返回true,失败返回false.
+static bool EnumAllMemoryBlocks(HANDLE hProcess, OUT vector<MEMORY_BASIC_INFORMATION>& memories) {
+	// 如果 hProcess 为空则结束运行
+	assert(hProcess != nullptr);
+
+	// 初始化 vector 容量
+	memories.clear();
+	memories.reserve(200);
+
+	// 获取 PageSize 和地址粒度
+	SYSTEM_INFO sysInfo = { 0 };
+	GetSystemInfo(&sysInfo);
+	/*
+		typedef struct _SYSTEM_INFO {
+		  union {
+			DWORD dwOemId;							            // 兼容性保留
+			struct {
+			  WORD wProcessorArchitecture;			    // 操作系统处理器体系结构
+			  WORD wReserved;						            // 保留
+			} DUMMYSTRUCTNAME;
+		  } DUMMYUNIONNAME;
+		  DWORD     dwPageSize;						        // 页面大小和页面保护和承诺的粒度
+		  LPVOID    lpMinimumApplicationAddress;	// 指向应用程序和dll可访问的最低内存地址的指针
+		  LPVOID    lpMaximumApplicationAddress;	// 指向应用程序和dll可访问的最高内存地址的指针
+		  DWORD_PTR dwActiveProcessorMask;			  // 处理器掩码
+		  DWORD     dwNumberOfProcessors;			    // 当前组中逻辑处理器的数量
+		  DWORD     dwProcessorType;				      // 处理器类型，兼容性保留
+		  DWORD     dwAllocationGranularity;		  // 虚拟内存的起始地址的粒度
+		  WORD      wProcessorLevel;				      // 处理器级别
+		  WORD      wProcessorRevision;				    // 处理器修订
+		} SYSTEM_INFO, *LPSYSTEM_INFO;
+	*/
+
+	//遍历内存
+	const char* p = (const char*)sysInfo.lpMinimumApplicationAddress;
+	MEMORY_BASIC_INFORMATION  memInfo = { 0 };
+	while (p < sysInfo.lpMaximumApplicationAddress) {
+		// 获取进程虚拟内存块缓冲区字节数
+		size_t size = VirtualQueryEx(
+			hProcess,								              // 进程句柄
+			p,										                // 要查询内存块的基地址指针
+			&memInfo,								              // 接收内存块信息的 MEMORY_BASIC_INFORMATION 对象
+			sizeof(MEMORY_BASIC_INFORMATION32)		// 缓冲区大小
+		);
+		if (size != sizeof(MEMORY_BASIC_INFORMATION32)) { break; }
+
+		// 内存块属性memInfo保存一些内存块信息可以从这里判断获取
+		if (memInfo.Protect == PAGE_EXECUTE_READWRITE)
+			if (memInfo.State == MEM_COMMIT)
+				if (memInfo.Type == MEM_PRIVATE)
+					memories.push_back(memInfo);// 将内存块信息追加到 vector 数组尾部
+
+		// 移动指针
+		p += memInfo.RegionSize;
+	}
+
+	return memories.size() > 0;
+}
+```
+
+
+
+#### 3 键盘监控
 ###### 键盘钩子
 
 windows系统是建立在事件驱动的机制上，整个系统都是通过消息传递来实现的，而钩子是windows系统中非常重要的系统接口，用它可以截获并处理发送给其他进程的消息来实现诸多功能，钩子种类很多，每种钩子可以截取相应的消息，例如键盘钩子截取键盘消息等等。
