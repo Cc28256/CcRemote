@@ -13,6 +13,7 @@
 #include "CServerDlg.h"
 #include "CKeyBoardDlg.h"
 #include "CHelpWindow.h"
+#include "CBuildDlg.h"
 #pragma once
 
 

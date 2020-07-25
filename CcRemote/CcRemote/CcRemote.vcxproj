@@ -209,6 +209,7 @@
     <ClInclude Include="..\..\common\Audio.h" />
     <ClInclude Include="..\..\common\macros.h" />
     <ClInclude Include="CAudioDlg.h" />
+    <ClInclude Include="CBuildDlg.h" />
     <ClInclude Include="CcRemote.h" />
     <ClInclude Include="CcRemoteDlg.h" />
     <ClInclude Include="CFileManagerDlg.h" />
@@ -241,6 +242,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="CAudioDlg.cpp" />
+    <ClCompile Include="CBuildDlg.cpp" />
     <ClCompile Include="CcRemote.cpp" />
     <ClCompile Include="CcRemoteDlg.cpp" />
     <ClCompile Include="CFileManagerDlg.cpp" />

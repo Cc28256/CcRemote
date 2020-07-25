@@ -5,6 +5,13 @@ f:\myapp\ccremote\common\audio.cpp(99): warning C4018: “<”: 有符号/无符
   CAudioDlg.cpp
 f:\myapp\ccremote\ccremote\ccremote\caudiodlg.cpp(29): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+  CBuildDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(73): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(61): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(91): warning C4101: “e”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(95): warning C4101: “e”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(99): warning C4101: “e”: 未引用的局部变量
   CcRemote.cpp
   CcRemoteDlg.cpp
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(173): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings

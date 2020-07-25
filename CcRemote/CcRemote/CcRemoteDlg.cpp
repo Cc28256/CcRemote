@@ -662,8 +662,8 @@ void CCcRemoteDlg::OnMainBuild()
 {
 	// TODO: 在此添加命令处理程序代码
 		// TODO: 在此添加命令处理程序代码
-		
-
+	CBuildDlg buildDlg;
+	buildDlg.DoModal();
 }
 
 

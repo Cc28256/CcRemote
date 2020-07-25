@@ -105,6 +105,9 @@
     <ClInclude Include="CHelpWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CBuildDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CcRemote.cpp">
@@ -171,6 +174,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CHelpWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CBuildDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
