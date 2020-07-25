@@ -14,16 +14,14 @@ f:\myapp\ccremote\ccmaindll\loder\regeditex.h(141): warning C4996: 'strcat': Thi
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
 f:\myapp\ccremote\ccmaindll\loder\loder.cpp(247): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1961): note: 参见“_snprintf”的声明
-f:\myapp\ccremote\ccmaindll\loder\loder.cpp(279): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\loder\loder.cpp(285): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
 f:\myapp\ccremote\ccmaindll\loder\loder.cpp(286): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
 f:\myapp\ccremote\ccmaindll\loder\loder.cpp(287): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
-f:\myapp\ccremote\ccmaindll\loder\loder.cpp(292): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\loder\loder.cpp(288): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+f:\myapp\ccremote\ccmaindll\loder\loder.cpp(293): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
-f:\myapp\ccremote\ccmaindll\loder\loder.cpp(297): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\loder\loder.cpp(298): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
   Loder.vcxproj -> F:\myapp\CcRemote\CcMainDll\Loder\..\\..\\bin\\server\Loder.exe

@@ -264,19 +264,20 @@ void ActiveXSetup()
 	HKEY hKey;
 	char strFileName[MAX_PATH];            // dll文件名
 	char ActivexStr[1024];                 // 用于存储ActiveX的键字串
-	char ActiveXPath[MAX_PATH];            // ActiveX路径
 	char ActiveXKey[64];                   // ActiveX 的GUID字串
 	char strCmdLine[MAX_PATH];             // 存储启动的命令行参数
-
+	
+	// ActiveX路径
+	char ActiveXPath[MAX_PATH] = "SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\";
 
 	ZeroMemory(strFileName, MAX_PATH);
 	ZeroMemory(ActiveXPath, MAX_PATH);
 	ZeroMemory(ActivexStr, 1024);
-	ZeroMemory(ActiveXKey, MAX_PATH);
+	ZeroMemory(ActiveXKey, 64);
 	ZeroMemory(strCmdLine, MAX_PATH);
 
 	//得到Activex路径
-	strcpy(ActiveXPath, "SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\");
+	//strcpy(ActiveXPath, "SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\");
 	//得到Activex的GUID
 	GetNUM(ActiveXKey);
 	//构造dll完整文件名
