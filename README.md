@@ -272,6 +272,20 @@ Active Setup是微软使用此键来安装windows组件，可以在这个位置�
 所以每次执行要将user位置guid删除，并且程序通过再次启动自己或者注入到其他进程来解决上面的两个问题。
 
 
-最后喜欢的话点个Star哦
 
-![Image text](https://github.com/Cc28256/CcRemote/blob/master/readme/help.png)
+
+<img align="right" src="https://github.com/Cc28256/CcRemote/blob/master/readme/help.png"/>
+
+
+## 喜欢的话点个Star哦
+
+##### 这个项目花了2个月的时间来进行源码阅读和编译
+
+##### 如果存在bug可以留言给我，我将尝试着将它修复
+
+##### 免杀过程将不会在这记录，我不会去免杀该项目
+
+##### 项目仅供技术探讨，请勿用于非法用途
+
+
+### -------------Thank You-------------
