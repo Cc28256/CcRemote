@@ -35,4 +35,9 @@
   <ItemGroup>
     <None Include="..\..\bin\server\CcMainDll.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

