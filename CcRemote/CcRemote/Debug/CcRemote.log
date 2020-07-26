@@ -1,13 +1,23 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+﻿G:\VS2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
   CBuildDlg.cpp
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(80): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(68): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(117): warning C4101: “e”: 未引用的局部变量
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(121): warning C4101: “e”: 未引用的局部变量
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(125): warning C4101: “e”: 未引用的局部变量
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(153): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(154): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
-  CcRemote.vcxproj -> F:\myapp\CcRemote\CcRemote\CcRemote\..\..\bin\CcRemote.exe
+g:\ccremote\ccremote\ccremote\ccremote\cbuilddlg.cpp(105): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
+g:\ccremote\ccremote\ccremote\ccremote\cbuilddlg.cpp(87): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccremote\ccremote\cbuilddlg.cpp(137): warning C4101: “e”: 未引用的局部变量
+g:\ccremote\ccremote\ccremote\ccremote\cbuilddlg.cpp(141): warning C4101: “e”: 未引用的局部变量
+g:\ccremote\ccremote\ccremote\ccremote\cbuilddlg.cpp(145): warning C4101: “e”: 未引用的局部变量
+g:\ccremote\ccremote\ccremote\ccremote\cbuilddlg.cpp(173): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccremote\ccremote\cbuilddlg.cpp(174): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+zlibstat.lib(adler32.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(adler32.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(compress.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(compress.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(crc32.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(crc32.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(deflate.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(deflate.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(inffast.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(inffast.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(inflate.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(inflate.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(inftrees.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(inftrees.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(trees.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(trees.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(uncompr.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(uncompr.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+zlibstat.lib(zutil.obj) : warning LNK4099: 未找到 PDB“zlibstat.pdb”(使用“zlibstat.lib(zutil.obj)”或在“G:\CcRemote\CcRemote\bin\zlibstat.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+  CcRemote.vcxproj -> G:\CcRemote\CcRemote\CcRemote\CcRemote\..\..\bin\CcRemote.exe

