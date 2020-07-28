@@ -36,7 +36,7 @@ CScreenSpy::CScreenSpy(int biBitCount, bool bIsGray, UINT nMaxFrameRate)
 		// 得到桌面窗口
 		m_hDeskTopWnd = GetDesktopWindow();
 
-		// 根据窗口获取DC举兵
+		// 根据窗口获取DC句柄
 		m_hFullDC = GetDC(m_hDeskTopWnd);
 	}
 
