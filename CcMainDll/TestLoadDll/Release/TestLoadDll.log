@@ -1,6 +1,6 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+﻿G:\VS2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
   TestLoadDll.cpp
   正在生成代码
   All 171 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
-  TestLoadDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\TestLoadDll\..\..\bin\server\TestLoadDll.exe
+  TestLoadDll.vcxproj -> G:\CcRemote\CcRemote\CcMainDll\TestLoadDll\..\..\bin\server\TestLoadDll.exe

