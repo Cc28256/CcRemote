@@ -214,9 +214,66 @@ static bool EnumAllMemoryBlocks(HANDLE hProcess, OUT vector<MEMORY_BASIC_INFORMA
 }
 ```
 
+#### 3 注册表监控
+通过RegOpenKeyEx打卡一个注册表项得要打开项的句柄PHKEY phkResult 利用这个句柄来获取子项和信息
+```c
+    LONG WINAPI RegOpenKeyEx(
+    _In_ 		HKEY hKey, 		// 需要打开的主键的名称
+    _In_opt_ 	LPCSTR lpSubKey,		// 需要打开的子键的名称
+    _In_opt_ 	DWORD ulOptions,		// 保留 设为零
+    _In_ 		REGSAM samDesired,	// 安全访问标记 也就是权限
+    _Out_ 		PHKEY phkResult 	// 得到的将要打开键的句柄
+    );
+```
+
+得到PHKEY句柄后使用API RegQueryInfoKey获取该项信息
+```c
+    LONG WINAPI RegQueryInfoKey(    			// 获取某项有关的信息 
+    _in          HKEY hKey,          			// 已打开项的句柄 或指定一个标准项名 
+    _out         LPTSTR lpClass,      			// 指定一个字串 用于装载这个注册表项的类名 
+    _in_out      LPDWORD lpcClass,    			// 指定一个变量 用于装载lpClass缓冲区的长度。一旦返回 它会设为实际装载到缓冲区的字节数量 
+                 LPDWORD lpReserved,   			// 未用 设为零 
+    _out         LPDWORD lpcSubKeys,    		// 用于装载（保存）这个项的子项数量的一个变量 
+    _out         LPDWORD lpcMaxSubKeyLen,   		// 指定一个变量 用于装载这个项最长一个子项的长度。注意这个长度不包括空中止字符 
+    _out         LPDWORD lpcMaxClassLen,    		// 指定一个变量 用于装载这个项之子项的最长一个类名的长度。注意这个长度不包括空中止字符 
+    _out         LPDWORD lpcValues,         		// 用于装载这个项的设置值数量的一个变量 
+    _out         LPDWORD lpcMaxValueNameLen,   		// 指定一个变量 用于装载这个项之子项的最长一个值名的长度。注意这个长度不包括空中止字符 
+    _out         LPDWORD lpcMaxValueLen,       		// 指定一个变量 用于装载容下这个项最长一个值数据所需的缓冲区长度
+    _out         LPDWORD lpcbSecurityDescriptor,  	// 装载值安全描述符长度的一个变量 
+    _out         PFILETIME lpftLastWriteTime        	// 指定一个结构 用于容纳该项的上一次修改时间
+);
+```
+
+通过RegQueryInfoKey获取到lpcSubKeys子项数量同于RegEnumKeyEx的DWORD dwIndex,参数进行循环遍历得到索引项名LPTSTR lpName
+```c
+LONG WINAPI RegEnumKeyEx(          			// 枚举指定项下方的子项 
+    _in          HKEY hKey,        			// 一个已打开项的句柄，或者指定一个标准项名 
+    _in          DWORD dwIndex,     			// 欲获取的子项的索引。第一个子项的索引编号为零 
+    _out         LPTSTR lpName,     			// 用于装载指定索引处项名的一个缓冲区
+    _in_out      LPDWORD lpcName,      			// 指定一个变量，用于装载lpName缓冲区的实际长度，含空字符。一旦返回，它会设为实际装载到lpName缓冲区的字符数量 
+                 LPDWORD lpReserved,   			// 未用，设为零
+    _in_out      LPTSTR lpClass,       			// 项使用的类名
+    _in_out      LPDWORD lpcClass,     			// 用于装载lpClass缓冲区长度的一个变量。
+    _out         PFILETIME lpftLastWriteTime   		// 枚举子项上一次修改的时间
+);
+```
+
+使用API RegEnumValue 获取键值内容 以及获取lpType判断类型、lpData获取内容
+```c
+LONG WINAPI RegEnumValue(									// 读取键值
+    _In_ HKEY hKey,										// 一个已打开项的句柄，或者指定一个标准项名
+    _In_ DWORD dwIndex,										// 欲获取值的索引。注意第一个值的索引编号为零
+    _Out_writes_to_opt_(*lpcchValueName,*lpcchValueName + 1) LPSTR lpValueName,			// 用于装载位于指定索引处值名的一个缓冲区
+    _Inout_ LPDWORD lpcchValueName,								// 用于装载lpValueName缓冲区长度的一个变量。一旦返回，它会设为实际载入缓冲区的字符数量
+    _Reserved_ LPDWORD lpReserved,								// 未用 设为零
+    _Out_opt_ LPDWORD lpType,									// 用于装载值的类型代码的变量
+    _Out_writes_bytes_to_opt_(*lpcbData, *lpcbData) __out_data_source(REGISTRY) LPBYTE lpData,	// 用于装载值数据的一个缓冲区
+    _Inout_opt_ LPDWORD lpcbData								// 用于装载lpData缓冲区长度的一个变量。一旦返回，它会设为实际载入缓冲区的字符数量
+    );
+```
 
 
-#### 3 键盘监控
+#### 4 键盘监控
 ###### 键盘钩子
 
 windows系统是建立在事件驱动的机制上，整个系统都是通过消息传递来实现的，而钩子是windows系统中非常重要的系统接口，用它可以截获并处理发送给其他进程的消息来实现诸多功能，钩子种类很多，每种钩子可以截取相应的消息，例如键盘钩子截取键盘消息等等。
