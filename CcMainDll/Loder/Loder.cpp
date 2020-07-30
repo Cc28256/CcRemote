@@ -271,7 +271,7 @@ void ActiveXSetup()
 	char ActiveXPath[MAX_PATH] = "SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\";
 
 	ZeroMemory(strFileName, MAX_PATH);
-	ZeroMemory(ActiveXPath, MAX_PATH);
+	//ZeroMemory(ActiveXPath, MAX_PATH);
 	ZeroMemory(ActivexStr, 1024);
 	ZeroMemory(ActiveXKey, 64);
 	ZeroMemory(strCmdLine, MAX_PATH);
