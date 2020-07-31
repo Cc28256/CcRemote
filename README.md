@@ -272,8 +272,50 @@ LONG WINAPI RegEnumValue(									// 读取键值
     );
 ```
 
+#### 4 服务监控
 
-#### 4 键盘监控
+建立一个连接到服务控制管理器，并打开指定的数据库
+```c
+SC_HANDLE WINAPI OpenSCManager(         	
+  __in          LPCTSTR lpMachineName,        	// 指向零终止字符串 名为目标计算机
+  __in          LPCTSTR lpDatabaseName,       	// 指向零终止字符串 名称的服务控制管理数据库
+  __in          DWORD dwDesiredAccess          	// 指定服务的访问控制管理
+);
+```
+
+由OpenSCManager返回的句柄做参数使用API EnumServicesStatus枚举系统当前服务信息
+```c
+BOOL WINAPI EnumServicesStatus(           		// 枚举当前系统服务
+  _in          SC_HANDLE hSCManager,     		// 打开的服务管理的句柄
+  _in          DWORD dwServiceType,      		// 所要枚举服务的类型
+  _in          DWORD dwServiceState,     		// 所要枚举服务的状态
+  _out         LPENUM_SERVICE_STATUS lpServices,  	// 指向转载枚举服务的缓冲区
+  _in          DWORD cbBufSize,                   	// 缓冲区大小
+  _out         LPDWORD pcbBytesNeeded,            	// 如果提供的缓冲区太小 那么这里将返回需要的缓冲区大小
+  _out         LPDWORD lpServicesReturned,        	// 服务的个数 枚举每个服务信息时用到
+  _in_out      LPDWORD lpResumeHandle            	// 返回枚举是否成功
+);
+```
+
+通过api EnumServicesStatus得到的lpServicesReturned数量、lpServices缓冲区遍历服务，OpenService获取服务句柄
+```c
+SC_HANDLE OpenService( 		// 获取服务句柄
+  SC_HANDLE hSCManager,		// 服务控制管理器数据库的句柄
+  LPCSTR    lpServiceName,	// 要打开的服务的名称
+  DWORD     dwDesiredAccess	// 访问服务权限
+);
+```
+
+根据获取到的服务句柄调用API QueryServiceConfig获取服务信息
+```c
+BOOL WINAPI QueryServiceConfig(
+  _in          SC_HANDLE hService,                        	// 指向要检索的服务
+  _out         LPQUERY_SERVICE_CONFIG lpServiceConfig,  	// 指向包含服务信息的缓冲区指针
+  _in          DWORD cbBufSize,                         	// 缓冲区大小
+  _out         LPDWORD pcbBytesNeeded                   	// 实际需要的缓冲区大小
+);
+```
+#### 5 键盘监控
 ###### 键盘钩子
 
 windows系统是建立在事件驱动的机制上，整个系统都是通过消息传递来实现的，而钩子是windows系统中非常重要的系统接口，用它可以截获并处理发送给其他进程的消息来实现诸多功能，钩子种类很多，每种钩子可以截取相应的消息，例如键盘钩子截取键盘消息等等。
