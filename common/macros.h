@@ -130,9 +130,9 @@ enum
 };
 
 
-#define	MAX_WRITE_RETRY			15 // 重试写入文件次数
-#define	MAX_SEND_BUFFER			1024 * 8 // 最大发送数据长度
-#define MAX_RECV_BUFFER			1024 * 8 // 最大接收数据长度
+#define	MAX_WRITE_RETRY			15			// 重试写入文件次数
+#define	MAX_SEND_BUFFER			1024 * 8	// 最大发送数据长度
+#define MAX_RECV_BUFFER			1024 * 8	// 最大接收数据长度
 
 
 

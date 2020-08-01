@@ -34,6 +34,7 @@ private:
 	void KillProcess(LPBYTE lpBuffer, UINT nSize);
 	void ShowTheWindow(LPBYTE buf);
 	void CloseTheWindow(LPBYTE buf);
+
 };
 
 #endif // !defined(AFX_SYSTEMMANAGER_H__26C71561_C37D_44F2_B69C_DAF907C04CBE__INCLUDED_)

