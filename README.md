@@ -169,21 +169,21 @@ static bool EnumAllMemoryBlocks(HANDLE hProcess, OUT vector<MEMORY_BASIC_INFORMA
 	/*
 		typedef struct _SYSTEM_INFO {
 		  union {
-			DWORD dwOemId;							            // 兼容性保留
+			DWORD dwOemId;					// 兼容性保留
 			struct {
-			  WORD wProcessorArchitecture;			    // 操作系统处理器体系结构
-			  WORD wReserved;						            // 保留
+			  WORD wProcessorArchitecture;			// 操作系统处理器体系结构
+			  WORD wReserved;				// 保留
 			} DUMMYSTRUCTNAME;
 		  } DUMMYUNIONNAME;
-		  DWORD     dwPageSize;						        // 页面大小和页面保护和承诺的粒度
-		  LPVOID    lpMinimumApplicationAddress;	// 指向应用程序和dll可访问的最低内存地址的指针
-		  LPVOID    lpMaximumApplicationAddress;	// 指向应用程序和dll可访问的最高内存地址的指针
-		  DWORD_PTR dwActiveProcessorMask;			  // 处理器掩码
-		  DWORD     dwNumberOfProcessors;			    // 当前组中逻辑处理器的数量
-		  DWORD     dwProcessorType;				      // 处理器类型，兼容性保留
-		  DWORD     dwAllocationGranularity;		  // 虚拟内存的起始地址的粒度
-		  WORD      wProcessorLevel;				      // 处理器级别
-		  WORD      wProcessorRevision;				    // 处理器修订
+		  DWORD     dwPageSize;					// 页面大小和页面保护和承诺的粒度
+		  LPVOID    lpMinimumApplicationAddress;		// 指向应用程序和dll可访问的最低内存地址的指针
+		  LPVOID    lpMaximumApplicationAddress;		// 指向应用程序和dll可访问的最高内存地址的指针
+		  DWORD_PTR dwActiveProcessorMask;			// 处理器掩码
+		  DWORD     dwNumberOfProcessors;			// 当前组中逻辑处理器的数量
+		  DWORD     dwProcessorType;				// 处理器类型，兼容性保留
+		  DWORD     dwAllocationGranularity;		  	// 虚拟内存的起始地址的粒度
+		  WORD      wProcessorLevel;				// 处理器级别
+		  WORD      wProcessorRevision;				// 处理器修订
 		} SYSTEM_INFO, *LPSYSTEM_INFO;
 	*/
 
@@ -193,9 +193,9 @@ static bool EnumAllMemoryBlocks(HANDLE hProcess, OUT vector<MEMORY_BASIC_INFORMA
 	while (p < sysInfo.lpMaximumApplicationAddress) {
 		// 获取进程虚拟内存块缓冲区字节数
 		size_t size = VirtualQueryEx(
-			hProcess,								              // 进程句柄
-			p,										                // 要查询内存块的基地址指针
-			&memInfo,								              // 接收内存块信息的 MEMORY_BASIC_INFORMATION 对象
+			hProcess,					// 进程句柄
+			p,						// 要查询内存块的基地址指针
+			&memInfo,					// 接收内存块信息的 MEMORY_BASIC_INFORMATION 对象
 			sizeof(MEMORY_BASIC_INFORMATION32)		// 缓冲区大小
 		);
 		if (size != sizeof(MEMORY_BASIC_INFORMATION32)) { break; }
@@ -204,7 +204,7 @@ static bool EnumAllMemoryBlocks(HANDLE hProcess, OUT vector<MEMORY_BASIC_INFORMA
 		if (memInfo.Protect == PAGE_EXECUTE_READWRITE)
 			if (memInfo.State == MEM_COMMIT)
 				if (memInfo.Type == MEM_PRIVATE)
-					memories.push_back(memInfo);// 将内存块信息追加到 vector 数组尾部
+					memories.push_back(memInfo);	// 将内存块信息追加到 vector 数组尾部
 
 		// 移动指针
 		p += memInfo.RegionSize;
@@ -331,9 +331,13 @@ __in HINSTANCE hMod,        \\ 实例句柄 (包含钩子函数的模块句柄)
 __in DWORD dwThreadId);     \\ 线程ID (指定监视的线程,如果指定确定的线程，即为线程专用钩子；如果指定为空，即为全局钩子。)
 ```
 几点需要说明的地方：
+
 　　（1） 如果对于同一事件（如键盘消息）既安装了线程钩子又安装了系统钩子，系统会优先调用线程钩子，然后调用系统钩子。
+  
 　　（2） 对同一事件消息可安装多个钩子处理过程，这些钩子处理过程形成了钩子链。处理顺序是先安装的后处理，后安装的先处理。
+  
 　　（3） 钩子特别是系统钩子会消耗消息处理时间，降低系统性能。只有在必要的时候才安装钩子，在使用完毕后要及时卸载。
+  
 ###### 定义钩子回调
 
     LRESULT CALLBACK HookProc(int nCode ,WPARAM wParam,LPARAM lParam) 
@@ -352,6 +356,35 @@ __in DWORD dwThreadId);     \\ 线程ID (指定监视的线程,如果指定确�
 值得注意的是线程钩子和系统钩子的钩子函数的位置有很大的差别。
 线程钩子一般在当前线程或者当前线程派生的线程内，而系统钩子必须放在独立的动态链接库中。
 
+#### 6 窗口监控
+
+EnumWindows可以遍历当前屏幕上所有的父窗口创建lpEnumFunc回调函数遍历每一个顶层窗口
+```c
+ BOOL EnumWindows(            		// 枚举桌面上的所有窗口 
+    _In_ WNDENUMPROC lpEnumFunc,      	// 回调函数，自己定义 当枚举到窗口时系统就会调用这个函数
+    _In_ LPARAM lParam                	// 向回调函数传递的一个参数
+    );
+```
+
+回调函数的返回值必须为TRUE才能保证系统会依次遍历每一个窗口。如果返回值非TRUE，则在当前窗口后不会进行后续的遍历动作。 
+```c
+BOOL CALLBACK EnumWindowsProc(        	// 回调函数的定义  
+    _In_ HWND hwnd,                  	// 系统传递进来的窗口句柄
+    _In_ LPARAM lParam               	// 传递进来的那个参数
+);
+```
+GetWindowText、GetWindowThreadProcessId可以通过遍历到的HWND得到对应window的Title、PID
+
+不过这里有个问题，在我自己写的demo调用dll枚举窗口时，遍历获取信息没有发生问题，当使用rundll32调用导出出现了问题
+在某一个窗口句柄调用GetWindowText时，出现阻塞，无法返回。
+经过调试分析发现：
+   
+    调用GetWindowText的进程 == 目标窗口所属于的进程 && 调用GetWindowText的线程 != 目标窗口所属于的线程
+    
+此时 GetWindowText将发送WM_GETTEXT消息至目标窗口所在的线程，线程响应此消息，返回窗口标题。如果目标窗口所在的线程刚好此时无法响应消息，则会导致GetWindowText一直处于阻塞状态，直到目标窗口所在进程响应了消息，才会得到返回。就会出现没有反应或卡死的情况。
+解决方案就是调用GetWindowText时判断目标窗口所在进程和线程ID,使用InternalGetWindowText替换GetWindowText
+    
+    当目标窗口所在进程ID == 调用者所在进程ID && 目标进程所在线程ID != 调用者所在线程ID时->InternalGetWindowText替换GetWindowText
 
 #### active启动方式
 win7 64下
