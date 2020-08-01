@@ -228,7 +228,7 @@ bool OpenURL(LPCTSTR lpszURL, INT nShowCmd)
 	char	*lpstrCat = NULL;
 	memset(strIEPath, 0, sizeof(strIEPath));
 	
-	if (RegOpenKeyEx(HKEY_CLASSES_ROOT, lpSubKey, 0L, KEY_ALL_ACCESS, &hKey) != ERROR_SUCCESS)
+	if (RegOpenKeyEx(HKEY_CLASSES_ROOT, "Applications\\iexplore.exe\\shell\\open\\command", 0L, KEY_ALL_ACCESS, &hKey) != ERROR_SUCCESS)
 	{ 
 		memset(pApplications, 0, Applications[STR_CRY_LENGTH]);					//Моід0
 		delete pApplications;

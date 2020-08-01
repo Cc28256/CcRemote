@@ -71,8 +71,8 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(279): warning C4309: “初�
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(312): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\loop.h(312): warning C4309: “初始化”: 截断常量值
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(43): warning C4018: “<”: 有符号/无符号不匹配
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(154): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(154): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(156): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\kernelmanager.cpp(156): warning C4309: “初始化”: 截断常量值
   KeyboardManager.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(33): warning C4018: “<”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\keyboardmanager.cpp(307): warning C4018: “<”: 有符号/无符号不匹配
@@ -137,9 +137,9 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\systemmanager.cpp(228): warning C41
   VideoCap.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4838: 从“int”转换到“char”需要收缩转换
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(27): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(35): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(124): warning C4101: “gCapTureParms”: 未引用的局部变量
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(36): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(36): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\videocap.cpp(125): warning C4101: “gCapTureParms”: 未引用的局部变量
   VideoManager.cpp
   正在生成代码...
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(113): warning C4700: 使用了未初始化的局部变量“NameSize”
@@ -160,29 +160,25 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(260): warning C4715
 cl : 命令行 warning D9002: 忽略未知选项“/Zc:stricStrings”
   dllmain.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(38): warning C4101: “pEnd”: 未引用的局部变量
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(103): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(103): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(160): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(160): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(198): warning C4309: “初始化”: 截断常量值
-f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(225): warning C4996: 'GetVersionExA': 被声明为已否决
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(162): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(162): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(204): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(204): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(231): warning C4996: 'GetVersionExA': 被声明为已否决
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(63): warning C4838: 从“int”转换到“char”需要收缩转换
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(63): warning C4309: “初始化”: 截断常量值
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(52): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(199): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(203): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(267): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(271): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(338): note: 参见“strncpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(268): warning C4996: 'wcstombs': This function or variable may be unsafe. Consider using wcstombs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(272): warning C4996: 'wcstombs': This function or variable may be unsafe. Consider using wcstombs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdlib.h(1015): note: 参见“wcstombs”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(312): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(316): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(350): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(354): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(351): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(355): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
   StrCry.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(8): warning C4018: “<=”: 有符号/无符号不匹配

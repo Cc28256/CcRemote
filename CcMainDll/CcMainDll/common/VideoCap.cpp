@@ -27,7 +27,8 @@ CVideoCap::CVideoCap()
 	char classname32770[] = { 0x06,0xe8,0xf9,0xfb,0xff,0xf0,0xf6 };	//#32770
 	char* lpClassName = decodeStr(classname32770);					//½âÃÜº¯Êý
 
-	m_hWnd = CreateWindow(lpClassName, /* Dialog */ "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	//m_hWnd = CreateWindow(lpClassName, /* Dialog */ "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	m_hWnd = CreateWindow("#32770", /* Dialog */ "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 
 	memset(lpClassName, 0, classname32770[STR_CRY_LENGTH]);					//Ìî³ä0
 	delete lpClassName;
