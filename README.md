@@ -385,6 +385,72 @@ GetWindowText、GetWindowThreadProcessId可以通过遍历到的HWND得到对应
 解决方案就是调用GetWindowText时判断目标窗口所在进程和线程ID,使用InternalGetWindowText替换GetWindowText
     
     当目标窗口所在进程ID == 调用者所在进程ID && 目标进程所在线程ID != 调用者所在线程ID时->InternalGetWindowText替换GetWindowText
+    
+#### 7 桌面监控
+
+```c
+HDC CreateDC(        						// 得到指定设备名的设备描述表
+  LPCTSTR lpszDriver,        // driver name  			// 设备名
+  LPCTSTR lpszDevice,        // device name   			// 特殊设备名
+  LPCTSTR lpszOutput,        // not used; should be NULL 	// 通常设置为NULL  
+  CONST DEVMODE* lpInitData  // optional printer data  		// 驱动程序的初始化DEVMODE结构指针
+);
+
+HDC CreateCompatibleDC(    					// 为设备描述表创建兼容的内存设备描述表
+  HDC hdc   // handle to DC     				// 设备句柄
+);
+
+int GetDeviceCaps(                        			// 得到指定设备的信息
+  HDC hdc,     // handle to DC               			// 设备句柄
+  int nIndex   // index of capability       			// 指定要得到那个方面的信息
+);
+
+HBITMAP CreateCompatibleBitmap(            			// 创建一个与设备描述表兼容的位图
+  HDC hdc,        // handle to DC                  		// 设备描述表
+  int nWidth,     // width of bitmap, in pixels        		// 位图的宽度
+  int nHeight     // height of bitmap, in pixels       		// 位图的高度
+);
+
+HGDIOBJ SelectObject(       					// 把对象选到内存设备描述表中         
+  HDC hdc,          // handle to DC           			// 设备描述表
+  HGDIOBJ hgdiobj   // handle to object        			// 要加入的对象
+);
+
+BOOL BitBlt(                                    		// 对指定的原设备环境区域中的像素进行位块转换  抓图
+  HDC hdcDest, 	// handle to destination DC       		// 设备对象                 
+  int nXDest,  	// x-coord of destination upper-left corner     // 目标矩型区域的左上角x坐标
+  int nYDest,  	// y-coord of destination upper-left corner     // 目标矩形区域的左上角y坐标
+  int nWidth, 	// width of destination rectangle               // 目标巨型区域的逻辑宽度
+  int nHeight, 	// height of destination rectangle              // 目标巨型区域的逻辑高度
+  HDC hdcSrc,  	// handle to source DC                          // 源设备句柄
+  int nXSrc,   	// x-coordinate of source upper-left corner     // 源矩型区域的左上角x坐标
+  int nYSrc,   	// y-coordinate of source upper-left corner     // 源矩型区域的左上角y坐标
+  DWORD dwRop  	// raster operation code                        // 光栅操作代码
+);
+
+	// 为屏幕创建设备描述表
+	hscrdc = CreateDC("display", NULL, NULL, NULL);
+	
+	// 为屏幕设备描述表创建兼容的内存设备描述表
+	hmemdc = CreateCompatibleDC(hscrdc);
+
+	// 获得屏幕分辨率
+	xscrn = GetDeviceCaps(hscrdc, HORZRES);
+	yscrn = GetDeviceCaps(hscrdc, VERTRES);
+	
+	// 创建一个与屏幕设备描述表兼容的位图
+	hbitmap = CreateCompatibleBitmap(hscrdc, nwidth, nheight);
+	
+	// 把新位图选到内存设备描述表中
+	holdbitmap = (HBITMAP)SelectObject(hmemdc, hbitmap);
+	
+	// 把屏幕设备描述表拷贝到内存设备描述表中
+	BitBlt(hmemdc, 0, 0, nwidth, nheight,hscrdc, nx, ny, SRCCOPY);
+	
+	// 得到屏幕位图的句柄
+	hbitmap = (HBITMAP)SelectObject(hmemdc, holdbitmap);
+
+```
 
 #### active启动方式
 win7 64下
