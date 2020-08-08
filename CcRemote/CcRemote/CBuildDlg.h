@@ -27,5 +27,4 @@ public:
 	CString m_strPort;
 private:
 	int memfind(const char *mem, const char *str, int sizem, int sizes);
-	CString FindFiles(const char* dir, BYTE *lpBuffer, DWORD lpSize);
 };

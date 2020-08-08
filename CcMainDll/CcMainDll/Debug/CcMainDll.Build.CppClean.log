@@ -1,5 +1,7 @@
 f:\myapp\ccremote\bin\server\ccmaindll.lib
 f:\myapp\ccremote\bin\server\ccmaindll.exp
+f:\myapp\ccremote\bin\server\ccmaindll.ipdb
+f:\myapp\ccremote\bin\server\ccmaindll.iobj
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.pch
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\vc141.pdb
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\vc141.idb
@@ -36,5 +38,6 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.command.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.read.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\cl.write.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\link.command.1.tlog
+f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\link.delete.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\link.read.1.tlog
 f:\myapp\ccremote\ccmaindll\ccmaindll\debug\ccmaindll.tlog\link.write.1.tlog

@@ -1,4 +1,18 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+  pch.cpp
+  Audio.cpp
+f:\myapp\ccremote\common\audio.cpp(99): warning C4018: “<”: 有符号/无符号不匹配
+  CAudioDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\caudiodlg.cpp(29): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+  CBuildDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(106): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(88): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(138): warning C4101: “e”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(142): warning C4101: “e”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(146): warning C4101: “e”: 未引用的局部变量
+  CcRemote.cpp
   CcRemoteDlg.cpp
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(173): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(2219): note: 参见“gethostbyname”的声明
@@ -9,4 +23,71 @@ f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(358): warning C4244: “初�
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(899): warning C4018: “<=”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(987): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+  CFileManagerDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\inputdlg.h(69): warning C4302: “类型强制转换”: 从“LPSTR”到“WORD”截断
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(81): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(360): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(361): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(861): warning C4101: “VolName”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(862): warning C4101: “FileSystem”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1123): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1153): warning C4307: “+”: 整型常量溢出
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1571): warning C4307: “+”: 整型常量溢出
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1605): warning C4129: “*”: 不可识别的字符转义序列
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1647): warning C4307: “+”: 整型常量溢出
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1741): warning C4307: “+”: 整型常量溢出
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1901): warning C4129: “*”: 不可识别的字符转义序列
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1925): warning C4129: “*”: 不可识别的字符转义序列
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1942): warning C4129: “*”: 不可识别的字符转义序列
+f:\myapp\ccremote\ccremote\ccremote\cfilemanagerdlg.cpp(1986): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  CHelpWindow.cpp
+  CKeyBoardDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\ckeyboarddlg.cpp(27): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+  CServerDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\cserverdlg.cpp(56): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+  FileTransferModeDlg.cpp
+  CScreenSpyDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\cscreenspydlg.cpp(54): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+f:\myapp\ccremote\ccremote\ccremote\cscreenspydlg.cpp(607): warning C4554: “<<”: 检查运算符优先级是否存在的可能的错误；使用括号阐明优先级
+f:\myapp\ccremote\ccremote\ccremote\cscreenspydlg.cpp(621): warning C4554: “<<”: 检查运算符优先级是否存在的可能的错误；使用括号阐明优先级
+  CSettingDlg.cpp
+  CShellDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\cshelldlg.cpp(95): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+f:\myapp\ccremote\ccremote\ccremote\cshelldlg.cpp(122): warning C4018: “<”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccremote\ccremote\cshelldlg.cpp(204): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccremote\ccremote\cshelldlg.cpp(214): warning C4018: “<”: 有符号/无符号不匹配
+  CSystemDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\csystemdlg.cpp(114): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+  CpuUsage.cpp
+  IniFile.cpp
+f:\myapp\ccremote\ccremote\ccremote\inifile.cpp(33): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+  InputDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\inputdlg.h(69): warning C4302: “类型强制转换”: 从“LPSTR”到“WORD”截断
+f:\myapp\ccremote\ccremote\ccremote\inputdlg.cpp(124): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\corecrt_wstring.h(123): note: 参见“wcscpy”的声明
+f:\myapp\ccremote\ccremote\ccremote\inputdlg.cpp(159): warning C4302: “类型强制转换”: 从“LPSTR”到“WORD”截断
+  RegDlg.cpp
+f:\myapp\ccremote\ccremote\ccremote\regdlg.cpp(249): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
+f:\myapp\ccremote\ccremote\ccremote\regdlg.cpp(270): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(1774): note: 参见“sprintf”的声明
+  SEU_QQwry.cpp
+  TrueColorToolBar.cpp
+  正在生成代码...
+  Buffer.cpp
+  IOCPServer.cpp
+f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(133): warning C4996: 'WSASocketA': Use WSASocketW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(3416): note: 参见“WSASocketA”的声明
+f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(727): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
+f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(776): warning C4244: “初始化”: 从“double”转换到“unsigned long”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(924): warning C4018: “>=”: 有符号/无符号不匹配
+  正在生成代码...
   CcRemote.vcxproj -> F:\myapp\CcRemote\CcRemote\CcRemote\..\..\bin\CcRemote.exe

