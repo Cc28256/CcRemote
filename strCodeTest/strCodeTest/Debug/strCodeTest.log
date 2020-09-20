@@ -1,6 +1,0 @@
-﻿  strCodeTest.cpp
-f:\myapp\ccremote\strcodetest\strcodetest\strcodetest.cpp(13): warning C4018: “<=”: 有符号/无符号不匹配
-f:\myapp\ccremote\strcodetest\strcodetest\strcodetest.cpp(15): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
-f:\myapp\ccremote\strcodetest\strcodetest\strcodetest.cpp(27): warning C4018: “<=”: 有符号/无符号不匹配
-f:\myapp\ccremote\strcodetest\strcodetest\strcodetest.cpp(29): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
-  strCodeTest.vcxproj -> F:\myapp\CcRemote\strCodeTest\Debug\strCodeTest.exe

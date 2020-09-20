@@ -242,22 +242,70 @@ inline DWORD GetCurrentPositionAddress()
 	}
 }
 
+enum LocalEnum
+{
+	Nop,
+	memAddress,
+	pLoadLibraryA,
+	pGetProcAddress,
+	pVirtualAlloc,
+	pVirtualProtect,
+	pNtFlushInstructionCache,
+	varLocalFindPE
+
+};
+
 extern "C" __declspec(dllexport) void ReflectiveLoader()
 {
 	_asm{
 		push    ebp
 		mov     ebp, esp
-		sub     esp, 0x64
-		mov		[ebp + 0x40], 0
-		mov		[ebp + 0x44], 0
-		mov		[ebp + 0x38], 0
-		mov		[ebp + 0x54], 0
-		mov		[ebp + 0x48], 0
-		mov		[ebp + 0x50], 0
-		mov		[ebp + 0x4c], 0
-		call    GetCurrentPositionAddress //获取当前位置地址
-		mov		[ebp + 0x04], eax //地址保存
+		sub     esp, 0x100
+		mov     eax, 4
+		initLocalVar:
+		mov		[ebp + eax], 0
+		inc		eax
+		cmp		eax ,0x100
+		jnz		initLocalVar
 
+		call    GetCurrentPositionAddress	//获取当前位置地址
+		mov		[ebp + memAddress], eax		//保存当前代码所在的地址 memAddress
+		
+		addressAdd :
+		mov     eax, 1
+		test    eax, eax					//判断eax是否获取到当前地址
+		jz      find_success
+			
+		mov     ecx, [ebp + memAddress]		// 查找DOS头
+		movzx   edx, word ptr[ecx]
+		cmp     edx, 0x5A4D
+		jnz    noFindFlag
+
+
+        mov     eax, [ebp + memAddress]
+        mov     ecx, [eax + 0x3C]			// +3C 找到DOS Header e_lfanew
+        mov		[ebp + varLocalFindPE], ecx
+        cmp		[ebp + varLocalFindPE], 0x40
+        jb      noFindFlag					// 地址address - 1
+        cmp		[ebp + varLocalFindPE], 0x400
+        jnb     noFindFlag					//; 地址address - 1
+
+        mov     edx, [ebp + varLocalFindPE]
+        add     edx, [ebp + memAddress]
+        mov		[ebp + varLocalFindPE], edx
+        mov     eax, [ebp + varLocalFindPE]
+        cmp     dword ptr[eax], 0x4550		//; 判断PE Header Signature PE标志
+        jnz     noFindFlag			//; 地址address - 1
+
+		noFindFlag :
+		mov     ecx, [ebp + memAddress]; 地址address - 1
+		sub     ecx, 1
+		mov		[ebp + memAddress], ecx
+		jmp		addressAdd
+
+
+
+		find_success:
 
 	}
 

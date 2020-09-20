@@ -1,6 +1,0 @@
-﻿  CRegOperate.cpp
-f:\myapp\ccremote\startdemo\startdemo\cregoperate.cpp(160): warning C4101: “vari”: 未引用的局部变量
-  StartDemo.cpp
-f:\myapp\ccremote\startdemo\startdemo\startdemo.cpp(58): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 参见“fopen”的声明
-  正在生成代码...
