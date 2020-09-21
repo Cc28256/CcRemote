@@ -8,14 +8,17 @@ g:\ccremote\ccremote\ccmaindll\ccmaindll\common\login.h(204): warning C4838: 从
 g:\ccremote\ccremote\ccmaindll\ccmaindll\common\login.h(204): warning C4309: “初始化”: 截断常量值
 g:\ccremote\ccremote\ccmaindll\ccmaindll\common\login.h(231): warning C4996: 'GetVersionExA': 被声明为已否决
   g:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
-g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(50): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(55): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(224): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(229): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   g:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(252): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 参见“fopen”的声明
+g:\ccremote\ccremote\ccmaindll\ccmaindll\dllmain.cpp(421): warning C4102: “loc_46327B”: 未引用的标签
 LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
     正在创建库 ..\..\bin\server\CcMainDll.lib 和对象 ..\..\bin\server\CcMainDll.exp
   正在生成代码
-  1 of 375 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  1 of 380 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成

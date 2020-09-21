@@ -6,7 +6,12 @@
 #include "common/install.h"
 #include <stdio.h>
 #include <shlwapi.h>
+
 #pragma comment(lib,"shlwapi.lib")
+#include <iostream>
+#include <fstream>
+
+//using namespace std;
 
 
 struct Connect_Address
@@ -231,6 +236,84 @@ extern "C" __declspec(dllexport) void TestFun(char* strHost, int nPort)
 
 
 
+FILE * pFile;
+
+long lSize;
+
+char * buffer;
+
+size_t result;
+extern "C" __declspec(dllexport) bool InitTestReflectiveLoader()
+{
+
+
+		// 一个不漏地读入整个文件，只能采用二进制方式打开
+
+		pFile = fopen(".\\..\\..\\bin\\server\\CcMainDll.dll", "rb");
+
+		if (pFile == NULL)
+
+		{
+
+			fputs("File error", stderr);
+
+			printf("open file fail");
+
+			return false;
+
+		}
+
+
+
+		// 获取文件大小 
+
+		fseek(pFile, 0, SEEK_END);
+
+		lSize = ftell(pFile);
+
+		rewind(pFile);
+
+
+
+		// 分配内存存储整个文件
+
+		buffer = (char*)malloc(sizeof(char)*lSize);
+
+		if (buffer == NULL)
+
+		{
+
+			fputs("Memory error", stderr);
+
+			printf("Memory alloc falil");
+
+			return false;
+
+		}
+
+
+
+		// 将文件拷贝到buffer中 
+
+		result = fread(buffer, 1, lSize, pFile);
+
+		if (result != lSize)
+
+		{
+
+			fputs("Reading error", stderr);
+
+			printf("Load file to memory falil");
+
+			return false;
+
+		}
+		return true;
+
+}
+
+
+
 inline DWORD GetCurrentPositionAddress()
 {
 	_asm{
@@ -242,38 +325,60 @@ inline DWORD GetCurrentPositionAddress()
 	}
 }
 
+inline DWORD call_ror_0xD()
+{
+	_asm {
+		push    ebp
+		mov     ebp, esp
+		mov     eax, [ebp + 8]
+		ror		eax, 0x0D
+		pop     ebp
+		retn
+	}
+}
+
 enum LocalEnum
 {
 	Nop,
-	memAddress,
-	pLoadLibraryA,
-	pGetProcAddress,
-	pVirtualAlloc,
-	pVirtualProtect,
-	pNtFlushInstructionCache,
-	varLocalFindPE
+	memAddress					= 4,
+	pLoadLibraryA				= 8,
+	pGetProcAddress				= 0xC,
+	pVirtualAlloc				= 0x10,
+	pVirtualProtect				= 0x14,
+	pNtFlushInstructionCache	= 0x18,
+
+	varLocalFindPE				= 0x1c,
+	varLocalFS30_A				= 0x20,		// var_8
+	varLocalFS30_B				= 0x24,		// varLocalFS30_B
+	var_4						= 0x28,		// FullDllName
+	BaseDllName					= 0x2c,		// FullDllName
+	name_hash					= 0x30,
+	var_20						= 0x34
 
 };
+
+
 
 extern "C" __declspec(dllexport) void ReflectiveLoader()
 {
 	_asm{
 		push    ebp
 		mov     ebp, esp
-		sub     esp, 0x100
+		sub     esp, 0x100					// 抬高堆栈创建局部变量空间
 		mov     eax, 4
-		initLocalVar:
+		initLocalVar:						// 循环initLocalVar初始化局部变量空间为0
 		mov		[ebp + eax], 0
 		inc		eax
 		cmp		eax ,0x100
 		jnz		initLocalVar
 
-		call    GetCurrentPositionAddress	//获取当前位置地址
-		mov		[ebp + memAddress], eax		//保存当前代码所在的地址 memAddress
+		call    GetCurrentPositionAddress	// 获取当前位置地址
+		mov		eax, buffer
+		mov		[ebp + memAddress], eax		// 保存当前代码所在的地址 memAddress
 		
 		addressAdd :
 		mov     eax, 1
-		test    eax, eax					//判断eax是否获取到当前地址
+		test    eax, eax					// 判断eax是否获取到当前地址
 		jz      find_success
 			
 		mov     ecx, [ebp + memAddress]		// 查找DOS头
@@ -285,27 +390,112 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         mov     eax, [ebp + memAddress]
         mov     ecx, [eax + 0x3C]			// +3C 找到DOS Header e_lfanew
         mov		[ebp + varLocalFindPE], ecx
-        cmp		[ebp + varLocalFindPE], 0x40
+        cmp		dword ptr[ebp + varLocalFindPE], 0x40
         jb      noFindFlag					// 地址address - 1
-        cmp		[ebp + varLocalFindPE], 0x400
-        jnb     noFindFlag					//; 地址address - 1
+        cmp		dword ptr[ebp + varLocalFindPE], 0x400
+        jnb     noFindFlag					// 地址address - 1
 
         mov     edx, [ebp + varLocalFindPE]
         add     edx, [ebp + memAddress]
         mov		[ebp + varLocalFindPE], edx
         mov     eax, [ebp + varLocalFindPE]
-        cmp     dword ptr[eax], 0x4550		//; 判断PE Header Signature PE标志
-        jnz     noFindFlag			//; 地址address - 1
+        cmp     dword ptr[eax], 0x4550		// 判断PE Header Signature PE标志
+        jnz     noFindFlag					// 地址address - 1
+		jmp     find_success				// 找到了singtrue 跳转
 
-		noFindFlag :
+			noFindFlag :
 		mov     ecx, [ebp + memAddress]; 地址address - 1
 		sub     ecx, 1
 		mov		[ebp + memAddress], ecx
 		jmp		addressAdd
 
+			find_success:
+		mov     edx, fs:[0x30]				// 获取PEB结构地址
+		mov		[ebp + varLocalFS30_A], edx
+		mov     eax, [ebp + varLocalFS30_A]
+		mov     ecx, [eax + 0x0C]			// 获取Ptr32 _PEB_LDR_DATA 进程加载模块链表(Ldr)
+		mov		[ebp + varLocalFS30_A], ecx
+		mov     edx, [ebp + varLocalFS30_A]
+		mov     eax, [edx + 0x14]			// 获取结构中InMemoryOrderModuleList 顺序模块列表
+		mov		[ebp + varLocalFS30_B], eax
+
+			loc_46327B: 
+		cmp		[ebp + varLocalFS30_B], 0
+		jz      find_moudle_null
+		mov     ecx, [ebp + varLocalFS30_B]
+		mov     edx, [ecx + 0x28]			// FullDllName_buff 模块名称
+		mov		[ebp + BaseDllName], edx
+		mov     eax, [ebp + varLocalFS30_B]
+		mov     cx, [eax + 0x24]			// UNICODE_STRING FullDllName Length
+		mov		[ebp + var_4], cx			// var_4保存FullDllName字符串长度
+		mov		[ebp + name_hash], 0
+
+			calc_hash:
+		mov     edx, [ebp + name_hash]
+		push    edx
+		call    call_ror_0xD
+		add     esp, 4
+		mov		[ebp + name_hash], eax		// ror后的eax为返回值
+		mov     eax, [ebp + BaseDllName]
+		movzx   ecx, byte ptr[eax]
+		cmp     ecx, 0x61					// 判断获取到的模块字符串的指定位置，小于跳转，地址 + 1，比对下一个字母
+		jl      less_flage
+		mov     edx, [ebp + BaseDllName]	// 获取名称byte
+		movzx   eax, byte ptr[edx]			// eax = byte
+		mov     ecx, [ebp + name_hash]		// 计算值
+		lea     edx, [ecx + eax - 0x20]		// hash + FullDllName[index] - 0x20
+		mov		[ebp + name_hash], edx		// 得到结果
+		jmp     calc_end
+
+			less_flage:
+		add     ecx, [ebp + name_hash]
+		mov[ebp + name_hash], ecx
+
+			calc_end:
+		mov     edx, [ebp + BaseDllName]	// 名称地址 + 1
+		add     edx, 1
+		mov		[ebp + BaseDllName], edx
+		mov     ax, [ebp + var_4]			// 字符串名称长度 - 1
+		sub     ax, 1
+		mov		[ebp + var_4], ax
+		movzx   ecx, [ebp + var_4]
+		test    ecx, ecx					// 判断长度是否为0，没有为0继续计算hash
+		jnz     calc_hash					// 计算简单的模块名称name_hash
+			
+		cmp		[ebp + name_hash], 0x6A4ABC5B	// 6A4ABC5B = Kernel32
+		jnz     no_Kernel32_hash				// 3CFA685D = ntdll
+		mov     edx, [ebp + varLocalFS30_B]		// 获取结构中InMemoryOrderModuleList
+		mov     eax, [edx + 0x10]
+		mov		[ebp + varLocalFS30_A], eax		// +10偏移获取DllBase基址
+		mov     ecx, [ebp + varLocalFS30_A]
+		mov     edx, [ebp + varLocalFS30_A]
+		add     edx, [ecx + 0x3C]				// 获取PE IMAGE_DOS_HRADER e_lfanew
+		mov		[ebp + var_20], edx				
+		mov     eax, 8
+		imul    ecx, eax, 0						// imul 1, 2, 3	  2 3乘积保存到1
+		mov     edx, [ebp + var_20]
+		lea     eax, [edx + ecx + 0x78]			// 获取IMAGE_OPTIONAL_HEADER -> IMAGE_DATA_DIRECTORY[0] EXPORT 导出表
+		mov		[ebp + exp_AddressOfNames], eax
+		mov     ecx, [ebp + exp_AddressOfNames]
+		mov     edx, [ebp + varLocalFS30_A]		// edx = 基地址
+		add     edx, [ecx]						// 基地址 + 导出表地址
+		mov		[ebp + var_20], edx
+		mov     eax, [ebp + var_20]
+		mov     ecx, [ebp + varLocalFS30_A]
+		add     ecx, [eax + 0x20]				// 获取 IMAGE_EXPORT_DIRECTORY +0x20 AddressOfNames
+		mov		[ebp + exp_AddressOfNames], ecx
+		mov     edx, [ebp + var_20]
+		mov     eax, [ebp + varLocalFS30_A]
+		add     eax, [edx + 0x24]				// 获取 IMAGE_EXPORT_DIRECTORY +0x24 AddressOfNameOrdinals
+		mov		[ebp + AddressOfNameOrdinals], eax
+		mov     ecx, 4
+		mov		[ebp + var_4], cx
 
 
-		find_success:
+
+
+			find_moudle_null:
+
 
 	}
 

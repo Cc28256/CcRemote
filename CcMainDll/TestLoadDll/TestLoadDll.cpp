@@ -11,6 +11,16 @@ int main()
 	//载入服务端dll hijack test
 	HMODULE hServerDll = LoadLibrary(".\\..\\..\\bin\\server\\CcMainDll.dll");
 
+	typedef int(_cdecl *TestRunInit)();
+
+	TestRunInit InitTestReflectiveLoader = (TestRunInit)GetProcAddress(hServerDll, "InitTestReflectiveLoader");
+
+	if (InitTestReflectiveLoader != NULL)
+	{
+		InitTestReflectiveLoader();   //调用这个函数
+	}
+
+
 	//声明导出函数类型--导出的TestRun函数
 	typedef void(_cdecl *TestRunT)();
 	//寻找dll中导出函数
