@@ -337,6 +337,13 @@ inline DWORD call_ror_0xD()
 	}
 }
 
+inline DWORD calc_name_hash()
+{
+	_asm {
+		retn
+	}
+}
+
 enum LocalEnum
 {
 	Nop,
@@ -349,11 +356,15 @@ enum LocalEnum
 
 	varLocalFindPE				= 0x1c,
 	varLocalFS30_A				= 0x20,		// var_8
-	varLocalFS30_B				= 0x24,		// varLocalFS30_B
+	varLocalFS30_B				= 0x24,		// var_C
 	var_4						= 0x28,		// FullDllName
 	BaseDllName					= 0x2c,		// FullDllName
 	name_hash					= 0x30,
-	var_20						= 0x34
+	var_20						= 0x34,
+	var_30						= 0x38,		// cmp_name_hash
+	var_28						= 0x3c,
+	exp_AddressOfNames 			= 0x40,
+	AddressOfNameOrdinals		= 0x44
 
 };
 
@@ -388,7 +399,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 
 
         mov     eax, [ebp + memAddress]
-        mov     ecx, [eax + 0x3C]			// +3C 找到DOS Header e_lfanew
+        mov     ecx, [eax + 0x3C]			// + 0x3C 找到DOS Header e_lfanew
         mov		[ebp + varLocalFindPE], ecx
         cmp		dword ptr[ebp + varLocalFindPE], 0x40
         jb      noFindFlag					// 地址address - 1
@@ -404,7 +415,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		jmp     find_success				// 找到了singtrue 跳转
 
 			noFindFlag :
-		mov     ecx, [ebp + memAddress]; 地址address - 1
+		mov     ecx, [ebp + memAddress]		// 地址address - 1
 		sub     ecx, 1
 		mov		[ebp + memAddress], ecx
 		jmp		addressAdd
@@ -472,29 +483,186 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		add     edx, [ecx + 0x3C]				// 获取PE IMAGE_DOS_HRADER e_lfanew
 		mov		[ebp + var_20], edx				
 		mov     eax, 8
-		imul    ecx, eax, 0						// imul 1, 2, 3	  2 3乘积保存到1
+		imul    ecx, eax, 0						// imul 1, 2, 3	  2 3乘积保存到1 0获取第一项目录导出表
 		mov     edx, [ebp + var_20]
 		lea     eax, [edx + ecx + 0x78]			// 获取IMAGE_OPTIONAL_HEADER -> IMAGE_DATA_DIRECTORY[0] EXPORT 导出表
 		mov		[ebp + exp_AddressOfNames], eax
 		mov     ecx, [ebp + exp_AddressOfNames]
 		mov     edx, [ebp + varLocalFS30_A]		// edx = 基地址
-		add     edx, [ecx]						// 基地址 + 导出表地址
+		add     edx, [ecx]						// edx =  基地址 + 导出表地址
 		mov		[ebp + var_20], edx
-		mov     eax, [ebp + var_20]
-		mov     ecx, [ebp + varLocalFS30_A]
-		add     ecx, [eax + 0x20]				// 获取 IMAGE_EXPORT_DIRECTORY +0x20 AddressOfNames
+		mov     eax, [ebp + var_20]				// var_20 = IMAGE_EXPORT_DIRECTORY 地址
+		mov     ecx, [ebp + varLocalFS30_A]		// ecx = 基地址
+		add     ecx, [eax + 0x20]				// 获取 IMAGE_EXPORT_DIRECTORY +0x20 AddressOfNames	导出的函数名称表的RVA 也就是 函数名称表
 		mov		[ebp + exp_AddressOfNames], ecx
 		mov     edx, [ebp + var_20]
 		mov     eax, [ebp + varLocalFS30_A]
-		add     eax, [edx + 0x24]				// 获取 IMAGE_EXPORT_DIRECTORY +0x24 AddressOfNameOrdinals
+		add     eax, [edx + 0x24]				// 获取 IMAGE_EXPORT_DIRECTORY +0x24 AddressOfNameOrdinals	导出函数序号表的RVA 也就是 函数序号表
 		mov		[ebp + AddressOfNameOrdinals], eax
 		mov     ecx, 4
-		mov		[ebp + var_4], cx
+		mov		[ebp + var_4], cx				// 设置计数var_4，需要四个函数，找到一个 - 1 ，为 0 时查找完毕
 
+			find_next_ker_fun:
+		movzx   edx, [ebp+var_4]
+		test    edx, edx
+		jle     cmp_need_function
 
+		mov     eax, [ebp+exp_AddressOfNames]	// exp_AddressOfNames = 函数名称表
+		mov     ecx, [ebp+varLocalFS30_A]		// varLocalFS30_A = 基地址
+		add     ecx, [eax]						// 获取函数名称地址
+		push    ecx
+		call    calc_name_hash					// 计算函数名称hash值
+		add     esp, 4
+		mov     [ebp+var_30], eax				// 计算的hash保存后进行比较
+		cmp     [ebp+var_30], 0xEC0E4E8E 		// 0xEC0E4E8E = LoadLibraryA
+		jz      find_function_hash
+		cmp     [ebp+var_30], 0x7C0DFCAA		// 0x7C0DFCAA = GetProcAddress
+		jz      find_function_hash
+		cmp     [ebp+var_30], 0x91AFCA54 		// 0x91AFCA54 = VirtualAlloc
+		jz      find_function_hash
+		cmp     [ebp+var_30], 0x7946C61B 		// 0x7946C61B = VirtualProtect
+		jnz     no_find_function_hash
+
+			find_function_hash: 
+		mov     edx, [ebp+var_20]				// var_20 = IMAGE_EXPORT_DIRECTORY 地址
+		mov     eax, [ebp+varLocalFS30_A]
+		add     eax, [edx+0x1C]					// IMAGE_EXPORT_DIRECTORY + 0x1C = AddressOfFunctions 导出的函数地址的 地址表  RVA  也就是 函数地址表  
+		mov     [ebp+var_28], eax
+		mov     ecx, [ebp+AddressOfNameOrdinals]// 保存序号索引
+		movzx   edx, word ptr [ecx]
+		mov     eax, [ebp+var_28]
+		lea     ecx, [eax+edx*4]				// 序号索引IMAGE_EXPORT_DIRECTORY 找到函数地址
+		mov     [ebp+var_28], ecx				// var_28  = AddressOfFunctions[AddressOfNameOrdinals]
+
+		cmp     [ebp+var_30], 0xEC0E4E8E
+		jnz     no_LoadLibraryA
+		mov     edx, [ebp+var_28]			
+		mov     eax, [ebp+varLocalFS30_A]		// eax = varLocalFS30_A = 基地址
+		add     eax, [edx]						// 计算得到函数地址
+		mov     [ebp+LoadLibraryA], eax			// 保存到局部堆栈LoadLibraryA
+		jmp     find_index_dec					// 查找下一个
+			
+			no_LoadLibraryA:                           
+		cmp     [ebp+var_30], 0x7C0DFCAA
+		jnz     no_GetProcAddress
+		mov     ecx, [ebp+var_28]
+		mov     edx, [ebp+varLocalFS30_A]		// edx = varLocalFS30_A = 基地址
+		add     edx, [ecx]						// 计算得到函数地址
+		mov     [ebp+GetProcAddress], edx		// 保存到局部堆栈GetProcAddress
+		jmp     find_index_dec					// 查找下一个
+			
+			
+			no_GetProcAddress:                           
+		cmp     [ebp+var_30], 0x91AFCA54
+		jnz     no_VirtualAlloc
+		mov     eax, [ebp+var_28]
+		mov     ecx, [ebp+varLocalFS30_A]		// ecx = varLocalFS30_A = 基地址
+		add     ecx, [eax]						// 计算得到函数地址
+		mov     [ebp+VirtualAlloc], ecx			// 保存到局部堆栈VirtualAlloc
+		jmp     find_index_dec					// 查找下一个
+
+			no_VirtualAlloc:
+		cmp     [ebp+var_30], 0x7946C61B
+		jnz     find_index_dec
+		mov     edx, [ebp+var_28]
+		mov     eax, [ebp+varLocalFS30_A]		// eax = varLocalFS30_A = 基地址
+		add     eax, [edx]						// 计算得到函数地址VirtualProtect
+		mov     [ebp+VirtualProtect], eax		// 保存到局部堆栈
+			
+			find_index_dec:                            
+		mov     cx, [ebp+var_4]					// 找到函数后 计数 - 1
+		sub     cx, 1
+		mov     [ebp+var_4], cx
+			
+			no_find_function_hash:
+		mov     edx, [ebp+exp_AddressOfNames]	
+		add     edx, 4
+		mov     [ebp+exp_AddressOfNames], edx		// 查找下一个函数名称
+		mov     eax, [ebp+AddressOfNameOrdinals]
+		add     eax, 2
+		mov     [ebp+AddressOfNameOrdinals], eax	// 查找下一个函数序号
+		jmp     find_next_ker_fun
+
+			cmp_need_function:                      
+		jmp     loc_463506
+				
+			no_Kernel32_hash:
+        cmp     [ebp+name_hash], 0x3CFA685D 		//; 3CFA685D = ntdll
+        jnz     loc_463506
+        mov     ecx, [ebp+varLocalFS30_B]
+        mov     edx, [ecx+0x10]  					//; +10偏移获取DllBase基址
+        mov     [ebp+varLocalFS30_A], edx
+        mov     eax, [ebp+varLocalFS30_A]
+        mov     ecx, [ebp+varLocalFS30_A]
+        add     ecx, [eax+0x3C]  					//; 获取PE IMAGE_DOS_HRADER e_lfanew
+        mov     [ebp+var_20], ecx
+        mov     edx, 8
+        imul    eax, edx, 0
+        mov     ecx, [ebp+var_20]
+        lea     edx, [ecx+eax+0x78] 				//; 获取IMAGE_OPTIONAL_HEADER -> IMAGE_DATA_DIRECTORY[0] EXPORT 导出表
+        mov     [ebp+exp_AddressOfNames], edx
+        mov     eax, [ebp+exp_AddressOfNames]
+        mov     ecx, [ebp+varLocalFS30_A] 			// ecx = 基地址
+        add     ecx, [eax]     						// 基地址 + 导出表地址
+        mov     [ebp+var_20], ecx
+        mov     edx, [ebp+var_20]
+        mov     eax, [ebp+varLocalFS30_A]
+        add     eax, [edx+0x20]  					// 获取 IMAGE_EXPORT_DIRECTORY +0x20 AddressOfNames
+        mov     [ebp+exp_AddressOfNames], eax
+        mov     ecx, [ebp+var_20]
+        mov     edx, [ebp+varLocalFS30_A]
+        add     edx, [ecx+0x24]  					// 获取 IMAGE_EXPORT_DIRECTORY +0x24 AddressOfNameOrdinals
+        mov     [ebp+AddressOfNameOrdinals], edx
+        mov     eax, 1
+        mov     [ebp+var_4], ax
+
+			find_next_nt_fun:						// 同上面一样 
+        movzx   ecx, [ebp+var_4]
+        test    ecx, ecx
+        jle      loc_463506
+        mov     edx, [ebp+exp_AddressOfNames]
+        mov     eax, [ebp+varLocalFS30_A]
+        add     eax, [edx]
+        push    eax
+        call    calc_name_hash
+        add     esp, 4
+        mov     [ebp+var_30], eax
+        cmp     [ebp+var_30], 0x534C0AB8 			// 0x534C0AB8 = NtFlushInstructionCache
+        jnz      no_NtFlushInstructionCache
+        mov     ecx, [ebp+var_20]
+        mov     edx, [ebp+varLocalFS30_A]
+        add     edx, [ecx+0x1C]
+        mov     [ebp+var_28], edx
+        mov     eax, [ebp+AddressOfNameOrdinals]
+        movzx   ecx, word ptr [eax]
+        mov     edx, [ebp+var_28]
+        lea     eax, [edx+ecx*4]
+        mov     [ebp+var_28], eax
+        cmp     [ebp+var_30], 0x534C0AB8
+        jnz      find_nt_index_dec
+        mov     ecx, [ebp+var_28]
+        mov     edx, [ebp+varLocalFS30_A]
+        add     edx, [ecx]
+        mov     [ebp+pNtFlushInstructionCache], edx 	// 获取函数地址NtFlushInstructionCache保存
+
+			find_nt_index_dec:                            
+        mov     ax, [ebp+var_4]
+        sub     ax, 1
+        mov     [ebp+var_4], ax
+
+			no_NtFlushInstructionCache:                            
+        mov     ecx, [ebp+exp_AddressOfNames]
+        add     ecx, 4
+        mov     [ebp+exp_AddressOfNames], ecx
+        mov     edx, [ebp+AddressOfNameOrdinals]
+        add     edx, 2
+        mov     [ebp+AddressOfNameOrdinals], edx
+        jmp      find_next_nt_fun
 
 
 			find_moudle_null:
+
+			loc_463506:
 
 
 	}
