@@ -754,7 +754,34 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         mov     edx, [ebp+name_hash]		// 文件内存地址 + 1
         add     edx, 1
         mov     [ebp+name_hash], edx
-        jmp     loc_4635D3			//跳转后文件对其尺寸 - 1 为 0 时区段拷贝完毕
+		jmp     loc_4635D3					// 跳转后文件对其尺寸 - 1 为 0 时区段拷贝完毕
+		
+			loc_463606:
+    	mov     eax, [ebp+var_C]			// var_C = 区段地址
+    	add     eax, 0x28
+    	mov     [ebp+var_C], eax			// 下一个区段
+		jmp     loc_463585
+		
+			loc_463614: 
+		mov     ecx, 8
+		shl     ecx, 0						//  [1] 数据目录表第二项 导入表 IMAGE_DIRECTORY_ENTRY_IMPORT 
+		mov     edx, [ebp+var_24]			// var_24 = signature
+		lea     eax, [edx+ecx+0x78]			//  0x78 + 0x08
+		mov     [ebp+BaseDllName], eax	
+		mov     ecx, [ebp+BaseDllName]
+		mov     edx, [ebp+var_8]			// var_8 = mem_address
+		add     edx, [ecx]					// mem_address + VirtualAddress
+		mov     [ebp+name_hash], edx		// name_hash = 申请地址的导入表
+			loc_463631:
+        mov     eax, [ebp+name_hash]
+        cmp     dword ptr [eax+0x0C], 0		// 判断 模块名称 0x0c _IMAGE_EXPORT_DIRECTORY Name
+        jz      loc_463729
+        mov     ecx, [ebp+name_hash]		// name_hash = 申请地址的导入表
+        mov     edx, [ebp+var_8]			// var_8 = mem_address
+        add     edx, [ecx+0x0C]				// 名称读取  dllName
+        push    edx
+        call    [ebp+LoadLibraryA]			// 获取模块句柄
+        mov     [ebp+address], eax
 
 			
 	}
