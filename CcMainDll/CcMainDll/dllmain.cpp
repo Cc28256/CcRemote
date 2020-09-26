@@ -341,6 +341,31 @@ inline DWORD call_ror_0xD()
 inline DWORD calc_name_hash()
 {
 	_asm {
+		push    ebp
+		mov     ebp, esp
+		push    ecx
+		mov     [ebp-4], 0
+
+			calc_next:
+		mov     eax, [ebp-4]
+		push    eax
+		call    call_ror_0xD
+		add     esp, 4
+		mov     [ebp-4], eax
+		mov     ecx, [ebp+8]
+		movsx   edx, byte ptr [ecx]
+		add     edx, [ebp-4]
+		mov     [ebp-4], edx
+		mov     eax, [ebp+8]
+		add     eax, 1
+		mov     [ebp+8], eax
+		mov     ecx, [ebp+8]
+		movsx   edx, byte ptr [ecx]
+		test    edx, edx
+		jnz     calc_next
+		mov     eax, [ebp-4]
+		mov     esp, ebp
+		pop     ebp
 		retn
 	}
 }
