@@ -381,7 +381,7 @@ enum LocalEnum
 	pNtFlushInstructionCache	= 0x18,
 
 	varLocalFindPE				= 0x1c,
-	varLocalFS30_A				= 0x20,		// varLocalFS30_A
+	varLocalFS30_A				= 0x20,
 	varLocalFS30_B				= 0x24,		// varLocalFS30_B
 	var_28						= 0x28,		// FullDllName
 	BaseDllName					= 0x2c,		// FullDllName
@@ -391,8 +391,8 @@ enum LocalEnum
 	var_3c						= 0x3c,
 	exp_AddressOfNames 			= 0x40,
 	AddressOfNameOrdinals		= 0x44,
-	var_288						= 0x48,
-	var_28c						= 0x4c,
+	lpflOldProtect				= 0x48,		// VirtualProtect的四个参数 保存老的保护方式
+	var_4c						= 0x4c,
 	var_50						= 0x50,
 	var_54						= 0x54,
 	var_58						= 0x58,
@@ -401,7 +401,9 @@ enum LocalEnum
 	var_64						= 0x64,
 	module_handle				= 0x68,
 	address						= 0x6c,
-	var_70						= 0x70
+	var_70						= 0x70,
+	EntryPoint					= 0x74,		// 入口点
+	NewMemAddress				= 0x78		// 申请用来展开PE的内存地址
 
 };
 
@@ -717,29 +719,29 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov     edx, [ebp+PEAddress]
 		mov     eax, [ebp+PEAddress]
         add     eax, [edx+3Ch]
-        mov     [ebp+var_28c], eax
+        mov     [ebp+var_4c], eax
         push    0x04 						// PAGE_READWRITE 区域不可执行代码，应用程序可以读写该区域
         push    0x3000           			// MEM_COMMIT | MEM_RESERV
-        mov     ecx, [ebp+var_28c]
+        mov     ecx, [ebp+var_4c]
         mov     edx, [ecx+0x50]  			// PE signature 0x18 + 0x38  SizeOfImage 映像装入内存后的总大小
         add     edx, 0x3C00000   			// dwSize
         push    edx
         push    0x0
-        call    [ebp+ pVirtualAlloc]			// 申请一块 3C0000+SizeOfImage大小的内存
-        mov     [ebp+varLocalFS30_A], eax			// varLocalFS30_A = mem_address
-        mov     eax, [ebp+var_28c]			// var_28c = signature
+        call    [ebp+ pVirtualAlloc]			// 申请一块 0x3C0000+SizeOfImage大小的内存
+        mov     [ebp+NewMemAddress], eax		// NewMemAddress = 申请的内存地址
+        mov     eax, [ebp+var_4c]			// var_4c = signature
         mov     ecx, [eax+0x54]				// ecx = SizeOfHeaders 0x18 + 0x3c
         mov     [ebp+varLocalFS30_B], ecx
         mov     edx, [ebp+PEAddress]		// PEAddress = 4D5A address
         mov     [ebp+BaseDllName], edx		// BaseDllName = PEAddress
-        mov     eax, [ebp+varLocalFS30_A]
+        mov     eax, [ebp+NewMemAddress]
         mov     [ebp+name_hash], eax		// name_hash = mem_address
-        mov     ecx, [ebp+var_28c]
+        mov     ecx, [ebp+var_4c]
         movzx   edx, word ptr [ecx+0x14]	// edx = WORD SizeOfOptionalHeader
-        mov     eax, [ebp+var_28c]
+        mov     eax, [ebp+var_4c]
         lea     ecx, [eax+edx+0x18]			// signature + SizeOfOptionalHeader + sizeof signature =  struct _IMAGE_SECTION_HEADER address 区段地址
         mov     [ebp+varLocalFS30_B], ecx			// varLocalFS30_B = 区段地址
-        mov     edx, [ebp+var_28c]
+        mov     edx, [ebp+var_4c]
         movzx   eax, word ptr [edx+0x06]	// signature + 0x04 + 0x02
 		mov     [ebp+var_50], eax			// var_50 = NumberOfSections 节的数量
 		
@@ -752,7 +754,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         cmp     dword ptr[ebp+var_54], 0				// 区段是否都处理了 
         jz      loc_463614
         mov     eax, [ebp+varLocalFS30_B]			// varLocalFS30_B = 区段地址
-        mov     ecx, [ebp+varLocalFS30_A]			// varLocalFS30_A = mem_address
+        mov     ecx, [ebp+NewMemAddress]			// NewMemAddress = mem_address
         add     ecx, [eax+0x0C]				// 申请的地址计算 基址 + 区段地址 +0x0c =  struct _IMAGE_SECTION_HEADER->VirtualAddress 节区的 RVA 地址
         mov     [ebp+BaseDllName], ecx		// BaseDllName = SECTION VirtualAddress new mem 新地址
         mov     edx, [ebp+varLocalFS30_B]
@@ -802,11 +804,11 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 			loc_463614: 
 		mov     ecx, 8
 		shl     ecx, 0						//  [1] 数据目录表第二项 导入表 IMAGE_DIRECTORY_ENTRY_IMPORT 
-		mov     edx, [ebp+var_28c]			// var_28c = signature
+		mov     edx, [ebp+var_4c]			// var_4c = signature
 		lea     eax, [edx+ecx+0x78]			//  0x78 + 0x08
 		mov     [ebp+BaseDllName], eax	
 		mov     ecx, [ebp+BaseDllName]
-		mov     edx, [ebp+varLocalFS30_A]			// varLocalFS30_A = mem_address
+		mov     edx, [ebp+NewMemAddress]			// NewMemAddress = mem_address
 		add     edx, [ecx]					// mem_address + VirtualAddress
 		mov     [ebp+name_hash], edx		// name_hash = 申请地址的导入表
 			loc_463631:
@@ -814,18 +816,18 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         cmp     dword ptr [eax+0x0C], 0		// 判断 模块名称 0x0c _IMAGE_EXPORT_DIRECTORY Name
         jz      loc_463729
         mov     ecx, [ebp+name_hash]		// name_hash = 申请地址的导入表
-        mov     edx, [ebp+varLocalFS30_A]			// varLocalFS30_A = mem_address
+        mov     edx, [ebp+NewMemAddress]			// NewMemAddress = mem_address
         add     edx, [ecx+0x0C]				// 名称读取  dllName
         push    edx
         call    [ebp+ pLoadLibraryA]		// 获取模块句柄
 		mov     [ebp+module_handle], eax	// module_handle = 模块句柄
 		
 		mov     eax, [ebp+name_hash]		// name_hash = 申请地址的导入表
-		mov     ecx, [ebp+varLocalFS30_A]			// varLocalFS30_A = mem_address
+		mov     ecx, [ebp+NewMemAddress]			// NewMemAddress = mem_address
 		add     ecx, [eax]					// 找到新内存的导入表位置
 		mov     [ebp+var_58], ecx			// var_58 = new_mem_import
 		mov     edx, [ebp+name_hash]
-		mov     eax, [ebp+varLocalFS30_A]
+		mov     eax, [ebp+NewMemAddress]
 		add     eax, [edx+0x10]				// IMAGE_IMPORT_DESCRIPTOR -> FirstThunk
 		mov     [ebp+varLocalFS30_B], eax			// varLocalFS30_B = MAGE_IMPORT_DESCRIPTOR -> FirstThunk
 
@@ -873,7 +875,7 @@ loc_463665:
 
 loc_4636E0:										// 名称导入
 		mov     ecx, [ebp+varLocalFS30_B]
-		mov     edx, [ebp+varLocalFS30_A]				
+		mov     edx, [ebp+NewMemAddress]				
 		add     edx, [ecx]
 		mov     [ebp+BaseDllName], edx
 		mov     eax, [ebp+BaseDllName]
@@ -905,20 +907,20 @@ loc_46371B:
 		jmp     loc_463631						// 下一个导入表结构
 
 loc_463729:
-		mov     eax, [ebp+var_28c]				// var_28c = signature
-		mov     ecx, [ebp+varLocalFS30_A]				// varLocalFS30_A = mem_address
+		mov     eax, [ebp+var_4c]				// var_4c = signature
+		mov     ecx, [ebp+NewMemAddress]				// NewMemAddress = mem_address
 		sub     ecx, [eax+0x34]					// 当前加载基址 - 默认加载基址   meMaddress - ImageBase
 		mov     [ebp+address], ecx
 		mov     edx, 8
 		imul    eax, edx, 5						// 第6个表 重定位表
-		mov     ecx, [ebp+var_28c]
+		mov     ecx, [ebp+var_4c]
 		lea     edx, [ecx+eax+0x78]				
 		mov     [ebp+BaseDllName], edx
 		mov     eax, [ebp+BaseDllName]
 		cmp     dword ptr [eax+4], 0
 		jz      loc_4638F2						// 修复结束跳转
 		mov     ecx, [ebp+BaseDllName]
-		mov     edx, [ebp+varLocalFS30_A]
+		mov     edx, [ebp+NewMemAddress]
 		add     edx, [ecx]						// 定位IMAGE_BASE_RELOCATION 
 		mov     [ebp+name_hash], edx			// name_hash = _IMAGE_BASE_RELOCATION
 
@@ -927,7 +929,7 @@ loc_46375F:
 		cmp     dword ptr [eax+4], 0			// IMAGE_BASE_RELOCATION -> SizeOfBlock // 结构体大小，包含TypeOffset
 		jz      loc_4638F2
 		mov     ecx, [ebp+name_hash]
-		mov     edx, [ebp+varLocalFS30_A]				// varLocalFS30_A = mem_address
+		mov     edx, [ebp+NewMemAddress]				// NewMemAddress = mem_address
 		add     edx, [ecx]						// mem_address + 需要重定位的区域的位置RVA
 		mov     [ebp+varLocalFS30_B], edx				// varLocalFS30_B = 需要重定位的区域
 		mov     eax, [ebp+name_hash]
@@ -948,7 +950,7 @@ loc_46378E:
 		cmp     dword ptr[ebp+var_70], 0
 		jz      loc_4638E1
 		mov     edx, [ebp+var_58]
-		mov     ax, [edx]       		// 获取重定位项	TypeOffset是一个以2字节为一个元素的数组 其中元素的低12位才是偏移地址，高4位是属性 
+		mov     ax, [edx]       				// 获取重定位项	TypeOffset是一个以2字节为一个元素的数组 其中元素的低12位才是偏移地址，高4位是属性 
 		shr     ax, 0x0C
 		and     ax, 0x0F
 		movzx   ecx, ax
@@ -981,7 +983,7 @@ loc_4637ED:
 		mov     ecx, [ebp+var_58]
 		and     ax, [ecx]
 		movzx   edx, ax
-		mov     eax, [ebp+varLocalFS30_B]			// self_baseaddress 加载基址
+		mov     eax, [ebp+varLocalFS30_B]	// self_baseaddress 加载基址
 		mov     ecx, [eax+edx]  			// 默认加载基址 + 重定位列表项
 		add     ecx, [ebp+address]			// 计算当前基址 重定位后的地址
 		mov     edx, 0x0FFF
@@ -1015,7 +1017,7 @@ loc_463833:
 		mov     edx, [ebp+var_58]
 		and     cx, [edx]
 		movzx   ecx, cx
-		mov     edx, [ebp+varLocalFS30_B]			// 修复重定位
+		mov     edx, [ebp+varLocalFS30_B]		// 修复重定位
 		mov     [edx+ecx], ax
 		jmp     loc_4638D3
 
@@ -1059,15 +1061,15 @@ loc_4638E1:
 
 
 loc_4638F2: 
-		mov     edx, [ebp+var_28c]			// var_28c = signature
-		mov     eax, [ebp+varLocalFS30_A]			// varLocalFS30_A = mem_address
+		mov     edx, [ebp+var_4c]			// var_4c = signature
+		mov     eax, [ebp+NewMemAddress]	// NewMemAddress = mem_address
 		add     eax, [edx+0x28]				// 入口点
-		mov     [ebp+varLocalFS30_B], eax
+		mov     [ebp+EntryPoint], eax
 		push    0
 		push    0
 		push    0xFFFFFFFF
 		call    [ebp+ pNtFlushInstructionCache]
-		lea     ecx, [ebp+var_288]
+		lea     ecx, [ebp+lpflOldProtect]
 		push    ecx
 		push    0x20
 		mov     edx, [ebp+var_60]
@@ -1077,15 +1079,15 @@ loc_4638F2:
 		call    [ebp+ pVirtualProtect]
 		push    0
 		push    1
-		mov     ecx, [ebp+varLocalFS30_A]
+		mov     ecx, [ebp+NewMemAddress]
 		push    ecx
-		call    [ebp+varLocalFS30_B]    				// call 入口点
+		call    [ebp+EntryPoint]    				// call 入口点
 		push    0
 		push    4
-		mov     edx, [ebp+varLocalFS30_A]
+		mov     edx, [ebp+NewMemAddress]
 		push    edx
-		call    [ebp+varLocalFS30_B]
-		mov     eax, [ebp+varLocalFS30_B]
+		call    [ebp+EntryPoint]
+		mov     eax, [ebp+EntryPoint]
 		mov     esp, ebp
 		pop     ebp
 		retn
