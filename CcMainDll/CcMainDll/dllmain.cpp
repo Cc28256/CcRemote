@@ -383,11 +383,11 @@ enum LocalEnum
 	varLocalFindPE				= 0x1c,
 	varLocalFS30_A				= 0x20,
 	varLocalFS30_B				= 0x24,		// varLocalFS30_B
-	var_28						= 0x28,		// FullDllName
+	IndexNum					= 0x28,		// FullDllName
 	BaseDllName					= 0x2c,		// FullDllName
 	name_hash					= 0x30,
 	var_34						= 0x34,
-	var_38						= 0x38,		// cmp_name_hash
+	NameHashResult				= 0x38,		// cmp_name_hash
 	var_3c						= 0x3c,
 	exp_AddressOfNames 			= 0x40,
 	AddressOfNameOrdinals		= 0x44,
@@ -477,7 +477,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov		[ebp + BaseDllName], edx
 		mov     eax, [ebp + varLocalFS30_B]
 		mov     cx, [eax + 0x24]			// UNICODE_STRING FullDllName Length
-		mov		[ebp + var_28], cx			// var_28保存FullDllName字符串长度
+		mov		[ebp + IndexNum], cx			// IndexNum保存FullDllName字符串长度
 		mov		dword ptr[ebp + name_hash], 0
 
 			calc_hash:
@@ -505,10 +505,10 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov     edx, [ebp + BaseDllName]	// 名称地址 + 1
 		add     edx, 1
 		mov		[ebp + BaseDllName], edx
-		mov     ax, [ebp + var_28]			// 字符串名称长度 - 1
+		mov     ax, [ebp + IndexNum]			// 字符串名称长度 - 1
 		sub     ax, 1
-		mov		[ebp + var_28], ax
-		movzx   ecx, [ebp + var_28]
+		mov		[ebp + IndexNum], ax
+		movzx   ecx, [ebp + IndexNum]
 		test    ecx, ecx					// 判断长度是否为0，没有为0继续计算hash
 		jnz     calc_hash					// 计算简单的模块名称name_hash
 			
@@ -539,10 +539,10 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		add     eax, [edx + 0x24]				// 获取 IMAGE_EXPORT_DIRECTORY +0x24 AddressOfNameOrdinals	导出函数序号表的RVA 也就是 函数序号表
 		mov		[ebp + AddressOfNameOrdinals], eax
 		mov     ecx, 4
-		mov		[ebp + var_28], cx				// 设置计数var_28，需要四个函数，找到一个 - 1 ，为 0 时查找完毕
+		mov		[ebp + IndexNum], cx				// 设置计数IndexNum，需要四个函数，找到一个 - 1 ，为 0 时查找完毕
 
 			find_next_ker_fun:
-		movzx   edx, [ebp+var_28]
+		movzx   edx, [ebp+IndexNum]
 		test    edx, edx
 		jle     cmp_need_function
 
@@ -552,14 +552,14 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		push    ecx
 		call    calc_name_hash					// 计算函数名称hash值
 		add     esp, 4
-		mov     [ebp+var_38], eax				// 计算的hash保存后进行比较
-		cmp     dword ptr[ebp+var_38], 0xEC0E4E8E 		// 0xEC0E4E8E = LoadLibraryA
+		mov     [ebp+NameHashResult], eax				// 计算的hash保存后进行比较
+		cmp     dword ptr[ebp+NameHashResult], 0xEC0E4E8E 		// 0xEC0E4E8E = LoadLibraryA
 		jz      find_function_hash
-		cmp     dword ptr[ebp+var_38], 0x7C0DFCAA		// 0x7C0DFCAA = GetProcAddress
+		cmp     dword ptr[ebp+NameHashResult], 0x7C0DFCAA		// 0x7C0DFCAA = GetProcAddress
 		jz      find_function_hash
-		cmp     dword ptr[ebp+var_38], 0x91AFCA54 		// 0x91AFCA54 = VirtualAlloc
+		cmp     dword ptr[ebp+NameHashResult], 0x91AFCA54 		// 0x91AFCA54 = VirtualAlloc
 		jz      find_function_hash
-		cmp     dword ptr[ebp+var_38], 0x7946C61B 		// 0x7946C61B = VirtualProtect
+		cmp     dword ptr[ebp+NameHashResult], 0x7946C61B 		// 0x7946C61B = VirtualProtect
 		jnz     no_find_function_hash
 
 			find_function_hash: 
@@ -573,7 +573,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		lea     ecx, [eax+edx*4]				// 序号索引IMAGE_EXPORT_DIRECTORY 找到函数地址
 		mov     [ebp+var_3c], ecx				// var_3c  = AddressOfFunctions[AddressOfNameOrdinals]
 
-		cmp     dword ptr[ebp+var_38], 0xEC0E4E8E
+		cmp     dword ptr[ebp+NameHashResult], 0xEC0E4E8E
 		jnz     no_LoadLibraryA
 		mov     edx, [ebp+var_3c]			
 		mov     eax, [ebp+varLocalFS30_A]		// eax = varLocalFS30_A = 基地址
@@ -582,7 +582,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		jmp     find_index_dec					// 查找下一个
 			
 			no_LoadLibraryA:                           
-		cmp     dword ptr[ebp+var_38], 0x7C0DFCAA
+		cmp     dword ptr[ebp+NameHashResult], 0x7C0DFCAA
 		jnz     no_GetProcAddress
 		mov     ecx, [ebp+var_3c]
 		mov     edx, [ebp+varLocalFS30_A]		// edx = varLocalFS30_A = 基地址
@@ -592,7 +592,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 			
 			
 			no_GetProcAddress:                           
-		cmp     dword ptr[ebp+var_38], 0x91AFCA54
+		cmp     dword ptr[ebp+NameHashResult], 0x91AFCA54
 		jnz     no_VirtualAlloc
 		mov     eax, [ebp+var_3c]
 		mov     ecx, [ebp+varLocalFS30_A]		// ecx = varLocalFS30_A = 基地址
@@ -601,7 +601,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		jmp     find_index_dec					// 查找下一个
 
 			no_VirtualAlloc:
-		cmp     dword ptr[ebp+var_38], 0x7946C61B
+		cmp     dword ptr[ebp+NameHashResult], 0x7946C61B
 		jnz     find_index_dec
 		mov     edx, [ebp+var_3c]
 		mov     eax, [ebp+varLocalFS30_A]		// eax = varLocalFS30_A = 基地址
@@ -609,9 +609,9 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov     [ebp+ pVirtualProtect], eax		// 保存到局部堆栈
 			
 			find_index_dec:                            
-		mov     cx, [ebp+var_28]					// 找到函数后 计数 - 1
+		mov     cx, [ebp+IndexNum]					// 找到函数后 计数 - 1
 		sub     cx, 1
-		mov     [ebp+var_28], cx
+		mov     [ebp+IndexNum], cx
 			
 			no_find_function_hash:
 		mov     edx, [ebp+exp_AddressOfNames]	
@@ -653,10 +653,10 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         add     edx, [ecx+0x24]  					// 获取 IMAGE_EXPORT_DIRECTORY +0x24 AddressOfNameOrdinals
         mov     [ebp+AddressOfNameOrdinals], edx
         mov     eax, 1
-        mov     [ebp+var_28], ax
+        mov     [ebp+IndexNum], ax
 
 			find_next_nt_fun:						// 同上面一样 
-        movzx   ecx, [ebp+var_28]					// 需要一个函数 var_28 = 1
+        movzx   ecx, [ebp+IndexNum]					// 需要一个函数 IndexNum = 1
         test    ecx, ecx
         jle      check_function
         mov     edx, [ebp+exp_AddressOfNames]		// exp_AddressOfNames = 函数名称表[]
@@ -665,8 +665,8 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         push    eax
         call    calc_name_hash
         add     esp, 4
-        mov     [ebp+var_38], eax
-        cmp     dword ptr[ebp+var_38], 0x534C0AB8 			// 0x534C0AB8 = NtFlushInstructionCache
+        mov     [ebp+NameHashResult], eax
+        cmp     dword ptr[ebp+NameHashResult], 0x534C0AB8 			// 0x534C0AB8 = NtFlushInstructionCache
         jnz      no_NtFlushInstructionCache
         mov     ecx, [ebp+var_34]
         mov     edx, [ebp+varLocalFS30_A]
@@ -677,7 +677,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         mov     edx, [ebp+var_3c]
         lea     eax, [edx+ecx*4]
         mov     [ebp+var_3c], eax
-        cmp     dword ptr[ebp+var_38], 0x534C0AB8
+        cmp     dword ptr[ebp+NameHashResult], 0x534C0AB8
         jnz      find_nt_index_dec
         mov     ecx, [ebp+var_3c]
         mov     edx, [ebp+varLocalFS30_A]
@@ -685,9 +685,9 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
         mov     [ebp+pNtFlushInstructionCache], edx 	// 获取函数地址NtFlushInstructionCache保存
 
 			find_nt_index_dec:                            
-        mov     ax, [ebp+var_28]
+        mov     ax, [ebp+IndexNum]
         sub     ax, 1
-        mov     [ebp+var_28], ax
+        mov     [ebp+IndexNum], ax
 
 			no_NtFlushInstructionCache:                            
         mov     ecx, [ebp+exp_AddressOfNames]
