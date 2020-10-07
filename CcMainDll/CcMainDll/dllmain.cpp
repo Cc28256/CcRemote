@@ -373,37 +373,37 @@ inline DWORD calc_name_hash()
 enum LocalEnum
 {
 	Nop,
-	PEAddress					= 4,
-	pLoadLibraryA				= 8,
-	pGetProcAddress				= 0xC,
-	pVirtualAlloc				= 0x10,
-	pVirtualProtect				= 0x14,
-	pNtFlushInstructionCache	= 0x18,
-
-	varLocalFindPE				= 0x1c,
-	varLocalFS30_A				= 0x20,
-	varLocalFS30_B				= 0x24,		// varLocalFS30_B
-	IndexNum					= 0x28,		// FullDllName
-	BaseDllName					= 0x2c,		// FullDllName
-	name_hash					= 0x30,
-	var_34						= 0x34,
-	NameHashResult				= 0x38,		// cmp_name_hash
-	var_3c						= 0x3c,
-	exp_AddressOfNames 			= 0x40,
-	AddressOfNameOrdinals		= 0x44,
-	lpflOldProtect				= 0x48,		// VirtualProtect的四个参数 保存老的保护方式
-	var_4c						= 0x4c,
-	var_50						= 0x50,
-	var_54						= 0x54,
-	var_58						= 0x58,
-	var_5c						= 0x5c,
-	var_60						= 0x60,
-	var_64						= 0x64,
-	module_handle				= 0x68,
-	address						= 0x6c,
-	var_70						= 0x70,
-	EntryPoint					= 0x74,		// 入口点
-	NewMemAddress				= 0x78		// 申请用来展开PE的内存地址
+	PEAddress					= -4,
+	pLoadLibraryA				= -8,
+	pGetProcAddress				= -0xC,
+	pVirtualAlloc				= -0x10,
+	pVirtualProtect				= -0x14,
+	pNtFlushInstructionCache	= -0x18,
+								  
+	varLocalFindPE				= -0x1c,
+	varLocalFS30_A				= -0x20,
+	varLocalFS30_B				= -0x24,		// varLocalFS30_B
+	IndexNum					= -0x28,		// FullDllName
+	BaseDllName					= -0x2c,		// FullDllName
+	name_hash					= -0x30,
+	var_34						= -0x34,
+	NameHashResult				= -0x38,		// cmp_name_hash
+	var_3c						= -0x3c,
+	exp_AddressOfNames 			= -0x40,
+	AddressOfNameOrdinals		= -0x44,
+	lpflOldProtect				= -0x48,		// VirtualProtect的四个参数 保存老的保护方式
+	var_4c						= -0x4c,
+	var_50						= -0x50,
+	var_54						= -0x54,
+	var_58						= -0x58,
+	var_5c						= -0x5c,
+	var_60						= -0x60,
+	var_64						= -0x64,
+	module_handle				= -0x68,
+	address						= -0x6c,
+	var_70						= -0x70,
+	EntryPoint					= -0x74,		// 入口点
+	NewMemAddress				= -0x78		// 申请用来展开PE的内存地址
 
 };
 
@@ -415,17 +415,16 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		push    ebp
 		mov     ebp, esp
 		sub     esp, 0x100					// 抬高堆栈创建局部变量空间
-		mov     eax, 4
+		mov     eax, 0
 		initLocalVar:						// 循环initLocalVar初始化局部变量空间为0
-		mov		[ebp + eax], 0
+		mov		[esp + eax], 0
 		inc		eax
-		cmp		eax ,0x100
+		cmp		eax ,0xFC
 		jnz		initLocalVar
 
 		call    GetCurrentPositionAddress	// 获取当前位置地址
 		mov		eax, buffer
 		mov		[ebp + PEAddress], eax		// 保存当前代码所在的地址 PEAddress
-		
 		addressAdd :
 		mov     eax, 1
 		test    eax, eax					// 判断eax是否获取到当前地址
