@@ -344,26 +344,26 @@ inline DWORD calc_name_hash()
 		push    ebp
 		mov     ebp, esp
 		push    ecx
-		mov     [ebp-4], 0
+		mov     dword ptr[ebp-4], 0
 
 			calc_next:
-		mov     eax, [ebp-4]
+		mov     eax, dword ptr[ebp-4]
 		push    eax
 		call    call_ror_0xD
 		add     esp, 4
-		mov     [ebp-4], eax
-		mov     ecx, [ebp+8]
+		mov     dword ptr[ebp-4], eax
+		mov     ecx, dword ptr[ebp+8]
 		movsx   edx, byte ptr [ecx]
-		add     edx, [ebp-4]
-		mov     [ebp-4], edx
-		mov     eax, [ebp+8]
+		add     edx, dword ptr[ebp-4]
+		mov     dword ptr[ebp-4], edx
+		mov     eax, dword ptr[ebp+8]
 		add     eax, 1
-		mov     [ebp+8], eax
-		mov     ecx, [ebp+8]
+		mov     dword ptr[ebp+8], eax
+		mov     ecx, dword ptr[ebp+8]
 		movsx   edx, byte ptr [ecx]
 		test    edx, edx
 		jnz     calc_next
-		mov     eax, [ebp-4]
+		mov     eax, dword ptr[ebp-4]
 		mov     esp, ebp
 		pop     ebp
 		retn
@@ -578,7 +578,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov     edx, [ebp+var_3c]			
 		mov     eax, [ebp+varLocalFS30_A]		// eax = varLocalFS30_A = 基地址
 		add     eax, [edx]						// 计算得到函数地址
-		mov     [ebp+LoadLibraryA], eax			// 保存到局部堆栈LoadLibraryA
+		mov     [ebp+pLoadLibraryA], eax			// 保存到局部堆栈LoadLibraryA
 		jmp     find_index_dec					// 查找下一个
 			
 			no_LoadLibraryA:                           
@@ -597,7 +597,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov     eax, [ebp+var_3c]
 		mov     ecx, [ebp+varLocalFS30_A]		// ecx = varLocalFS30_A = 基地址
 		add     ecx, [eax]						// 计算得到函数地址
-		mov     [ebp+VirtualAlloc], ecx			// 保存到局部堆栈VirtualAlloc
+		mov     [ebp+ pVirtualAlloc], ecx			// 保存到局部堆栈VirtualAlloc
 		jmp     find_index_dec					// 查找下一个
 
 			no_VirtualAlloc:
@@ -701,11 +701,11 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 			check_function:
 		cmp     dword ptr[ebp+ pLoadLibraryA], 0
 		jz      continue_find_function
-		cmp     dword ptr[ebp+GetProcAddress], 0
+		cmp     dword ptr[ebp+ pGetProcAddress], 0
 		jz      continue_find_function
 		cmp     dword ptr[ebp+ pVirtualAlloc], 0
 		jz      continue_find_function
-		cmp     dword ptr[ebp+pNtFlushInstructionCache], 0
+		cmp     dword ptr[ebp+ pNtFlushInstructionCache], 0
 		jz      continue_find_function
 		jmp     find_moudle_over
 
