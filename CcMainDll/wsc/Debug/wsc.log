@@ -1,0 +1,13 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+  pch.cpp
+  dllmain.cpp
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(9): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(11): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(62): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(62): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(63): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(63): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(64): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\wsc\dllmain.cpp(64): warning C4309: “初始化”: 截断常量值
+    正在创建库 ..\..\bin\hijack\wsc.lib 和对象 ..\..\bin\hijack\wsc.exp
+  wsc.vcxproj -> F:\myapp\CcRemote\CcMainDll\wsc\..\..\bin\hijack\wsc.dll

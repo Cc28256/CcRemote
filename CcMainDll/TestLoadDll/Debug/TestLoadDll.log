@@ -1,6 +1,6 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
   TestLoadDll.cpp
-f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(22): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(23): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 参见“fopen”的声明
-f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(119): warning C4700: 使用了未初始化的局部变量“lpflOldProtect”
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(124): warning C4700: 使用了未初始化的局部变量“lpflOldProtect”
   TestLoadDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\TestLoadDll\..\..\bin\server\TestLoadDll.exe

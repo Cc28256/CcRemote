@@ -32,6 +32,7 @@ bool InitTestReflectiveLoader()
 
 		return false;
 
+
 	}
 
 
@@ -112,9 +113,12 @@ void loadCcmainDllExp()
 
 }
 
+
+
+
 int main()
 {
-  
+
 	InitTestReflectiveLoader();
 	PDWORD lpflOldProtect;
 	VirtualProtect(buffer, lSize, PAGE_EXECUTE_READWRITE, lpflOldProtect);

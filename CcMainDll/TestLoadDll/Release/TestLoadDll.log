@@ -2,8 +2,13 @@
   TestLoadDll.cpp
 f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(23): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 参见“fopen”的声明
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(121): warning C4018: “<=”: 有符号/无符号不匹配
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(123): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(132): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(132): warning C4309: “初始化”: 截断常量值
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(133): warning C4838: 从“int”转换到“char”需要收缩转换
+f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(133): warning C4309: “初始化”: 截断常量值
   正在生成代码
-f:\myapp\ccremote\ccmaindll\testloaddll\testloaddll.cpp(120): warning C4700: 使用了未初始化的局部变量“lpflOldProtect”
-  All 161 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 159 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
   TestLoadDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\TestLoadDll\..\..\bin\server\TestLoadDll.exe
