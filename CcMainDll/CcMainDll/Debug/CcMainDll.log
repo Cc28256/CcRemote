@@ -168,22 +168,22 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(231): warning C4996: 'GetVe
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(55): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(230): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(235): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(253): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(258): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 参见“fopen”的声明
   StrCry.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(8): warning C4018: “<=”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(10): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
   正在生成代码...
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(416): warning C4731: “ReflectiveLoader”: 框架指针寄存器“ebp”被内联程序集代码修改
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(1091): warning C4731: “ReflectiveLoader”: 框架指针寄存器“ebp”被内联程序集代码修改
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(322): warning C4731: “GetCurrentPositionAddress”: 框架指针寄存器“ebp”被内联程序集代码修改
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(324): warning C4731: “GetCurrentPositionAddress”: 框架指针寄存器“ebp”被内联程序集代码修改
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(333): warning C4731: “call_ror_0xD”: 框架指针寄存器“ebp”被内联程序集代码修改
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(336): warning C4731: “call_ror_0xD”: 框架指针寄存器“ebp”被内联程序集代码修改
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(345): warning C4731: “calc_name_hash”: 框架指针寄存器“ebp”被内联程序集代码修改
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(368): warning C4731: “calc_name_hash”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(421): warning C4731: “ReflectiveLoader”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(1096): warning C4731: “ReflectiveLoader”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(327): warning C4731: “GetCurrentPositionAddress”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(329): warning C4731: “GetCurrentPositionAddress”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(338): warning C4731: “call_ror_0xD”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(341): warning C4731: “call_ror_0xD”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(350): warning C4731: “calc_name_hash”: 框架指针寄存器“ebp”被内联程序集代码修改
+f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(373): warning C4731: “calc_name_hash”: 框架指针寄存器“ebp”被内联程序集代码修改
 LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
     正在创建库 ..\..\bin\server\CcMainDll.lib 和对象 ..\..\bin\server\CcMainDll.exp
 LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
