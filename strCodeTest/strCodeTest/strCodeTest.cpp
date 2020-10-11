@@ -2,6 +2,11 @@
 //
 
 #include <iostream>
+#include <windows.h>
+#include <time.h>
+
+#define SIZE 256
+
 
 char* crycode(char* str)
 {
@@ -37,8 +42,143 @@ char* uncode(char* str)
 
 
 
+
+FILE * pFile;
+long lSize;
+unsigned char * buffer;
+size_t result;
+bool LoaderFile()
+{
+		// 一个不漏地读入整个文件，只能采用二进制方式打开
+		pFile = fopen(".\\..\\..\\bin\\server\\CcMainDll.dll", "rb");
+
+		if (pFile == NULL)
+		{
+			fputs("File error", stderr);
+			printf("open file fail");
+			return false;
+		}
+
+		// 获取文件大小
+		fseek(pFile, 0, SEEK_END);
+		lSize = ftell(pFile);
+		rewind(pFile);
+		// 分配内存存储整个文件
+		buffer = (unsigned char*)malloc(sizeof(char)*lSize);
+
+		if (buffer == NULL)
+		{
+			fputs("Memory error", stderr);
+			printf("Memory alloc falil");
+			return false;
+
+		}
+		// 将文件拷贝到buffer中
+		result = fread(buffer, 1, lSize, pFile);
+		if (result != lSize)
+		{
+			fputs("Reading error", stderr);
+			printf("Load file to memory falil");
+			return false;
+		}
+		return true;
+}
+
+
+
+//------------------------------------------------------------
+//加密前的密码表
+// Size    : 256 (0x100)
+//------------------------------------------------------------
+unsigned char EncryptTable[256] = {0};
+
+//------------------------------------------------------------
+//加密后的密码表，可用于解密时的校验
+// Size    : 256 (0x100)
+//------------------------------------------------------------
+unsigned char ChcekTable[256] = {0};
+
+
+static inline void Swap(unsigned char *a, unsigned char *b) {
+	// 如果它们恰好是数组中的相同元素，不要交换它们，否则它会被归零
+	if (a != b) {
+		*a ^= *b;
+		*b ^= *a;
+		*a ^= *b;
+	}
+}
+
+int InitEncryptTable(void)
+{
+	int i;
+	// 用顺序递增的数字初始化数组
+	for (i = 0; i < SIZE; ++i)
+		EncryptTable[i] = i;
+
+	// 初始化随机种子
+	srand(time(NULL));
+
+	// 将数组中的每个元素与另一个随机元素交换
+	for (i = 0; i < SIZE; ++i)
+		Swap(&EncryptTable[i], &EncryptTable[rand() % SIZE]);
+
+	return 0;
+}
+//-------------加密函数-------------
+//参数说明：参数1：被加密数组，参数2：密码表数组，参数三：加密长度
+//备注：使用unsigned 为了防止异或结果错误。作为测试只加密前0x200字节
+//返回值与：无 对参数影响：无
+//-------------异或加密-------------
+void EncryptFunc(unsigned char *SourceBytes, unsigned char *EncryptBytes, DWORD nLength)
+{
+	DWORD nOffsetNum = 0, nTargetNum = 0, nLastNum = 0;
+	unsigned char TargetCode = '\x0', OffsetCode = '\x0', LastCode = '\x0';
+	for (DWORD i = 0; i < nLength; i++)
+	{
+		//取密码表标志位Code
+		TargetCode = EncryptBytes[((i + 1) % 0x100)];
+		//取偏移Code的偏移
+		nOffsetNum = (TargetCode + nOffsetNum) % 0x100;
+		//取密码表偏移Code
+		OffsetCode = EncryptBytes[nOffsetNum];
+		//交换密码表数值
+		EncryptBytes[nOffsetNum % 0x100] = EncryptBytes[((i + 1) % 0x100)];
+		EncryptBytes[((i + 1) % 0x100)] = OffsetCode;
+		//取最终加密Code偏移
+		nLastNum = (TargetCode + OffsetCode) % 0x100;
+		//获取异或用的字符串
+		LastCode = EncryptBytes[nLastNum];
+		//取被加密的字符,异或
+		SourceBytes[i] ^= LastCode;
+	}
+	//在此下断观察SourceBytes和CryptData
+	return;
+}
+
+
+
+int RC4Test()
+{
+	//加密
+	DWORD nLength = 0;
+	//nLength = sizeof(SourceData);
+	//加密后EncryptTable会变成ChcekTable，由于加密解密使用的Key一样，因此解密时判断CheckTable一致即可
+	memcpy(ChcekTable, EncryptTable, 0x100);
+	EncryptFunc(buffer, EncryptTable, result);
+	//解密
+	EncryptFunc(buffer, ChcekTable, result);
+
+
+	return 0;
+}
 int main()
 {
+	InitEncryptTable();
+	if (LoaderFile())
+	{
+		RC4Test();
+	}
+	
 	char a[] = "kernel32";
 	char b[] = "GetModuleFileNameA";
 	char c[] = "\\Cc28256.dat";

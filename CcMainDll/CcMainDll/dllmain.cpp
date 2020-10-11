@@ -239,18 +239,13 @@ extern "C" __declspec(dllexport) void TestFun()
 }
 
 
-
+/* test asm
 FILE * pFile;
-
 long lSize;
-
 char * buffer;
-
 size_t result;
 extern "C" __declspec(dllexport) bool InitTestReflectiveLoader()
 {
-
-
 		// 一个不漏地读入整个文件，只能采用二进制方式打开
 
 		pFile = fopen(".\\..\\..\\bin\\server\\CcMainDll.dll", "rb");
@@ -267,8 +262,6 @@ extern "C" __declspec(dllexport) bool InitTestReflectiveLoader()
 
 		}
 
-
-
 		// 获取文件大小 
 
 		fseek(pFile, 0, SEEK_END);
@@ -276,9 +269,6 @@ extern "C" __declspec(dllexport) bool InitTestReflectiveLoader()
 		lSize = ftell(pFile);
 
 		rewind(pFile);
-
-
-
 		// 分配内存存储整个文件
 
 		buffer = (char*)malloc(sizeof(char)*lSize);
@@ -294,9 +284,6 @@ extern "C" __declspec(dllexport) bool InitTestReflectiveLoader()
 			return false;
 
 		}
-
-
-
 		// 将文件拷贝到buffer中 
 
 		result = fread(buffer, 1, lSize, pFile);
@@ -313,10 +300,8 @@ extern "C" __declspec(dllexport) bool InitTestReflectiveLoader()
 
 		}
 		return true;
-
 }
-
-
+*/
 
 inline DWORD GetCurrentPositionAddress()
 {
