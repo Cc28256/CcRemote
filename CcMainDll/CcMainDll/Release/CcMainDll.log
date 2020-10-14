@@ -164,8 +164,6 @@ f:\myapp\ccremote\ccmaindll\ccmaindll\common\login.h(231): warning C4996: 'GetVe
   d:\windows kits\10\include\10.0.17763.0\um\sysinfoapi.h(378): note: 参见“GetVersionExA”的声明
 f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(55): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   d:\windows kits\10\include\10.0.17763.0\ucrt\string.h(133): note: 参见“strcpy”的声明
-f:\myapp\ccremote\ccmaindll\ccmaindll\dllmain.cpp(256): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  d:\windows kits\10\include\10.0.17763.0\ucrt\stdio.h(208): note: 参见“fopen”的声明
   StrCry.cpp
 f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(8): warning C4018: “<=”: 有符号/无符号不匹配
 f:\myapp\ccremote\ccmaindll\ccmaindll\strcry.cpp(10): warning C4267: “=”: 从“size_t”转换到“char”，可能丢失数据
@@ -174,6 +172,6 @@ LINK : warning LNK4044: 无法识别的选项“/Zc:strictStrings”；已忽略
   正在生成代码
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\regeditopt.cpp(113): warning C4700: 使用了未初始化的局部变量“NameSize”
 f:\myapp\ccremote\ccmaindll\ccmaindll\common\filemanager.cpp(260): warning C4715: “CFileManager::OpenFile”: 不是所有的控件路径都返回值
-  All 381 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 377 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
   CcMainDll.vcxproj -> F:\myapp\CcRemote\CcMainDll\CcMainDll\..\..\bin\server\CcMainDll.dll

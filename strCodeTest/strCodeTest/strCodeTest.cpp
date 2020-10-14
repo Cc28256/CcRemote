@@ -8,6 +8,26 @@
 #define SIZE 256
 
 
+
+
+bool CreateMyFile(const char* strFilePath, unsigned char *lpBuffer, size_t dwSize)
+{
+	DWORD dwWritten;
+
+	HANDLE hFile = CreateFile(strFilePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	if (hFile != NULL)
+	{
+		WriteFile(hFile, (LPCVOID)lpBuffer, dwSize, &dwWritten, NULL);
+	}
+	else
+	{
+		return false;
+	}
+	CloseHandle(hFile);
+	return true;
+}
+
+
 char* crycode(char* str)
 {
 	printf("cry: %s \n", str);
@@ -165,18 +185,58 @@ int RC4Test()
 	//加密后EncryptTable会变成ChcekTable，由于加密解密使用的Key一样，因此解密时判断CheckTable一致即可
 	memcpy(ChcekTable, EncryptTable, 0x100);
 	EncryptFunc(buffer, EncryptTable, result);
+
+	
+	
+	unsigned char * buffers = (unsigned char*)malloc(sizeof(char)*result + SIZE + SIZE);
+	
+	memcpy(buffers,ChcekTable,SIZE);
+	
+	memcpy(buffers + SIZE,EncryptTable,SIZE);
+	
+	memcpy(buffers +SIZE + SIZE,buffer,result);
+	
+	CreateMyFile(".\\..\\..\\bin\\hijack\\Cc28256.dat", buffers, result + SIZE + SIZE);
+	
 	//解密
 	EncryptFunc(buffer, ChcekTable, result);
+	
+	free(buffers);
 
-
+	free(buffer);
+	
 	return 0;
 }
+
+bool ChangeAsmJmpExp()
+{
+	// .10000000: 4D                             dec          ebp                       
+	// .10000001: 5A                             pop          edx                       
+	// .10000002: E800000000                     call        .010000007 --↓1            
+	// .10000007: 5B                            1pop          ebx                       
+	// .10000008: 52                             push         edx                       
+	// .10000009: 45                             inc          ebp                       
+	// .1000000A: 55                             push         ebp                       
+	// .1000000B: 8BEC                           mov          ebp,esp                   
+	// .1000000D: 81C3F9AA0000                   add          ebx,00000AA29 ;  导出函数的偏移
+	// .10000013: FFD3                           call         ebx                       
+	// .10000015: C9                             leave                                  
+	// .10000016: C3                             retn ; 
+	char HardCode[] = {0x4D,0x5A,0xE8,0x00,0x00,0x00,0x00,0x5B,0x52,0x45,0x55,0x8B,0xEC,0x81,0xC3,0x29,0xAA,0x00,0x00,0xFF,0xD3,0xC9,0xC3};
+	int CodeLen = 0x15;
+	memcpy(buffer,HardCode,CodeLen);
+	return true;
+}
+
+
 int main()
 {
 	InitEncryptTable();
 	if (LoaderFile())
 	{
+		ChangeAsmJmpExp();
 		RC4Test();
+	
 	}
 	
 	char a[] = "kernel32";
